@@ -8,7 +8,7 @@ import ForHer from "./components/ForHer/ForHer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-white items-center p-2">
+    <main className="flex min-h-screen flex-col bg-alice-blue items-center p-2">
       <Navbar />
       <Landing />
       <Discount />

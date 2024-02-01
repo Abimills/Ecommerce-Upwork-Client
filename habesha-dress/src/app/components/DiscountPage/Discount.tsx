@@ -5,7 +5,7 @@ import DiscountCard from "../DiscountCard/DiscountCard";
 import { data } from "./data";
 const Discount: React.FC = () => {
   return (
-    <main className="flex  w-full p-5 bg-green-100 items-center justify-between">
+    <main className="flex  w-full p-5 bg-beige items-center justify-between">
       {data.map((item) => {
         return <DiscountCard item={item} key={item.id} />;
       })}
