@@ -18,17 +18,21 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   const { title, img, price, rating } = product;
 
   return (
-    <div className=" w-full flex flex-col items-center m-1 p-8 bg-alice-blue rounded-lg">
+    <div className="w-60 flex flex-col items-center m-1  bg-alice-blue rounded-lg">
       <img className="w-full h-40 object-cover" src={img} alt={title} />
-      <div className="w-full ">
-        <div className="flex items-center justify-between w-full">
+      <div className="w-full flex flex-col p-2 gap-3 ">
+        <div className="flex items-center justify-between  w-full">
           <h2>{title}</h2>
-          <p>rating-3</p>
+          <p>{rating}</p>
         </div>
-        <p>{price}</p>
-        <div className="">
-          <button>Add to Cart</button>
-          <button>Buy Now</button>
+        <p className="font-bold">{price}</p>
+        <div className=" w-full flex items-center mt-4 justify-between">
+          <button className="border border-gray-600 p-1 text-xs   rounded-sm ">
+            Add to Cart
+          </button>
+          <button className="border border-orange-300 p-1 text-xs bg-orange-300 text-white rounded-sm ">
+            Buy Now
+          </button>
         </div>
       </div>
     </div>

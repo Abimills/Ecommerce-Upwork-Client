@@ -15,6 +15,7 @@ const config: Config = {
       },
       backgroundColor: {
         "alice-blue": "#F0F8FF",
+        "beige-light": "#F5F5DC",
       },
       height: {
         "80vh": "90vh",

@@ -6,7 +6,7 @@ const Products: React.FC = () => {
     <main className="w-full  h-full flex flex-col">
       <h1 className="mb-4 mt-16">Popular Products</h1>
 
-      <div className="w-full flex items-center gap-4">
+      <div className="w-full flex items-center gap-4 justify-between flex-wrap">
         {allProducts.map((item: any) => {
           return <ProductCard key={item.id} product={item} />;
         })}

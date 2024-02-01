@@ -4,6 +4,7 @@ import Landing from "./components/LandingPage/Landing";
 import Discount from "./components/DiscountPage/Discount";
 import Category from "./components/ShopByCategories/Category";
 import Products from "./components/Products/Products";
+import ForHer from "./components/ForHer/ForHer";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Discount />
       <Category />
       <Products />
+      <ForHer />
     </main>
   );
 }
