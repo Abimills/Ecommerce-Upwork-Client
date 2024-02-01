@@ -2,7 +2,7 @@ import { TfiArrowCircleRight } from "react-icons/tfi";
 
 const Landing = () => {
   return (
-    <main className="flex w-full  h-300 bg-alice-blue mt-10">
+    <main className="flex w-full  h-80vh bg-alice-blue mt-10">
       <div className="flex   items-center flex-1  p-10">
         <div className="h-2/3 mr-8 mt-9 flex flex-col items-center justify-between ">
           <div className="w-2 h-2 bg-gray-400 rounded-full"></div>

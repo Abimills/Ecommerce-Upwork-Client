@@ -16,6 +16,9 @@ const config: Config = {
       backgroundColor: {
         "alice-blue": "#F0F8FF",
       },
+      height: {
+        "80vh": "90vh",
+      },
     },
   },
   plugins: [],
