@@ -15,13 +15,13 @@ import { useState } from "react";
 import Cart from "./components/CategoryCard/Cart/Cart";
 
 export default function Home() {
-  const [isCartOpen, setIsCartOpen] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   return (
     <main className="flex min-h-screen flex-col bg-alice-blue items-center p-2">
       <Navbar />
-      <Cart />
 
       <Landing />
+      {isCartOpen && <Cart />}
       <Discount />
       <Category />
       <Products />
