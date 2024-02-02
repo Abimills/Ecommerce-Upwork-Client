@@ -1,11 +1,13 @@
 import React from "react";
 import { LiaAngleDoubleRightSolid } from "react-icons/lia";
+import { PiCaretDoubleLeftThin } from "react-icons/pi";
 
 import DiscountCard from "../DiscountCard/DiscountCard";
 import { data } from "./data";
-const Discount: React.FC = () => {
+const LowerDiscount: React.FC = () => {
   return (
-    <main className="flex  w-full p-5 shadow-lg items-center justify-between">
+    <main className="flex shadow-lg mt-4 rounded-xl  w-full p-5 bg-white items-center justify-between">
+      <PiCaretDoubleLeftThin className="text-lg text-gray-400" />
       {data.map((item) => {
         return <DiscountCard item={item} key={item.id} />;
       })}
@@ -14,4 +16,4 @@ const Discount: React.FC = () => {
   );
 };
 
-export default Discount;
+export default LowerDiscount;

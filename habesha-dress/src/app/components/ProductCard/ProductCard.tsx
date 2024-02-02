@@ -18,8 +18,12 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   const { title, img, price, rating } = product;
 
   return (
-    <div className="w-60 flex flex-col items-center m-1  bg-alice-blue rounded-lg">
-      <img className="w-full h-40 object-cover" src={img} alt={title} />
+    <div className="w-60 shadow-2xl flex flex-col items-center m-1  bg-alice-blue p-3 rounded-lg">
+      <img
+        className="w-full h-40 object-cover rounded-lg"
+        src={img}
+        alt={title}
+      />
       <div className="w-full flex flex-col p-2 gap-3 ">
         <div className="flex items-center justify-between  w-full">
           <h2>{title}</h2>
