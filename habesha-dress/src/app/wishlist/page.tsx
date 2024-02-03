@@ -1,5 +1,5 @@
 import { IoMdArrowBack } from "react-icons/io";
-import data from "./wishData";
+import data from "../cart/wishData";
 import FavoriteCard from "../components/FavoriteCard/FavoriteCard";
 import Footer from "../components/Footer/Footer";
 

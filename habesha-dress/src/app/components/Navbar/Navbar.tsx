@@ -34,7 +34,10 @@ const Navbar = () => {
             className="text-2xl cursor-pointer"
             onClick={() => router.push("/wishlist")}
           />
-          <FiShoppingCart className="text-2xl" />
+          <FiShoppingCart
+            className="text-2xl cursor-pointer"
+            onClick={() => router.push("/cart")}
+          />
         </ul>
       </div>
     </nav>
