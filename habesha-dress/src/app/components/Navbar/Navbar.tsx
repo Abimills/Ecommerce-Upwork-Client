@@ -30,7 +30,10 @@ const Navbar = () => {
             onClick={() => router.push("/login")}
             className="text-2xl cursor-pointer"
           />
-          <FaRegHeart className="text-2xl" />
+          <FaRegHeart
+            className="text-2xl cursor-pointer"
+            onClick={() => router.push("/wishlist")}
+          />
           <FiShoppingCart className="text-2xl" />
         </ul>
       </div>

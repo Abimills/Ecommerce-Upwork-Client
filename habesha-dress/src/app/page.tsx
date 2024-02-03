@@ -12,16 +12,16 @@ import LowerDiscount from "./components/LowerDiscount/LowerDiscount";
 import Newsletter from "./components/Newsletter/Newsletter";
 import Footer from "./components/Footer/Footer";
 import { useState } from "react";
-import Cart from "./components/CategoryCard/Cart/Cart";
+import Cart from "./components/Cart/Cart";
 
 export default function Home() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(true);
   return (
     <main className="flex min-h-screen flex-col bg-alice-blue items-center p-2">
       <Navbar />
 
       <Landing />
-      {isCartOpen && <Cart />}
+      {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       <Discount />
       <Category />
       <Products />
