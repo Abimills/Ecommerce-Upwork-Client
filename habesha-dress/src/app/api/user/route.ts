@@ -1,10 +1,10 @@
 import connectMongoDB from "@/app/api/libs/mongodb";
-import User from "../models/user";
+import ClothUser from "../models/user";
 import { NextResponse } from "next/server";
 
 export async function GET(req: any) {
   await connectMongoDB();
-  const users = await User.find();
+  const users = await ClothUser.find();
   return NextResponse.json(
     { message: "here is a list of all users", users },
     { status: 200 }
@@ -22,7 +22,7 @@ export async function POST(req: any) {
     favReviews,
   } = await req.json();
   await connectMongoDB();
-  const newUser = await User.create({
+  const newUser = await ClothUser.create({
     name,
     email,
     password,

@@ -51,6 +51,7 @@ userSchema.pre("save", async function (next) {
 
 // static method to login user
 
-const User = mongoose.models.User || mongoose.model("ClothUser", userSchema);
+const ClothUser =
+  mongoose.models.ClothUser || mongoose.model("ClothUser", userSchema);
 
-export default User;
+export default ClothUser;
