@@ -24,8 +24,14 @@ const Navbar = () => {
       </div>
       <div className="flex  flex-1 align-items w-1\2  justify-between ">
         <ul className="flex justify-end flex-1 align-items gap-10 ">
-          <IoSearch className="text-2xl " />
-          <h3>Search</h3>
+          <div className="flex items-center w-1/3 gap-3 rounded-full border bg-green-200 border-gray-300">
+            <input
+              type="text"
+              className="bg-none w-full rounded-full indent-3 my-2 bg-green-200 h-full text-sm outline-none"
+              placeholder="Search"
+            />
+            <IoSearch className="text-2xl mr-1 border-black border rounded-full bg-black text-white " />
+          </div>
           <FiUser
             onClick={() => router.push("/login")}
             className="text-2xl cursor-pointer"
