@@ -17,7 +17,9 @@ const config: Config = {
         "alice-blue": "#F0F8FF",
         beige: "#F5F5DC",
       },
-
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
+      },
       height: {
         "80vh": "90vh",
       },
