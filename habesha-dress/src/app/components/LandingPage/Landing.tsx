@@ -51,6 +51,23 @@ const Landing = () => {
               </div>
             </div>
           </SwiperSlide>
+          <SwiperSlide className="cursor-pointer  ">
+            <div className="">
+              <h1 className="text-left  w-full text-5xl mb-5 mt-16 leading-relaxed">
+                We Deliver to Europe Canada Africa and the US
+              </h1>
+              <p className="text-gray-500 w-full text-left">
+                Shop men,women,children dress for all your ocasions , <br /> we
+                have it all in our stores
+              </p>
+              <div className="w- mt-4">
+                <button className=" border-2 bg-green-400 text-white border-green-400 rounded-md p-2 pl-5">
+                  {" "}
+                  view more
+                </button>
+              </div>
+            </div>
+          </SwiperSlide>
           <SwiperSlide className=" ">
             <div className="">
               <h1 className="text-left  w-full text-5xl text-green-500 mb-5 mt-16 leading-relaxed">
@@ -85,7 +102,7 @@ const Landing = () => {
             <div className="">
               <img
                 className="w-70 h-100 mb-10 rounded  object-cover "
-                src="../hana3.png"
+                src="../hab4.png"
                 alt="girl"
               />
             </div>
@@ -93,7 +110,14 @@ const Landing = () => {
           <SwiperSlide className=" ">
             <img
               className="w-70 h-90 rounded  object-contain "
-              src="../dress.png"
+              src="../hana3.png"
+              alt="girl"
+            />
+          </SwiperSlide>
+          <SwiperSlide className=" ">
+            <img
+              className="w-70 h-90 rounded  object-contain "
+              src="../hab1.png"
               alt="girl"
             />
           </SwiperSlide>

@@ -31,11 +31,7 @@ const ForHer: React.FC = () => {
           </div>
         </div>
         <div>
-          <img
-            className="w-full h-96 object-cover"
-            src=" ../bea-girl.jpg"
-            alt=""
-          />
+          <img className="w-full h-96 object-cover" src=" ../hab3.png" alt="" />
         </div>
       </div>
       <div className="flex  bg-beige justify-start w-1/2 ">
@@ -67,11 +63,7 @@ const ForHer: React.FC = () => {
           </div>
         </div>
         <div>
-          <img
-            className="w-full h-96 object-cover"
-            src="https://i.pinimg.com/originals/d4/e5/ba/d4e5baefbc30a98c2769a4695c6ad371.jpg"
-            alt=""
-          />
+          <img className="w-full h-96 object-cover" src="../hab5.png" alt="" />
         </div>
       </div>
     </main>

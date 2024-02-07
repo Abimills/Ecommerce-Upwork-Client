@@ -3,7 +3,7 @@ const category = [
     id: "1",
     title: "Women Scarf",
     description: "This is a women scarf.",
-    img: "../scarf.jpg",
+    img: "../hab1.png",
     price: "$25.87",
     rating: "3",
     available_sizes: ["S", "M", "L"],
@@ -15,7 +15,7 @@ const category = [
   {
     id: "2",
     title: "Kids Clothes",
-    img: "../kid-cloth.jpg",
+    img: "../hab2.png",
     price: "$25.43",
     rating: "5",
     available_sizes: ["S", "M", "L"],
@@ -27,7 +27,7 @@ const category = [
   {
     id: "3",
     title: "Men Clothes",
-    img: "../men-scarf.jpg",
+    img: "../hab3.png",
     price: "$25.98",
     rating: "4",
     available_sizes: ["S", "M", "L"],
@@ -39,7 +39,7 @@ const category = [
   {
     id: "4",
     title: "Men Shirts",
-    img: "../men-clothes.jpg",
+    img: "../hab4.png",
     price: "$25.56",
     rating: "2",
     available_sizes: ["S", "M", "L"],
@@ -51,7 +51,7 @@ const category = [
   {
     id: "9",
     title: "Men Shirts",
-    img: "../men-clothes.jpg",
+    img: "../hab5.png",
     price: "$25.56",
     rating: "2",
     available_sizes: ["S", "M", "L"],
@@ -63,7 +63,7 @@ const category = [
   {
     id: "5",
     title: "Men Shirts",
-    img: "../men-clothes.jpg",
+    img: "../hab6.png",
     price: "$25.56",
     rating: "2",
     available_sizes: ["S", "M", "L"],
@@ -75,7 +75,7 @@ const category = [
   {
     id: "6",
     title: "Men Shirts",
-    img: "../men-clothes.jpg",
+    img: "../hab7.png",
     price: "$25.56",
     rating: "2",
     available_sizes: ["S", "M", "L"],
@@ -87,7 +87,7 @@ const category = [
   {
     id: "7",
     title: "Men Shirts",
-    img: "../men-clothes.jpg",
+    img: "../hab1.png",
     price: "$25.56",
     rating: "2",
     available_sizes: ["S", "M", "L"],
@@ -99,7 +99,7 @@ const category = [
   {
     id: "8",
     title: "Men Shirts",
-    img: "../men-clothes.jpg",
+    img: "../hab3.png",
     price: "$25.56",
     rating: "2",
     available_sizes: ["S", "M", "L"],
