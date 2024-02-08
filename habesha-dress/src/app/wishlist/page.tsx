@@ -1,7 +1,8 @@
 import { IoMdArrowBack } from "react-icons/io";
-import data from "../cart/wishData";
+import data from "../components/Products/allProducts";
 import FavoriteCard from "../components/FavoriteCard/FavoriteCard";
 import Footer from "../components/Footer/Footer";
+import ProductCard from "../components/ProductCard/ProductCard";
 
 const Favorites: React.FC = () => {
   return (
@@ -29,7 +30,7 @@ const Favorites: React.FC = () => {
       <div className="w-full border-b border-gray-600 p-2 mb-10"></div>
       <div className="w-full flex items-center flex-wrap items-center mb-16 justify-evenly gap-4">
         {data.map((item: any) => {
-          return <FavoriteCard item={item} key={item.id} />;
+          return <ProductCard product={item} key={item.id} />;
         })}
       </div>
       <Footer />

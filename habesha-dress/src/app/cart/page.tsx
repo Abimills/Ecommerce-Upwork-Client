@@ -3,14 +3,11 @@ import { FaShoppingBag } from "react-icons/fa";
 import data from "./wishData";
 import CartProduct from "../components/CartProduct/CartProduct";
 import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
 const Cart: React.FC = () => {
   return (
     <main className="w-full  min-h-screen p-2 bg-white">
-      <div className=" w-full flex  gap-5 p-3">
-        <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" />
-
-        <h1 className=" text-xl text-gray-600 mb-10">Home/Cart</h1>
-      </div>
+      <Navbar />
       <div className="w-full flex mb-24  justify-between min-h-screen p-2 bg-white">
         {/* left side cart */}
         <div className="w-full ">

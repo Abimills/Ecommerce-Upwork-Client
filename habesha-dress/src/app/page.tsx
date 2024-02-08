@@ -15,7 +15,7 @@ import { useState } from "react";
 import Cart from "./components/Cart/Cart";
 
 export default function Home() {
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(true);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   return (
     <main className="flex min-h-screen flex-col bg-alice-blue items-center p-2">
       <Navbar />

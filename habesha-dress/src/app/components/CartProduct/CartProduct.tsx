@@ -20,7 +20,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
   return (
     <section className="w-full flex items-start justify-around border-b border-gray-400 p-8">
       <img
-        className="w-1/4 h-56 object-cover rounded-lg "
+        className="w-1/4 h-56 object-contain rounded-lg "
         src={img}
         alt={title}
       />
@@ -54,8 +54,10 @@ const CartProduct: React.FC<Props> = ({ product }) => {
       </div>
       <div className="">
         <p className="bg-green-500 p-1 text-white px-2 mb-5">Deal 10% off</p>
-        <p className="text-xl font-bold  my-2 tracking-widest">${price}</p>
-        <p className="text-lg line-through text-gray-400 ">${(parseInt(price) * 1.4)?.toFixed(2)}</p>
+        <p className="text-xl font-bold  my-2 tracking-widest">{price}</p>
+        <p className="text-lg line-through text-gray-400 ">
+          ${(parseInt(price) * 1.4)?.toFixed(2)}
+        </p>
       </div>
     </section>
   );

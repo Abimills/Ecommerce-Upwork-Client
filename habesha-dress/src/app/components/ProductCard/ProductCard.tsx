@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { GoStarFill } from "react-icons/go";
 import { GoStar } from "react-icons/go";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 interface Product {
   id: string;
@@ -18,7 +20,7 @@ interface Props {
   product: Product;
 }
 const ProductCard: React.FC<Props> = ({ product }) => {
-  const { title, img, price, rating } = product;
+  const { id, title, img, price, rating } = product;
 
   return (
     // <div className="w-60 shadow-2xl flex flex-col items-center m-1  bg-alice-blue p-3 rounded-lg">
@@ -44,16 +46,19 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     //   </div>
     // </div>
 
-    <div className="w-96 max-w-sm bg-white   rounded-lg shadow-lg  ">
-      <img
-        className="object-contain w-full h-56 rounded-t-lg"
-        src={img}
-        alt="product image"
-      />
+    <div className="w-80 max-w-sm bg-alice-blue   rounded-md shadow-lg relative  ">
+      <IoIosHeartEmpty className="absolute  text-2xl m-1 text-orange-500 right-0 hover:text-3xl" />
+      <Link href={`/${id}`}>
+        <img
+          className="object-contain w-full h-56 rounded-t-lg bg-gray-100 mb-10"
+          src={img}
+          alt="product image"
+        />
+      </Link>
 
       <div className="px-5 pb-5">
         <h5 className="text-lg font-semibold tracking-tight text-gray-900 ">
-          Apple Watch Series
+          {title}
         </h5>
 
         <div className="flex items-center justify-between mt-2.5 mb-5">
@@ -69,15 +74,28 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               {rating}
             </span>
           </div>
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            $599
-          </span>y
+          <p className="text-2xl  text-gray-900 relative mr-4 font-roboto">
+            <span className="text-base absolute right-8 mr-3 mt-0.5 ">$</span>
+            254
+            <span className="text-base absolute left-8 ml-3  mt-0.5 ">89</span>
+          </p>
+        </div>
+        <div className=" p-1 flex gap-3 w-full font-roboto mb-3">
+          <p className=" text-xs text-gray-400  border border-gray-300 px-0.5 rounded-sm">
+            S
+          </p>
+          <p className=" text-xs text-gray-400  border border-gray-300 px-0.5 rounded-sm">
+            M
+          </p>
+          <p className=" text-xs text-gray-400  border border-gray-300 px-0.5 rounded-sm">
+            L
+          </p>
         </div>
         <div className="flex items-center justify-between">
-          <button className="text-white bg-green-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <button className="text-white font-roboto bg-yellow-400  hover:bg-yellow-300 hover:text-black   font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
             Add to Cart
           </button>
-          <button className="text-green-400 border border-green-400 hover:bg-green-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <button className="text-pink-400 font-roboto border border-pink-300 hover:bg-pink-400 hover:text-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
             Buy Now
           </button>
         </div>
