@@ -23,10 +23,10 @@ export default function Home() {
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       <Discount />
-      <Category />
       <Products />
-      <ForHer />
+      <Category />
       <NewProduct />
+      <ForHer />
       <LowerDiscount />
       <Newsletter />
       <Footer />
