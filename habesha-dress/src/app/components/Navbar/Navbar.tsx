@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 const Navbar = () => {
   const router = useRouter();
   return (
-    <nav className="flex font-roboto  w-full align-items justify-between p-2 ">
-      <div className="flex align-items flex-1  justify-between ">
+    <nav className="flex font-poppins text-base  w-full align-items justify-between p-2 ">
+      <div className="flex align-items flex-1   justify-between ">
         <h1
           className="font-semibold cursor-pointer font-roboto"
           onClick={() => router.push("/")}

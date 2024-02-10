@@ -1,4 +1,6 @@
-import React from "react";
+import { TiTick } from "react-icons/ti";
+import { IoMdClose } from "react-icons/io";
+
 interface Item {
   id: string;
   title: string;
@@ -18,46 +20,46 @@ interface Props {
 const CartProduct: React.FC<Props> = ({ product }) => {
   const { title, img, price, rating } = product;
   return (
-    <section className="w-full flex items-start justify-around border-b border-gray-400 p-8">
-      <img
-        className="w-1/4 h-56 object-contain rounded-lg "
-        src={img}
-        alt={title}
-      />
-
-      <div className="">
-        <h1 className="text-2xl text-gray-600 tracking-widest mb-3 ">
-          {title}
-        </h1>
-        <p className="text-sm text-green-300 tracking-widest mb-1">In stock</p>
-        <p className="my-2 text-sm tracking-widest ">
-          Size : <span>S</span>
-        </p>
-        <p className="my-2 mb-6 text-sm tracking-widest ">
-          Color : <span>Red</span>{" "}
-        </p>
-        <div className=" flex  w-full  justify-between my-2">
-          <select
-            name=""
-            className="border border-gray-300 px-5 rounded-lg outline-none"
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-          <div className="h-6 w-0.5  bg-gray-300 rounded-full"></div>
-          <button className="text-orange-400 text-sm tracking-widest capitalize">
-            delete
-          </button>
+    <section className="w-full flex items-start  border-b border-gray-400 p-8">
+      <div className="w-full flex items-start justify-between">
+        <img
+          className="w-2/4 h-64 bg-gray-100 object-contain rounded-lg "
+          src={img}
+          alt={title}
+        />
+        <div className="">
+          <div className="text-base text-lg font-base text-gray-500 font-poppins">
+            <h2 className=" text-xl mb-7 text-base font-medium text-gray-600 ">
+              {title}
+            </h2>
+            <div className="flex  gap-x-10 mt-9">
+              <p className="">white/Orange </p>
+              <span className=" text-2xl text-gray-300">|</span>
+              <p className="">Small </p>
+            </div>
+            <p className="mb-24 text-lg  font-semibold text-gray-700">
+              {price}
+            </p>
+          </div>
+          <div className="text-base text-lg font-base text-gray-500 font-poppins">
+            <p className="flex  items-center gap  ">
+              {" "}
+              <TiTick className="font-thinner text-2xl text-green-300 " /> In
+              stock
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="">
-        <p className="bg-green-500 p-1 text-white px-2 mb-5">Deal 10% off</p>
-        <p className="text-xl font-bold  my-2 tracking-widest">{price}</p>
-        <p className="text-lg line-through text-gray-400 ">
-          ${(parseInt(price) * 1.4)?.toFixed(2)}
-        </p>
+        <select
+          name=""
+          id=""
+          className="border border-gray-200 p-1 px-3 outline-none rounded-md"
+        >
+          <option value="">1</option>
+          <option value="">1</option>
+          <option value="">2</option>
+          <option value="">3</option>
+        </select>
+        <IoMdClose className="text-2xl cursor-pointer text-gray-400 float-right" />
       </div>
     </section>
   );

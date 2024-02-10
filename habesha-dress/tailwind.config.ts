@@ -19,6 +19,7 @@ const config: Config = {
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       height: {
         "80vh": "90vh",
