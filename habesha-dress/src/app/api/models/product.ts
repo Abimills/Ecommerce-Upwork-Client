@@ -23,6 +23,12 @@ const clothProductSchema = new Schema(
       type: Array,
       required: [true, "At lease one color is required"],
     },
+    forWhichGender: {
+      type: Array,
+    },
+    boughtWithIds: {
+      type: Array,
+    },
   },
   {
     timestamps: true,
