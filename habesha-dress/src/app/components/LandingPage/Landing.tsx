@@ -30,8 +30,8 @@ const Landing = () => {
           slidesPerView={1}
           // navigation={true}
           className="w-96  cursor-pointer "
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
           <SwiperSlide className="cursor-pointer  ">
@@ -94,8 +94,8 @@ const Landing = () => {
           slidesPerView={1}
           autoplay={{ delay: 5000 }}
           className="w-96 px-10 "
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay]}
         >
           <SwiperSlide className=" ">

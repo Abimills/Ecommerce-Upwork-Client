@@ -1,10 +1,15 @@
+"use client";
 import { IoMdArrowBack } from "react-icons/io";
 import { FaShoppingBag } from "react-icons/fa";
 import data from "./wishData";
 import CartProduct from "../components/CartProduct/CartProduct";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
+import { RootState } from "../lib/store";
+import { useAppSelector } from "../lib/hooks";
 const Cart: React.FC = () => {
+  const cartItems = useAppSelector((state: RootState) => state.cart.items);
+
   return (
     <main className="w-full  min-h-screen p-2 bg-white">
       <Navbar />
@@ -16,7 +21,7 @@ const Cart: React.FC = () => {
             <span className="mt-4">Shopping Cart </span>
           </h1>
           <div className="w-full flex flex-col">
-            {data.map((item: any) => (
+            {cartItems.map((item: any) => (
               <CartProduct key={item.id} product={item} />
             ))}
           </div>
