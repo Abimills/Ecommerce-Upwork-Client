@@ -12,27 +12,35 @@ export async function GET(req: any) {
 }
 
 export async function POST(req: any) {
-  const {
-    name,
-    email,
-    password,
-    photoUser,
-    ItemsBought,
-    location,
-    favReviews,
-  } = await req.json();
-  await connectMongoDB();
-  const newUser = await ClothUser.create({
-    name,
-    email,
-    password,
-    photoUser,
-    ItemsBought,
-    location,
-    favReviews,
-  });
-  return NextResponse.json(
-    { message: "created a new user", newUser },
-    { status: 201 }
-  );
+  try {
+    const {
+      name,
+      email,
+      password,
+      photoUser,
+      ItemsBought,
+      location,
+      favReviews,
+    } = await req.json();
+    await connectMongoDB();
+    const newUser = await ClothUser.create({
+      name,
+      email,
+      password,
+      photoUser,
+      ItemsBought,
+      location,
+      favReviews,
+    });
+    return NextResponse.json(
+      { success: true, message: "created a new user", newUser },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.log({
+      success: false,
+      message: "error while trying to register user",
+      error,
+    });
+  }
 }

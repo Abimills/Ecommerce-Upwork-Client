@@ -1,46 +1,39 @@
-import React from "react";
+"use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../lib/authSlice/authSlice";
 
 const LoginPage: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<any>("");
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (email !== "" && password !== "") {
+      const res = await axios.post("http://localhost:3000/api/login", {
+        email,
+        password,
+      });
+      if (res.data.success) {
+        alert("successfully signed In");
+
+        dispatch(loginSuccess(res.data.user));
+
+        router.push("/");
+      } else {
+        alert("could not signIn successfully : check your credentials");
+      }
+    } else {
+      alert("fill all fields");
+    }
+  };
   return (
     <section className="w-full h-screen flex bg-alice-blue    flex-col  items-center justify-center">
-      {/* <div className=" w-1/3 flex flex-col shadow-2xl  rounded-2xl">
-        <div
-          className=" bg-[url('/red.jpg')] bg-cover rounded-lg flex flex-col w-full h-full items-center
-        justify-center h-64"
-        >
-          <h1 className="text-white tracking-wider text-xl mb-6">
-            Don't have an account?
-          </h1>
-
-          <button className="p-1 text-sm rounded-full bg-white text-gray-500 px-5 mb-6">
-            Sign up
-          </button>
-          <h1 className="mt-9 text-3xl text-white uppercase tracking-widest">
-            Welcome
-          </h1>
-        </div>
-        <div className="h-72 bg-white items-center justify-center p-3 rounded-2xl  flex flex-col w-full">
-          <input
-            type="text"
-            placeholder="email"
-            className=" w-full border border-gray-400 text-sm p-2 mb-3"
-          />
-          <input
-            type="password"
-            placeholder="password"
-            className=" w-full border text-sm border-gray-400 p-2"
-          />
-          <button className="w-full mt-6 bg-black text-white hover uppercase mb-4 p-1">
-            login
-          </button>
-          <p className="mt-2 text-center text-sm text-gray-500 ">
-            Forgot your password?
-          </p>
-        </div>
-      </div> */}
-
       <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-        <form className="space-y-6" action="#">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">
             Sign in to our platform
           </h5>
@@ -51,9 +44,10 @@ const LoginPage: React.FC = () => {
             <input
               type="email"
               name="email"
-              id="email"
+              value={email}
+              onChange={(e: any) => setEmail(e.target.value)}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="name@company.com"
+              placeholder="jane@gmail.com"
               required
             />
           </div>
@@ -64,7 +58,8 @@ const LoginPage: React.FC = () => {
             <input
               type="password"
               name="password"
-              id="password"
+              value={password}
+              onChange={(e: any) => setPassword(e.target.value)}
               placeholder="••••••••"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
               required
@@ -100,12 +95,12 @@ const LoginPage: React.FC = () => {
           </button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}
-            <a
-              href="#"
-              className="text-blue-700 hover:underline dark:text-blue-500"
+            <button
+              onClick={() => router.push("/signup")}
+              className="text-blue-700 hover:underline"
             >
               Create account
-            </a>
+            </button>
           </div>
         </form>
       </div>

@@ -1,5 +1,7 @@
 import { TiTick } from "react-icons/ti";
 import { IoMdClose } from "react-icons/io";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { addToCart, removeFromCart } from "@/app/lib/cartSlice/cartSlice";
 
 interface Item {
   id: string;
@@ -18,7 +20,13 @@ interface Props {
   product: Item;
 }
 const CartProduct: React.FC<Props> = ({ product }) => {
-  const { title, img, price, rating } = product;
+  const { id, title, img, price, rating } = product;
+  console.log(product);
+  const dispatch = useAppDispatch();
+
+  const handleRemoveFromCart = (id: any) => {
+    dispatch(removeFromCart(id));
+  };
   return (
     <section className="w-full flex items-start  border-b border-gray-400 p-8">
       <div className="w-full flex items-start justify-between">
@@ -59,7 +67,10 @@ const CartProduct: React.FC<Props> = ({ product }) => {
           <option value="">2</option>
           <option value="">3</option>
         </select>
-        <IoMdClose className="text-2xl cursor-pointer text-gray-400 float-right" />
+        <IoMdClose
+          className="text-2xl cursor-pointer text-gray-400 float-right"
+          onClick={() => handleRemoveFromCart(id)}
+        />
       </div>
     </section>
   );

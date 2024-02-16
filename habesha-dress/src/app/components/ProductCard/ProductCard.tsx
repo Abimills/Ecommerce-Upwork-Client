@@ -1,10 +1,18 @@
+"use client";
+
+import { addToCart, addToFavorites } from "@/app/lib/cartSlice/cartSlice";
+import { useAppDispatch } from "@/app/lib/hooks";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { GoStarFill } from "react-icons/go";
 import { GoStar } from "react-icons/go";
 import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeart } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 interface Product {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   img: string;
@@ -20,35 +28,49 @@ interface Props {
   product: Product;
 }
 const ProductCard: React.FC<Props> = ({ product }) => {
-  const { id, title, img, price, rating } = product;
+  const favorites = useSelector((state: any) => state.cart.favorites);
+  console.log(favorites);
+  const { _id, title, img, price, rating } = product;
+  const [isFavored, setIsFavored] = useState(favorites.includes(_id));
+  const router: any = useRouter();
+  const dispatch = useAppDispatch();
+  const handleAddToCart = (product: any) => {
+    const data: any = {
+      title: product.title,
+      price: product.price,
+      quantity: 1,
+      id: product._id,
+      inStock: true,
+      chosen_sizes: product.availableSizes[0] || "",
+      chosen_colors: product.availableColors[0] || "",
+
+      img: product.img,
+    };
+    dispatch(addToCart(data));
+  };
+  const handleBuy = (product: any) => {
+    handleAddToCart(product);
+    router.push("/cart");
+  };
+  const handleFavorites = (id: any) => {
+    dispatch(addToFavorites(id));
+    setIsFavored(!isFavored);
+  };
 
   return (
-    // <div className="w-60 shadow-2xl flex flex-col items-center m-1  bg-alice-blue p-3 rounded-lg">
-    //   <img
-    //     className="w-full h-40 object-cover rounded-lg"
-    //     src={img}
-    //     alt={title}
-    //   />
-    //   <div className="w-full flex flex-col p-2 gap-3 ">
-    //     <div className="flex items-center justify-between  w-full">
-    //       <h2>{title}</h2>
-    //       <p>{rating}</p>
-    //     </div>
-    //     <p className="font-bold">{price}</p>
-    //     <div className=" w-full flex items-center mt-4 justify-between">
-    //       <button className="border border-gray-600 p-1 text-xs   rounded-sm ">
-    //         Add to Cart
-    //       </button>
-    //       <button className="border border-orange-300 p-1 text-xs bg-orange-300 text-white rounded-sm ">
-    //         Buy Now
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div className="w-80 max-w-sm bg-alice-blue   rounded-md shadow-lg relative  ">
-      <IoIosHeartEmpty className="absolute  text-2xl m-1 text-orange-500 right-0 hover:text-3xl" />
-      <Link href={`/${id}`}>
+      {!isFavored ? (
+        <IoIosHeartEmpty
+          onClick={() => handleFavorites(_id)}
+          className="absolute  text-2xl m-1 text-orange-500 right-0 hover:text-3xl"
+        />
+      ) : (
+        <IoIosHeart
+          onClick={() => handleFavorites(_id)}
+          className="absolute  text-2xl m-1 text-orange-500 right-0 hover:text-3xl"
+        />
+      )}
+      <Link href={`/${_id}`}>
         <img
           className="object-contain w-full h-56 rounded-t-lg bg-gray-100 mb-10"
           src={img}
@@ -92,10 +114,16 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           </p>
         </div>
         <div className="flex items-center justify-between">
-          <button className="text-white font-roboto bg-yellow-400  hover:bg-yellow-300 hover:text-black   font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+          <button
+            onClick={() => handleAddToCart(product)}
+            className="text-white font-roboto bg-yellow-400  hover:bg-yellow-300 hover:text-black   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+          >
             Add to Cart
           </button>
-          <button className="text-pink-400 font-roboto border border-pink-300 hover:bg-pink-400 hover:text-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+          <button
+            onClick={() => handleBuy(product)}
+            className="text-pink-400 font-roboto border border-pink-300 hover:bg-pink-400 hover:text-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+          >
             Buy Now
           </button>
         </div>

@@ -16,33 +16,33 @@ export interface CartItem {
 }
 export interface CartState {
   items: CartItem[];
+  favorites: any[]; // TODO: define favorite item type
 }
 // Define the initial state using that type
 const initialState: CartState = {
   items: [
-    {
-      title: "Product A",
-      price: 10,
-      quantity: 2,
-      id: "1",
-      inStock: true,
-      chosen_colors: "red",
-      chosen_sizes: "small",
-
-      img: "http://res.cloudinary.com/dnokvmwmd/image/upload/v1707752115/uploads/tdq1efmykbvpd1vaospc.png",
-    },
-    {
-      title: "Product B",
-      price: 10,
-      quantity: 2,
-      id: "1",
-      inStock: true,
-      chosen_colors: "red",
-      chosen_sizes: "small",
-
-      img: "http://res.cloudinary.com/dnokvmwmd/image/upload/v1707752115/uploads/tdq1efmykbvpd1vaospc.png",
-    },
+    // {
+    //   title: "Product A",
+    //   price: 10,
+    //   quantity: 2,
+    //   id: "1",
+    //   inStock: true,
+    //   chosen_colors: "red",
+    //   chosen_sizes: "small",
+    //   img: "http://res.cloudinary.com/dnokvmwmd/image/upload/v1707752115/uploads/tdq1efmykbvpd1vaospc.png",
+    // },
+    // {
+    //   title: "Product B",
+    //   price: 10,
+    //   quantity: 2,
+    //   id: "1",
+    //   inStock: true,
+    //   chosen_colors: "red",
+    //   chosen_sizes: "small",
+    //   img: "http://res.cloudinary.com/dnokvmwmd/image/upload/v1707752115/uploads/tdq1efmykbvpd1vaospc.png",
+    // },
   ],
+  favorites: ["65ca3c79755f8cbc3e0fb10a"],
 };
 
 export const cartSlice = createSlice({
@@ -50,14 +50,48 @@ export const cartSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    increment: (state) => {},
+    addToFavorites: (state, action: PayloadAction<any>) => {
+      const foundItem = state.favorites.find((item) => item === action.payload);
+      if (!foundItem) {
+        state.favorites.push(action.payload);
+      }
+      if (foundItem) {
+        state.favorites = state.favorites.filter(
+          (item: any) => item !== action.payload
+        );
+        console.log(state.favorites);
+      }
+    },
     decrement: (state) => {},
     // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {},
+    addToCart: (state, action: PayloadAction<any>) => {
+      const foundItem = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+      if (!foundItem) {
+        state.items.push(action.payload);
+        alert("added some new item to cart");
+      }
+      if (foundItem) {
+        foundItem.quantity += 1;
+        alert("added quantity to items ");
+      }
+    },
+    removeFromCart: (state, action: PayloadAction<any>) => {
+      const foundItem = state.items.find((item) => item.id === action.payload);
+      if (foundItem) {
+        state.items = state.items.filter((item) => item.id !== action.payload);
+        alert("removed one item");
+      }
+      if (!foundItem) {
+        alert("No such product exists in the cart");
+      }
+    },
   },
 });
 
-export const { increment, decrement, incrementByAmount } = cartSlice.actions;
+export const { addToFavorites, decrement, addToCart, removeFromCart } =
+  cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCart = (state: RootState) => state.cart.items;
