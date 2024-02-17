@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Navbar from "./components/Navbar/Navbar";
 import Landing from "./components/LandingPage/Landing";
 import Discount from "./components/DiscountPage/Discount";
 import Category from "./components/ShopByCategories/Category";
@@ -18,10 +17,12 @@ import axios from "axios";
 import { useAppDispatch } from "./lib/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "./lib/cartSlice/dataSlice";
+import NavContainer from "./components/Navbar/NavContainer";
+import Login from "./components/LoginSlider/Login";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
 export default function Home() {
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(true);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { status, data, error } = useSelector((state: any) => state.data);
 
@@ -33,11 +34,12 @@ export default function Home() {
     }
   }, [status, dispatch]);
   return (
-    <main className="flex min-h-screen flex-col bg-alice-blue items-center p-2">
-      <Navbar />
+    <main className="flex relative min-h-screen flex-col bg-alice-blue items-center ">
+      <NavContainer setIsOpen={setIsCartOpen} />
 
       <Landing />
-      {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
+      {/* {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />} */}
+      {isCartOpen && <Login setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       <Discount />
       <Products />
       <Category />

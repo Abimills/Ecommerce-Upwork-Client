@@ -4,7 +4,6 @@ import { FaShoppingBag } from "react-icons/fa";
 import data from "./wishData";
 import CartProduct from "../components/CartProduct/CartProduct";
 import Footer from "../components/Footer/Footer";
-import Navbar from "../components/Navbar/Navbar";
 import { RootState } from "../lib/store";
 import { useAppSelector } from "../lib/hooks";
 const Cart: React.FC = () => {
@@ -12,7 +11,6 @@ const Cart: React.FC = () => {
 
   return (
     <main className="w-full  min-h-screen p-2 bg-white">
-      <Navbar />
       <div className="w-full flex mb-24  justify-between min-h-screen p-5 gap-8 bg-white">
         {/* left side cart */}
         <div className="w-2/3 ">
