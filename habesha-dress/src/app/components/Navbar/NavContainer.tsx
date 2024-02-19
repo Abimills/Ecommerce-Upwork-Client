@@ -4,15 +4,24 @@ import SearchBar from "./SearchBar";
 import Navbar from "./Navbar";
 interface Props {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const NavContainer: React.FC<Props> = ({ setIsOpen }) => {
+const NavContainer: React.FC<Props> = ({ setIsOpen, setShow }) => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   return (
     <div className="w-full h-full">
       {isSearching ? (
-        <SearchBar setIsSearching={setIsSearching} setIsOpen={setIsOpen} />
+        <SearchBar
+          setIsSearching={setIsSearching}
+          setShow={setShow}
+          setIsOpen={setIsOpen}
+        />
       ) : (
-        <Navbar setIsSearching={setIsSearching} setIsOpen={setIsOpen} />
+        <Navbar
+          setIsSearching={setIsSearching}
+          setShow={setShow}
+          setIsOpen={setIsOpen}
+        />
       )}
     </div>
   );

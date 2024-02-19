@@ -14,10 +14,10 @@ const initialState: any = {
 };
 
 const loadUserFromLocalStorage = (): AuthState => {
-  const userJson: any = localStorage.getItem("user");
-  if (userJson) {
-    return { user: JSON.parse(userJson) };
-  }
+  // const userJson: any = localStorage.getItem("user");
+  // if (userJson) {
+  //   return { user: JSON.parse(userJson) };
+  // }
   return initialState;
 };
 const authSlice = createSlice({
@@ -26,11 +26,11 @@ const authSlice = createSlice({
   reducers: {
     loginSuccess: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      // localStorage.setItem("user", JSON.stringify(action.payload));
     },
     logout: (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+      // localStorage.removeItem("user");
     },
     registerSuccess: (state, action: PayloadAction<User>) => {
       state.user = action.payload;

@@ -18,7 +18,7 @@ const DiscountCard: React.FC<Props> = ({ item }) => {
       />
       <div className=" flex  flex-col justify-start w-full">
         <h3 className="text-xl font-medium text-gray-900">{title}</h3>
-        <p className=" text-xs text-gray-400">{desc}</p>
+        <p className=" text-xs text-green-400">{"20% discount"}</p>
       </div>
     </div>
   );

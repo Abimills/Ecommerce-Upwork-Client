@@ -22,7 +22,7 @@ const config: Config = {
         poppins: ["Poppins", "sans-serif"],
       },
       height: {
-        "80vh": "90vh",
+        "95vh": "95vh",
       },
     },
   },

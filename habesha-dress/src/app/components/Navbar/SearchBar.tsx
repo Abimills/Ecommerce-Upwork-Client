@@ -20,16 +20,20 @@ import { RootState } from "@/app/lib/store";
 interface Props {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchBar: React.FC<Props> = ({ setIsSearching, setIsOpen }) => {
+const SearchBar: React.FC<Props> = ({ setIsSearching, setIsOpen, setShow }) => {
   const router = useRouter();
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
   return (
     <div className="flex font-poppins text-base flex-col h-max z-10 absolute top-0  bg-white  w-full items-center ">
       <nav className="flex font-poppins text-base h-max   min-h-24  w-full items-center justify-between  ">
         <div className="flex align-items w-max mr-3 gap-5   justify-start ">
-          <GiHamburgerMenu className="text-2xl  ml-3 mt-1 mr-6" />
+          <GiHamburgerMenu
+            className="text-2xl  ml-3 mt-1 mr-6"
+            onClick={() => setShow(true)}
+          />
           <h1
             className="font-semibold text-2xl cursor-pointer font-roboto"
             onClick={() => router.push("/")}

@@ -1,23 +1,28 @@
 const category = [
   {
     id: "1",
-    title: "Women Scarf",
-    img: "../hab3.png",
+    title: "Women Section",
+    img: "../hab42.png",
   },
   {
     id: "2",
-    title: "Kids Clothes",
-    img: "../hab1.png",
+    title: "Men finest",
+    img: "../men32.png",
   },
   {
     id: "3",
-    title: "Men Clothes",
-    img: "../hab5.png",
+    title: "Kids  Fashion",
+    img: "../kid2.png",
   },
   {
     id: "4",
-    title: "Men Shirts",
-    img: "../hab6.png",
+    title: "Friends Clothing",
+    img: "../women67.png",
+  },
+  {
+    id: "5",
+    title: "Wedding  Dresses",
+    img: "../men-122.png",
   },
 ];
 export default category;

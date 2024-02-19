@@ -4,12 +4,21 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: any, res: any) {
   await connectMongoDB();
+  const id: string = req.nextUrl.searchParams.get("id");
+  if(id){
+    const cloth = await ClothProduct.findById(id);
+    return NextResponse.json(
+      { message: "fetched single cloth", cloth },
+      { status: 200 }
+    );
+  }
   const cloth = await ClothProduct.find();
   return NextResponse.json(
     { message: "fetched all clothes", cloth },
     { status: 200 }
   );
 }
+
 export async function POST(req: any) {
   const {
     title,
