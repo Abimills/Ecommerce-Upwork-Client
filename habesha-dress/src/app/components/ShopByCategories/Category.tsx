@@ -34,9 +34,9 @@ const Category: React.FC = () => {
           {category.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  ">
-                <CategoryCard key={item.id} item={item} />;
+                <CategoryCard key={item.id} item={item} />
               </SwiperSlide>
-            )
+            );
           })}
         </Swiper>
       </div>

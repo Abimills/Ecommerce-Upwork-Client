@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../lib/cartSlice/dataSlice";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState<any>([]);
+  const router = useRouter();
   const filterData = (category: string) => {
     if (category === "All") {
       setFilteredProducts(products);
@@ -39,9 +41,21 @@ const Favorites: React.FC = () => {
   return (
     <main className="w-full min-h-screen  flex flex-col bg-white ">
       <div className="w-full flex items-center justify-between p-8 ">
-        <div className=" w-1/2 flex items-center gap-10 p-1">
-          <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" />
-          <h1 className="text-xl tracking-widest">FAVORITES CLOTHES</h1>
+        <div className=" w-max flex items-center gap-10 ">
+          {/* <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" /> */}
+          <h1 className=" text-lg  text-gray-600 tracking-tight font-base text-green-400 cursor-pointer">
+            <span
+              className="hover:underline text-green-400 mx-2"
+              onClick={() => router.push("/")}
+            >
+              Home
+            </span>
+            {">"}
+
+            <span className=" hover:underline text-green-400 mx-2 ">
+              Product
+            </span>
+          </h1>
         </div>
         <div className="w-1/2  flex justify-end items-center gap-10">
           {categories.map((item: string) => {

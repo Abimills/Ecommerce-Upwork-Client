@@ -7,11 +7,14 @@ import { CiLocationOn } from "react-icons/ci";
 import { PiSignIn } from "react-icons/pi";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { toggleShowSidebar } from "@/app/lib/cartSlice/cartSlice";
 
-interface Props {
-  setShow: React.Dispatch<React.SetStateAction<boolean>>;
-}
-const SidebarNavigation: React.FC<Props> = ({ setShow }) => {
+const SidebarNavigation: React.FC = () => {
+  const dispatch = useDispatch();
+  const handleClose = () => {
+    dispatch(toggleShowSidebar());
+  };
   return (
     <div className="w-full h-full relative ">
       {/* <div className="text-center">
@@ -32,7 +35,7 @@ const SidebarNavigation: React.FC<Props> = ({ setShow }) => {
           type="button"
           className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
         >
-          <AiOutlineClose className="w-5 h-5" onClick={() => setShow(false)} />
+          <AiOutlineClose className="w-5 h-5" onClick={handleClose} />
         </button>
         <div className="py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">

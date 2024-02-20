@@ -17,22 +17,35 @@ import { IoCloseSharp } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useAppSelector } from "@/app/lib/hooks";
 import { RootState } from "@/app/lib/store";
-interface Props {
-  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setShow: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { useDispatch } from "react-redux";
+import {
+  toggleShowSearch,
+  toggleShowSidebar,
+  toggleShowSignIn,
+} from "@/app/lib/cartSlice/cartSlice";
+// interface Props {
+//   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+//   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+//   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 
-const SearchBar: React.FC<Props> = ({ setIsSearching, setIsOpen, setShow }) => {
+const SearchBar: React.FC = () => {
   const router = useRouter();
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
+  const dispatch = useDispatch();
+  const handleCloseSearch = () => {
+    dispatch(toggleShowSearch());
+  };
+  const handleClose = () => {
+    dispatch(toggleShowSidebar());
+  };
   return (
     <div className="flex font-poppins text-base flex-col h-max z-10 absolute top-0  bg-white  w-full items-center ">
       <nav className="flex font-poppins text-base h-max   min-h-24  w-full items-center justify-between  ">
         <div className="flex align-items w-max mr-3 gap-5   justify-start ">
           <GiHamburgerMenu
             className="text-2xl  ml-3 mt-1 mr-6"
-            onClick={() => setShow(true)}
+            onClick={handleClose}
           />
           <h1
             className="font-semibold text-2xl cursor-pointer font-roboto"
@@ -69,11 +82,11 @@ const SearchBar: React.FC<Props> = ({ setIsSearching, setIsOpen, setShow }) => {
               <IoIosArrowRoundForward className="text-3xl text-black cursor-pointer   h-full " />
             </div>
             <IoCloseSharp
-              onClick={() => setIsSearching(false)}
+              onClick={handleCloseSearch}
               className="text-4xl text-gray-800 cursor-pointer    h-full "
             />
             <HiOutlineUser
-              onClick={() => setIsOpen(true)}
+              onClick={() => dispatch(toggleShowSignIn())}
               className="text-3xl h-full text-gray-600  cursor-pointer "
             />
             <FaRegHeart

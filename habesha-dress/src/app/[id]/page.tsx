@@ -10,6 +10,11 @@ import { GoHeartFill } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { GiShoppingBag } from "react-icons/gi";
 import NavContainer from "../components/Navbar/NavContainer";
+import SearchBar from "../components/Navbar/SearchBar";
+import Navbar from "../components/Navbar/Navbar";
+import { useSelector } from "react-redux";
+import SingleNavigation from "../components/singleItemNavigation/SingleNav";
+import SingleSearchBar from "../components/Searchbar/Searchbar";
 
 interface DataType {
   title: string;
@@ -27,6 +32,7 @@ interface DataType {
 const SingleProduct: React.FC = () => {
   const param = useParams<{ id: string }>();
   const [data, setData] = useState<DataType[]>([]);
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
 
   // const single: any = data.find((product) => product.id === param.id);
 
@@ -41,10 +47,9 @@ const SingleProduct: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 w-full h-full px-8">
-      <div className=" mb-4">
-
-      <NavContainer  />
+    <div className="bg-gray-100 w-full h-full ">
+      <div className=" mb-8">
+        {showSearch ? <SingleNavigation /> : <SingleSearchBar />}
       </div>
       {/* <div className=" w-1/2 flex items-center gap-10 bg-gray-100 p-1">
         <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" />

@@ -1,0 +1,56 @@
+"use client";
+import { IoMdArrowBack } from "react-icons/io";
+// import data from "../components/Products/allProducts";
+import FavoriteCard from "../components/FavoriteCard/FavoriteCard";
+import Footer from "../components/Footer/Footer";
+import ProductCard from "../components/ProductCard/ProductCard";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../lib/cartSlice/dataSlice";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { RiHome2Line } from "react-icons/ri";
+import { PiDressLight } from "react-icons/pi";
+import { FaRegFaceSmileWink } from "react-icons/fa6";
+import { FaRegUser } from "react-icons/fa6";
+import { TbBulb } from "react-icons/tb";
+import { MdOutlineLibraryBooks } from "react-icons/md";
+import WelcomeUserProfile from "../components/WelcomeUserProfile/WelcomeUserProfile";
+
+const UserProfile: React.FC = () => {
+  return (
+    <main className="w-full min-h-screen  flex flex-col bg-white ">
+      <div className="flex w-full flex-col justify-center items-center h-max ">
+        <div className="w-full text-center mb-4 p-10">
+          <h1 className="font-semibold text-2xl">Hi Abel!</h1>
+        </div>
+        <div className="w-full flex justify-center items-center gap-32 px-10 border-b border-gray-300 border-b-2">
+          <div className="flex flex-col relative justify-center cursor-pointer items-center h-24">
+            <RiHome2Line className="text-3xl mb-4" />
+            <p className="font-semibold  leading-4 ">Welcome</p>
+            <div className="w-20 h-1 bg-black bottom-0 absolute"></div>
+          </div>
+          <div className="flex flex-col justify-center cursor-pointer items-center h-24">
+            <MdOutlineLibraryBooks className="text-2xl text-gray-500 mb-4" />
+            <p className=" text-gray-500 leading-4">Orders</p>
+          </div>
+          <div className="flex flex-col justify-center cursor-pointer items-center h-24">
+            <FaRegFaceSmileWink className="text-2xl  text-gray-500 mb-4" />
+            <p className="font-base text-gray-500 leading-4">My Products</p>
+          </div>
+          <div className="flex flex-col justify-center cursor-pointer items-center  h-24">
+            <FaRegUser className="text-2xl text-gray-500 mb-4" />
+            <p className=" text-gray-500 leading-4">Profile</p>
+          </div>
+          <div className="flex flex-col justify-center cursor-pointer items-center h-24">
+            <TbBulb className="text-3xl text-gray-500 mb-4" />
+            <p className=" text-gray-500 leading-4">Help</p>
+          </div>
+        </div>
+        <WelcomeUserProfile />
+      </div>
+    </main>
+  );
+};
+
+export default UserProfile;

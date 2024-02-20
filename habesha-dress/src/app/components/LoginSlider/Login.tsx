@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 // import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../lib/authSlice/authSlice";
 import CartItem from "../CartItem/CartItem";
 // import { data } from "./data";
@@ -10,10 +10,11 @@ import { IoCloseOutline } from "react-icons/io5";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-interface Props {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
+// interface Props {
+//   isOpen: boolean;
+//   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 const products = [
   {
     id: 1,
@@ -54,12 +55,14 @@ const products = [
   // More products...
 ];
 
-const Login: React.FC<Props> = ({ isOpen, setIsOpen }) => {
+const Login: React.FC = () => {
   const [open, setOpen] = useState(true);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<any>("");
   const router = useRouter();
   const dispatch = useDispatch();
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (email !== "" && password !== "") {
@@ -80,9 +83,12 @@ const Login: React.FC<Props> = ({ isOpen, setIsOpen }) => {
       alert("fill all fields");
     }
   };
+  const handleClose = () => {
+    dispatch(toggleShowSignIn());
+  };
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setIsOpen}>
+    <Transition.Root show={showSignIn} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -118,7 +124,7 @@ const Login: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                           <button
                             type="button"
                             className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-                            onClick={() => setIsOpen(false)}
+                            onClick={handleClose}
                           >
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Close panel</span>

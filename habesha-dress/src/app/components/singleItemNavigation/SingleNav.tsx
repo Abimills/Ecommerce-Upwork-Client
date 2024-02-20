@@ -30,7 +30,7 @@ import { useDispatch } from "react-redux";
 //   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 // }
 
-const Navbar: React.FC = () => {
+const SingleNavigation: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
     <div className="flex font-poppins text-base flex-col h-max   w-full items-center ">
       <nav className="flex font-poppins text-base h-max   min-h-16  w-full items-center justify-between  ">
         <div className="flex align-items w-max mr-3 gap-5   justify-start ">
-          <GiHamburgerMenu
+          {/* <GiHamburgerMenu
             className="text-2xl  ml-3 mt-1 mr-6"
             onClick={handleClose}
           />
@@ -53,6 +53,19 @@ const Navbar: React.FC = () => {
             onClick={() => router.push("/")}
           >
             HabeshaD
+          </h1> */}
+          <h1 className=" text-lg ml-4 text-gray-600 tracking-tight font-base cursor-pointer">
+            <span
+              className="hover:underline text-green-400 mx-2"
+              onClick={() => router.push("/")}
+            >
+              Home
+            </span>
+            {">"}
+
+            <span className=" hover:underline text-green-400 mx-2 ">
+              Product
+            </span>
           </h1>
           {/* <ul className="flex align-items w-4/5 justify-between ">
           <li
@@ -85,10 +98,10 @@ const Navbar: React.FC = () => {
               onClick={handleCloseSearch}
               className="text-2xl text-gray-800 cursor-pointer    h-full "
             />
-            <HiOutlineUser
+            {/* <HiOutlineUser
               onClick={() => dispatch(toggleShowSignIn())}
               className="text-3xl h-full text-gray-600  cursor-pointer "
-            />
+            /> */}
             <FaRegHeart
               className="text-2xl h-full text-gray-600   cursor-pointer  "
               onClick={() => router.push("/wishlist")}
@@ -109,4 +122,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default SingleNavigation;
