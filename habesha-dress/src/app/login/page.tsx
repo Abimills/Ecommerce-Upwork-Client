@@ -22,7 +22,7 @@ const LoginPage: React.FC = () => {
 
         dispatch(loginSuccess(res.data.user));
 
-        router.push("/");
+        router.push("http://localhost:3000/user-profile");
       } else {
         alert("could not signIn successfully : check your credentials");
       }

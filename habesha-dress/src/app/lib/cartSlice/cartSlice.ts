@@ -47,6 +47,7 @@ const initialState: CartState = {
   ],
   favorites: ["65ca3c79755f8cbc3e0fb10a"],
   showSignIn: false,
+
   showSearch: false,
   showSidebar: false,
 };
@@ -68,6 +69,7 @@ export const cartSlice = createSlice({
         console.log(state.favorites);
       }
     },
+
     toggleShowSignIn: (state) => {
       state.showSignIn = !state.showSignIn;
     },
@@ -110,6 +112,7 @@ export const {
   toggleShowSignIn,
   toggleShowSidebar,
   addToCart,
+
   removeFromCart,
 } = cartSlice.actions;
 

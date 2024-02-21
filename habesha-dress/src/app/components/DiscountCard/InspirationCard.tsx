@@ -26,7 +26,7 @@ const InspirationCard: React.FC<Props> = ({ item }) => {
             ${item.price}
           </p>
           <button className="bg-black text-white p-1 rounded-full text-sm px-8">
-            Buy
+           check
           </button>
         </div>
       </div>

@@ -18,19 +18,25 @@ export async function POST(req: any) {
       email,
       password,
       photoUser,
-      ItemsBought,
+      gender,
+      phone,
+      dateOfBirth,
       location,
       favReviews,
+      itemsBought,
     } = await req.json();
     await connectMongoDB();
     const newUser = await ClothUser.create({
       name,
       email,
       password,
+      gender,
       photoUser,
-      ItemsBought,
+      phone,
+      dateOfBirth,
       location,
       favReviews,
+      itemsBought,
     });
     return NextResponse.json(
       { success: true, message: "created a new user", newUser },

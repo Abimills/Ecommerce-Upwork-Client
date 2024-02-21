@@ -53,7 +53,7 @@ const Favorites: React.FC = () => {
             {">"}
 
             <span className=" hover:underline text-green-400 mx-2 ">
-              Product
+              Favorites
             </span>
           </h1>
         </div>

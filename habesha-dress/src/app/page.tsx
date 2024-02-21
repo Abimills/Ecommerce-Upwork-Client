@@ -47,6 +47,7 @@ export default function Home() {
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}
+      {/* {showRegister && <Register />} */}
       <Discount />
       <Products />
       <Category />

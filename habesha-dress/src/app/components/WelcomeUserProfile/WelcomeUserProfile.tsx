@@ -22,7 +22,7 @@ const WelcomeUserProfile: React.FC = () => {
   const [data, setData] = useState<any>([]);
 
   // const single: any = data.find((product) => product.id === param.id);
-
+  // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
   const fetchData = async () => {
     const res = await axios.get(`http://localhost:3000/api/product/`);
     setData(res.data.cloth);
@@ -57,8 +57,8 @@ const WelcomeUserProfile: React.FC = () => {
         >
           {data.map((item: any) => {
             return (
-              <SwiperSlide className="cursor-pointer w-max  ">
-                <WelcomeCard item={item} key={item._id} />
+              <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
+                <WelcomeCard item={item} />
               </SwiperSlide>
             );
           })}
@@ -84,8 +84,8 @@ const WelcomeUserProfile: React.FC = () => {
         >
           {data.map((item: any) => {
             return (
-              <SwiperSlide className="cursor-pointer w-max  ">
-                <InspirationCard item={item} key={item._id} />
+              <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
+                <InspirationCard item={item} />
               </SwiperSlide>
             );
           })}

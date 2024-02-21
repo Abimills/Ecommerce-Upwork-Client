@@ -7,12 +7,12 @@ const LoginPage: React.FC = () => {
   const [data, setData] = useState<any>({
     name: "",
     email: "",
-    location: "",
+    gender: "",
     password: "",
   });
   const [passwordAgain, setPasswordAgain] = useState<any>("");
   const router = useRouter();
-
+  console.log(data);
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -21,17 +21,18 @@ const LoginPage: React.FC = () => {
     if (
       data.name !== "" &&
       data.email !== "" &&
-      data.location !== "" &&
+      data.gender !== "" &&
       data.password !== "" &&
       data.passwordAgain !== ""
     ) {
       if (data.password === passwordAgain) {
         const res = await axios.post("http://localhost:3000/api/user", data);
+        console.log(res.data);
         if (res.data.success) {
           alert("successfully registered");
           router.push("/login");
         } else {
-          alert("could not register successfully"); 
+          alert("could not register successfully");
         }
       } else {
         alert("Passwords do not match");
@@ -42,8 +43,8 @@ const LoginPage: React.FC = () => {
     }
   };
   return (
-    <div className="w-full  h-screen  bg-white p-1">
-      <section className="bg-white  mb-16 p-4">
+    <div className="w-full   h-max  bg-white p-1">
+      <section className="bg-white mt-16   mb-16 p-4 py-15 rounded-full">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow-xl border border-green-100  md:mt-0 sm:max-w-md xl:p-0  ">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -77,7 +78,7 @@ const LoginPage: React.FC = () => {
                     placeholder="john@gmail.com"
                   />
                 </div>
-                <div>
+                {/* <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Country
                   </label>
@@ -92,6 +93,23 @@ const LoginPage: React.FC = () => {
                     <option value={"Canada"}>Canada</option>
                     <option value={"Germany"}>Germany</option>
                     <option value={"Netherlands"}>Netherlands</option>
+                  </select>
+                </div> */}
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Gender
+                  </label>
+                  <select
+                    name="gender"
+                    onChange={(e) => handleChange(e)}
+                    value={data.gender}
+                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  >
+                    <option>Choose a Gender</option>
+                    <option>...</option>
+                    <option value={"man"}>man</option>
+                    <option value={"women"}>women</option>
+                    <option value={"Rather not say"}>Rather not say</option>
                   </select>
                 </div>
                 <div>
@@ -142,7 +160,7 @@ const LoginPage: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-black hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full text-white bg-black hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Create an account
                 </button>

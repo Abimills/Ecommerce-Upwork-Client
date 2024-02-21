@@ -21,6 +21,18 @@ const userSchema = new mongoose.Schema(
       validate: [validationEmail, "Please enter a valid email"],
     },
 
+    gender: {
+      type: String,
+      required: [true, "Please enter a gender"],
+    },
+    phone: {
+      type: String,
+      default: "",
+    },
+    dateOfBirth: {
+      type: Date,
+      default: null,
+    },
     password: {
       type: String,
       required: [true, "Please enter a password"],
@@ -29,14 +41,21 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    ItemsBought: {
+    orders: {
       type: Array,
+      default: [],
+    },
+    itemsBought: {
+      type: Array,
+      default: [],
     },
     location: {
       type: String,
+      default: "",
     },
     favReviews: {
       type: Array,
+      default: [],
     },
   },
   { timestamps: true }
