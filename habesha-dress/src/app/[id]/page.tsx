@@ -1,60 +1,100 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import data from "../components/Products/allProducts";
 import { IoMdArrowBack } from "react-icons/io";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { GoStarFill } from "react-icons/go";
+import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeart } from "react-icons/io";
 import { GoStar } from "react-icons/go";
 import { GoHeartFill } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { GiShoppingBag } from "react-icons/gi";
-import NavContainer from "../components/Navbar/NavContainer";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useSelector } from "react-redux";
 import SingleNavigation from "../components/singleItemNavigation/SingleNav";
 import SingleSearchBar from "../components/Searchbar/Searchbar";
+import { addToCart, addToFavorites } from "../lib/cartSlice/cartSlice";
+import { useAppDispatch } from "../lib/hooks";
 
-interface DataType {
-  title: string;
-  id: string;
-  description: string;
-  img: string;
-  price: number;
-  rating: number;
-  category: string[];
-  availableSizes: string[];
-  availableColors: string[];
-  forWhichGender: string[];
-  boughtWithIds: string[];
-}
+// interface DataType {
+//   title: string;
+//   id: string;
+//   description: string;
+//   img: string;
+//   price: number;
+//   rating: number;
+//   category: string[];
+//   availableSizes: string[];
+//   availableColors: string[];
+//   forWhichGender: string[];
+//   boughtWithIds: string[];
+// }
 const SingleProduct: React.FC = () => {
+  const favorites = useSelector((state: any) => state.cart.favorites);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const param = useParams<{ id: string }>();
-  const [data, setData] = useState<DataType[]>([]);
+  const [data, setData] = useState<any>([]);
+  const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const [isFavored, setIsFavored] = useState(
+    favorites?.includes(param?.id) || false
+  );
+  const [sizeChoose, setSizeChose] = useState(
+    data.availableSizes ? data.availableSizes[0] : ""
+  );
+  const [colorChoose, setColorChose] = useState(
+    data.availableColors ? data.availableColors[0] : ""
+  );
+  const addToDbFavorites = async (userId: any, itemId: any) => {
+    const res = await axios.put("http://localhost:3000/api/user", {
+      userId,
+      itemId,
+    });
+  };
 
-  // const single: any = data.find((product) => product.id === param.id);
-
-  const fetchData = async () => {
-    const res = await axios.get(
-      `http://localhost:3000/api/product/?id=${param.id}`
-    );
-    setData(res.data.cloth);
+  const handleFavorites = (id: any) => {
+    dispatch(addToFavorites(id));
+    setIsFavored(!isFavored);
+    if (user) {
+      addToDbFavorites(user._id, id);
+    }
   };
   useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(
+        `http://localhost:3000/api/product/?id=${param.id}`
+      );
+
+      setData(res.data.cloth);
+    };
     fetchData();
   }, []);
-
+  const handleAddToCart = (product: any) => {
+    const data: any = {
+      title: product.title,
+      price: product.price,
+      quantity: 1,
+      id: product._id,
+      inStock: true,
+      chosenSize: sizeChoose || "",
+      chosenColor: colorChoose || "",
+      img: product.img,
+    };
+    dispatch(addToCart(data));
+  };
+  const handleBuy = (product: any) => {
+    handleAddToCart(product);
+    router.push("/cart");
+  };
   return (
     <div className="bg-gray-100 w-full h-full ">
       <div className=" mb-8">
-        {showSearch ? <SingleNavigation /> : <SingleSearchBar />}
+        {!showSearch ? <SingleNavigation /> : <SingleSearchBar />}
       </div>
-      {/* <div className=" w-1/2 flex items-center gap-10 bg-gray-100 p-1">
-        <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" />
-        <h1 className="text-xl tracking-widest">Home/Products/</h1>
-      </div> */}
       <div className="bg-gray-100  py-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -68,27 +108,43 @@ const SingleProduct: React.FC = () => {
               </div>
               <div className="flex -mx-2 mb-4">
                 <div className="w-1/2 px-2">
-                  <button className="w-full flex items-center gap-6 justify-center bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">
+                  <button
+                    onClick={() => handleAddToCart(data)}
+                    className="w-full flex items-center gap-6 justify-center bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700"
+                  >
                     Add to Cart
                     <GiShoppingBag className="text-white" />
                   </button>
                 </div>
                 <div className="w-1/2 px-2">
-                  <button className="w-full flex items-center justify-center gap-3 bg-yellow-100 text-gray-800  py-2 px-4 rounded-full font-bold ">
-                    Add to Wishlist
+                  <button
+                    onClick={() => handleBuy(data)}
+                    className="w-full flex items-center justify-center gap-3 bg-yellow-100 text-gray-800  py-2 px-4 rounded-full font-bold "
+                  >
+                    Buy Now
                     <GoHeartFill className="text-red-500" />
                   </button>
                 </div>
               </div>
             </div>
             <div className="md:flex-1 px-4">
-              <h2 className="text-2xl font-bold text-gray-800  mb-16">
-                {data?.title}
-              </h2>
-              {/* <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
-              ante justo. Integer euismod libero id mauris malesuada tincidunt.
-            </p> */}
+              <div className=" w-full flex items-center justify-between mb-16 pr-8">
+                <h2 className="text-2xl font-bold text-gray-800  ">
+                  {data?.title}
+                </h2>
+                {isFavored ? (
+                  <IoIosHeart
+                    onClick={() => handleFavorites(param?.id)}
+                    className="absolute  text-3xl m-1 mr-8 text-orange-500 right-0 hover:text-3xl"
+                  />
+                ) : (
+                  <IoIosHeartEmpty
+                    onClick={() => handleFavorites(param?.id)}
+                    className="absolute  text-3xl m-1 mr-8 text-orange-500 right-0 hover:text-3xl"
+                  />
+                )}
+              </div>
+
               <div className="flex mb-4 justify-between">
                 <div className="mr-4">
                   <span className="font-bold text-gray-700 mr-4">Price:</span>
@@ -118,7 +174,7 @@ const SingleProduct: React.FC = () => {
               <div className="w-full mb-8 mt-4 ">
                 <ul className="my-1 flex gap-1">
                   {Array(data?.rating)
-                    .fill()
+                    .fill("")
                     .map((_, index) => (
                       <li>
                         <GoStarFill className="text-lg text-orange-500" />
@@ -126,7 +182,7 @@ const SingleProduct: React.FC = () => {
                     ))}
                   {data?.rating < 5 &&
                     Array(5 - data?.rating)
-                      .fill()
+                      .fill("")
                       .map((_, index) => (
                         <li>
                           <GoStar className="text-lg text-gray-500" />
@@ -141,8 +197,18 @@ const SingleProduct: React.FC = () => {
 
                 <div className="flex items-center mt-2 ">
                   {data?.availableSizes?.map((size: any) => {
-                    return (
-                      <button className="bg-indigo-100 dark:bg-gray-700 text-gray-700  py-2 px-4 rounded-full font-bold mr-2 hover:bg-indigo-400 hover:text-white ">
+                    return sizeChoose === size ? (
+                      <button
+                        onClick={() => setSizeChose(size)}
+                        className="bg-indigo-400 dark:bg-gray-700 text-white  py-2 px-4 rounded-full font-bold mr-2 hover:bg-indigo-400 hover:text-white "
+                      >
+                        {size}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setSizeChose(size)}
+                        className="bg-indigo-100 dark:bg-gray-700 text-gray-700  py-2 px-4 rounded-full font-bold mr-2 hover:bg-indigo-400 hover:text-white "
+                      >
                         {size}
                       </button>
                     );

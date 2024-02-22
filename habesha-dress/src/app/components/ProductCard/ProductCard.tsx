@@ -2,6 +2,7 @@
 
 import { addToCart, addToFavorites } from "@/app/lib/cartSlice/cartSlice";
 import { useAppDispatch } from "@/app/lib/hooks";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,8 +19,8 @@ interface Product {
   img: string;
   price: string;
   rating: string;
-  available_sizes: string[];
-  available_colors: string[];
+  availableSizes: string[];
+  availableColors: string[];
   purchasedNo: number;
   type: string;
   typeOfClothes: string;
@@ -28,12 +29,19 @@ interface Props {
   product: Product;
 }
 const ProductCard: React.FC<Props> = ({ product }) => {
+  const { _id, title, img, price, rating, availableSizes, availableColors } =
+    product;
   const favorites = useSelector((state: any) => state.cart.favorites);
-  console.log(favorites);
-  const { _id, title, img, price, rating } = product;
-  const [isFavored, setIsFavored] = useState(favorites.includes(_id));
+  const user = useSelector((state: any) => state.auth.user);
+  const [isFavored, setIsFavored] = useState(favorites?.includes(_id) || false);
   const router: any = useRouter();
   const dispatch = useAppDispatch();
+  const [sizeChoose, setSizeChose] = useState(
+    availableSizes ? availableSizes[0] : ""
+  );
+  const [colorChoose, setColorChose] = useState(
+    availableColors ? availableColors[0] : ""
+  );
   const handleAddToCart = (product: any) => {
     const data: any = {
       title: product.title,
@@ -41,9 +49,8 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       quantity: 1,
       id: product._id,
       inStock: true,
-      chosen_sizes: product.availableSizes[0] || "",
-      chosen_colors: product.availableColors[0] || "",
-
+      chosenSize: sizeChoose || "",
+      chosenColor: colorChoose || "",
       img: product.img,
     };
     dispatch(addToCart(data));
@@ -52,9 +59,18 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     handleAddToCart(product);
     router.push("/cart");
   };
+  const addToDbFavorites = async (userId: any, itemId: any) => {
+    const res = await axios.put("http://localhost:3000/api/user", {
+      userId,
+      itemId,
+    });
+  };
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);
+    if (user) {
+      addToDbFavorites(user._id, id);
+    }
   };
 
   return (
@@ -79,50 +95,67 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       </Link>
 
       <div className="px-5 pb-5">
-        <h5 className="text-lg font-semibold tracking-tight text-gray-900 ">
+        <h5 className="text-lg font-semibold uppercase tracking-tight text-gray-900 ">
           {title}
         </h5>
 
         <div className="flex items-center justify-between mt-2.5 mb-5">
           <div className="flex items-center ">
-            <div className="flex items-center space-x-1 rtl:space-x-reverse">
-              <GoStarFill className="w-4 h-4 text-yellow-300" />
-              <GoStarFill className="w-4 h-4 text-yellow-300" />
-              <GoStarFill className="w-4 h-4 text-yellow-300" />
-              <GoStarFill className="w-4 h-4 text-yellow-300" />
-              <GoStar className="text-gray-300" />
+            <div className="w-full ">
+              <ul className=" flex gap-1">
+                {Array(rating)
+                  ?.fill("")
+                  ?.map((_, index) => (
+                    <li>
+                      <GoStarFill className="text-lg text-yellow-500" />
+                    </li>
+                  ))}
+                {parseInt(rating) < 5 &&
+                  Array(5 - parseInt(rating))
+                    ?.fill("")
+                    ?.map((_, index) => (
+                      <li>
+                        <GoStar className="text-lg text-gray-500" />
+                      </li>
+                    ))}
+              </ul>
             </div>
-            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-              {rating}
-            </span>
           </div>
           <p className="text-2xl  text-gray-900 relative mr-4 font-roboto">
             <span className="text-base absolute right-8 mr-3 mt-0.5 ">$</span>
-            254
+            {price}
             <span className="text-base absolute left-8 ml-3  mt-0.5 ">89</span>
           </p>
         </div>
         <div className=" p-1 flex gap-3 w-full font-roboto mb-3">
-          <p className=" text-xs text-gray-400  border border-gray-300 px-0.5 rounded-sm">
-            S
-          </p>
-          <p className=" text-xs text-gray-400  border border-gray-300 px-0.5 rounded-sm">
-            M
-          </p>
-          <p className=" text-xs text-gray-400  border border-gray-300 px-0.5 rounded-sm">
-            L
-          </p>
+          {product?.availableSizes?.map((size: string) => {
+            return size == sizeChoose ? (
+              <p
+                onClick={() => setSizeChose(size)}
+                className=" text-xs text-indigo-400 cursor-pointer  border border-indigo-300 px-0.5 rounded-sm"
+              >
+                {size}
+              </p>
+            ) : (
+              <p
+                onClick={() => setSizeChose(size)}
+                className=" text-xs text-gray-400 cursor-pointer  border border-gray-300 px-0.5 rounded-sm"
+              >
+                {size}
+              </p>
+            );
+          })}
         </div>
         <div className="flex items-center justify-between">
           <button
             onClick={() => handleAddToCart(product)}
-            className="text-white font-roboto bg-yellow-400  hover:bg-yellow-300 hover:text-black   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            className="text-white font-roboto bg-gray-700  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
             Add to Cart
           </button>
           <button
             onClick={() => handleBuy(product)}
-            className="text-pink-400 font-roboto border border-pink-300 hover:bg-pink-400 hover:text-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            className="text-gray-800 font-roboto border border-gray-500 hover:bg-yellow-400 hover:border-yellow-400 hover:text-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
             Buy Now
           </button>

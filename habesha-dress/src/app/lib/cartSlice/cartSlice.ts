@@ -21,33 +21,28 @@ export interface CartState {
   showSearch: boolean;
   showSidebar: boolean;
 }
+
+const loadUserFavoritesFromLocalStorage = (): any => {
+  const favJson: any = localStorage.getItem("favorites");
+  if (favJson) {
+    return JSON.parse(favJson);
+  } else {
+    return [];
+  }
+};
+const loadUserCartFromLocalStorage = (): any => {
+  const cartJson: any = localStorage.getItem("cart");
+  if (cartJson) {
+    return JSON.parse(cartJson);
+  } else {
+    return [];
+  }
+};
 // Define the initial state using that type
 const initialState: CartState = {
-  items: [
-    // {
-    //   title: "Product A",
-    //   price: 10,
-    //   quantity: 2,
-    //   id: "1",
-    //   inStock: true,
-    //   chosen_colors: "red",
-    //   chosen_sizes: "small",
-    //   img: "http://res.cloudinary.com/dnokvmwmd/image/upload/v1707752115/uploads/tdq1efmykbvpd1vaospc.png",
-    // },
-    // {
-    //   title: "Product B",
-    //   price: 10,
-    //   quantity: 2,
-    //   id: "1",
-    //   inStock: true,
-    //   chosen_colors: "red",
-    //   chosen_sizes: "small",
-    //   img: "http://res.cloudinary.com/dnokvmwmd/image/upload/v1707752115/uploads/tdq1efmykbvpd1vaospc.png",
-    // },
-  ],
-  favorites: ["65ca3c79755f8cbc3e0fb10a"],
+  items: loadUserCartFromLocalStorage(),
+  favorites: loadUserFavoritesFromLocalStorage(),
   showSignIn: false,
-
   showSearch: false,
   showSidebar: false,
 };
@@ -61,12 +56,13 @@ export const cartSlice = createSlice({
       const foundItem = state.favorites.find((item) => item === action.payload);
       if (!foundItem) {
         state.favorites.push(action.payload);
+        localStorage.setItem("favorites", JSON.stringify(state.favorites));
       }
       if (foundItem) {
         state.favorites = state.favorites.filter(
           (item: any) => item !== action.payload
         );
-        console.log(state.favorites);
+        localStorage.setItem("favorites", JSON.stringify(state.favorites));
       }
     },
 
@@ -79,6 +75,17 @@ export const cartSlice = createSlice({
     toggleShowSidebar: (state) => {
       state.showSidebar = !state.showSidebar;
     },
+    setCartQuantity: (state, action: PayloadAction<any>) => {
+      const itemExist = state.items.find(
+        (item: any) => item.id === action.payload.id
+      );
+      if (itemExist) {
+        itemExist.quantity = action.payload.quantity;
+        localStorage.setItem("cart", JSON.stringify(state.items));
+      } else if (!itemExist) {
+        alert("item does not exist, thus you can not add quantity");
+      }
+    },
     // Use the PayloadAction type to declare the contents of `action.payload`
     addToCart: (state, action: PayloadAction<any>) => {
       const foundItem = state.items.find(
@@ -86,18 +93,18 @@ export const cartSlice = createSlice({
       );
       if (!foundItem) {
         state.items.push(action.payload);
-        alert("added some new item to cart");
+        localStorage.setItem("cart", JSON.stringify(state.items));
       }
       if (foundItem) {
         foundItem.quantity += 1;
-        alert("added quantity to items ");
+        localStorage.setItem("cart", JSON.stringify(state.items));
       }
     },
     removeFromCart: (state, action: PayloadAction<any>) => {
       const foundItem = state.items.find((item) => item.id === action.payload);
       if (foundItem) {
         state.items = state.items.filter((item) => item.id !== action.payload);
-        alert("removed one item");
+        localStorage.setItem("cart", JSON.stringify(state.items));
       }
       if (!foundItem) {
         alert("No such product exists in the cart");
@@ -111,6 +118,7 @@ export const {
   toggleShowSearch,
   toggleShowSignIn,
   toggleShowSidebar,
+  setCartQuantity,
   addToCart,
 
   removeFromCart,

@@ -50,3 +50,40 @@ export async function POST(req: any) {
     });
   }
 }
+export async function PUT(req: any) {
+  try {
+    const { userId, itemId } = await req.json();
+    await connectMongoDB();
+    const user = await ClothUser.findById(userId);
+    if (user) {
+      const checkId = user.favReviews.find((id: any) => id === itemId);
+      if (!checkId) {
+        const updated = await ClothUser.updateOne(
+          { _id: userId },
+          { $push: { favReviews: itemId } } 
+        );
+
+        return NextResponse.json(
+          { success: true, message: "updated favorites of  user", updated },
+          { status: 201 }
+        );
+      } else {
+        const updated = await ClothUser.updateOne(
+          { _id: userId },
+          { $pull: { favReviews: itemId } }
+        );
+
+        return NextResponse.json(
+          { success: true, message: "updated favorites of  user", updated },
+          { status: 201 }
+        );
+      }
+    }
+  } catch (error) {
+    console.log({
+      success: false,
+      message: "error while trying to register user",
+      error,
+    });
+  }
+}
