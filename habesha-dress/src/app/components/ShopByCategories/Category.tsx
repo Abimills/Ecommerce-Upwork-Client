@@ -1,3 +1,4 @@
+"use client";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import category from "./data.js";
 import { LiaAngleDoubleRightSolid } from "react-icons/lia";
@@ -10,12 +11,16 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
+import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
+import { useDispatch } from "react-redux";
 const Category: React.FC = () => {
   return (
     <main className="w-full ">
-      <h1 className="mt-8 mb-6 font-semibold text-gray-500">
-        Shop By Categories
-      </h1>
+      <div className="w-full mb-16 mt-32  flex items-center justify-between ">
+        <h1 className="w-full text-left mb-16 font-semibold font-roboto text-3xl ">
+          Shop By Categories
+        </h1>
+      </div>
 
       <div className="flex w-full   gap-4 items-center">
         <Swiper

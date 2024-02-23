@@ -21,6 +21,7 @@ import Login from "./components/LoginSlider/Login";
 import SidebarNavigation from "./components/SidebarNavigation/SidebarNavigation";
 import Navbar from "./components/Navbar/Navbar";
 import SearchBar from "./components/Navbar/SearchBar";
+import FilterData from "./components/Filter/Filter";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
 export default function Home() {
@@ -32,6 +33,7 @@ export default function Home() {
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showSidebar = useSelector((state: any) => state.cart.showSidebar);
+  const showFilter = useSelector((state: any) => state.cart.showFilter);
 
   useEffect(() => {
     if (status === "idle") {
@@ -47,6 +49,7 @@ export default function Home() {
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}
+      {showFilter && <FilterData />}
       {/* {showRegister && <Register />} */}
       <Discount />
       <Products />

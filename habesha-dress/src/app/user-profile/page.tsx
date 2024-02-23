@@ -42,7 +42,7 @@ const UserProfile: React.FC = () => {
   // TODO REMOVE THE FOOTER FROM ALL CHILD COMPS OF USER-PROFILE AND APPLY TO HOME COMP
   return (
     <main className="w-full min-h-screen  flex flex-col bg-white ">
-      {showSearch ? <SingleNavigation /> : <SingleSearchBar />}
+      {showSearch ? <SingleSearchBar /> : <SingleNavigation />}
       <div className="flex w-full flex-col justify-center items-center h-max ">
         <div className="w-full text-center mb-4 p-10">
           <h1 className="font-semibold text-2xl"> Hi {firstName}!</h1>

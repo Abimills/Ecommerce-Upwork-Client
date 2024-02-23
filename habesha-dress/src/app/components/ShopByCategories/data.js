@@ -7,12 +7,12 @@ const category = [
   {
     id: "2",
     title: "Men finest",
-    img: "../men32.png",
+    img: "../men14.png",
   },
   {
     id: "3",
     title: "Kids  Fashion",
-    img: "../kid2.png",
+    img: "../kid23.png",
   },
   {
     id: "4",

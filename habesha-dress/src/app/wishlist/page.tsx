@@ -8,13 +8,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../lib/cartSlice/dataSlice";
 import axios from "axios";
+import { RiMenuSearchLine } from "react-icons/ri";
+
 import { useRouter } from "next/navigation";
+import { toggleShowFilter } from "../lib/cartSlice/cartSlice";
+import FilterData from "../components/Filter/Filter";
 
 const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState<any>([]);
   const favorites = useSelector((state: any) => state.cart.favorites);
+  const showFilter = useSelector((state: any) => state.cart.showFilter);
 
   const router = useRouter();
   const filterData = (category: string) => {
@@ -27,6 +32,10 @@ const Favorites: React.FC = () => {
         })
       );
     }
+  };
+  const dispatch = useDispatch();
+  const handleOpenFilter = (e: any) => {
+    dispatch(toggleShowFilter());
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +63,7 @@ const Favorites: React.FC = () => {
   }, [favorites]);
   return (
     <main className="w-full min-h-screen  flex flex-col bg-white ">
+      {showFilter && <FilterData />}
       <div className="w-full flex items-center justify-between p-8 ">
         <div className=" w-max flex items-center gap-10 ">
           {/* <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" /> */}
@@ -72,19 +82,16 @@ const Favorites: React.FC = () => {
           </h1>
         </div>
         <div className="w-1/2  flex justify-end items-center gap-10">
-          {categories.map((item: string) => {
-            return (
-              <button
-                onClick={() => filterData(item)}
-                className="border border-black p-1 text-xs px-6  rounded-sm uppercase"
-              >
-                {item}
-              </button>
-            );
-          })}
+          <button
+            onClick={handleOpenFilter}
+            className="hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
+          >
+            <RiMenuSearchLine className="text-xl" />
+            Filter & Sort
+          </button>
         </div>
       </div>
-      <div className="w-full border-b border-gray-600 p-2 mb-10"></div>
+      <div className="w-full  p-2 mb-10"></div>
       {filterProducts?.length > 0 ? (
         <div className="w-full flex items-center flex-wrap items-center mb-16 justify-evenly gap-4">
           {filterProducts.map((item: any) => {

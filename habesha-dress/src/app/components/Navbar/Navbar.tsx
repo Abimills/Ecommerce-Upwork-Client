@@ -34,11 +34,19 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
+  const user = useAppSelector((state: RootState) => state.auth.user);
   const handleCloseSearch = () => {
     dispatch(toggleShowSearch());
   };
   const handleClose = () => {
     dispatch(toggleShowSidebar());
+  };
+  const handleLogin = () => {
+    if (user) {
+      router.push("/user-profile");
+    } else {
+      dispatch(toggleShowSignIn());
+    }
   };
   return (
     <div className="flex font-poppins text-base flex-col h-max   w-full items-center ">
@@ -83,22 +91,22 @@ const Navbar: React.FC = () => {
           </div> */}
             <TfiSearch
               onClick={handleCloseSearch}
-              className="text-2xl text-gray-800 cursor-pointer    h-full "
+              className="text-2xl text-gray-800 cursor-pointer   border border-gray-100    h-full "
             />
             <HiOutlineUser
-              onClick={() => dispatch(toggleShowSignIn())}
-              className="text-3xl h-full text-gray-600  cursor-pointer "
+              onClick={handleLogin}
+              className="text-3xl h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer "
             />
             <FaRegHeart
-              className="text-2xl h-full text-gray-600   cursor-pointer  "
+              className="text-2xl h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100  cursor-pointer  "
               onClick={() => router.push("/wishlist")}
             />
             <div className="mr-4 w-max h-full  flex items-center">
               <LiaShoppingBagSolid
-                className="text-3xl h-full text-gray-600  cursor-pointer "
+                className="text-3xl h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100 cursor-pointer "
                 onClick={() => router.push("/cart")}
               />
-              <span className=" bg-green-400 text-white px-2 rounded-full ">
+              <span className=" bg-gray-800 text-white px-2 cursor-pointer font-poppins rounded-full ">
                 {cartItems.length || 0}
               </span>
             </div>

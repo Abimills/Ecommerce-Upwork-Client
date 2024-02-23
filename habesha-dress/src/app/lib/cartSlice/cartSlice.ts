@@ -19,6 +19,7 @@ export interface CartState {
   favorites: any[]; // TODO: define favorite item type
   showSignIn: boolean;
   showSearch: boolean;
+  showFilter: boolean;
   showSidebar: boolean;
 }
 
@@ -45,6 +46,7 @@ const initialState: CartState = {
   showSignIn: false,
   showSearch: false,
   showSidebar: false,
+  showFilter: false,
 };
 
 export const cartSlice = createSlice({
@@ -71,6 +73,9 @@ export const cartSlice = createSlice({
     },
     toggleShowSearch: (state) => {
       state.showSearch = !state.showSearch;
+    },
+    toggleShowFilter: (state) => {
+      state.showFilter = !state.showFilter;
     },
     toggleShowSidebar: (state) => {
       state.showSidebar = !state.showSidebar;
@@ -118,6 +123,7 @@ export const {
   toggleShowSearch,
   toggleShowSignIn,
   toggleShowSidebar,
+  toggleShowFilter,
   setCartQuantity,
   addToCart,
 

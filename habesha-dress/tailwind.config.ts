@@ -26,6 +26,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
+  plugins: [
+    require("tailwind-scrollbar")({ nocompatible: true }),
+    require("@tailwindcss/forms"),
+  ],
 };
 export default config;
