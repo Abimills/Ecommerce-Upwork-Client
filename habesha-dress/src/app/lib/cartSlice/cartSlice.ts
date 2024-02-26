@@ -21,6 +21,7 @@ export interface CartState {
   showSearch: boolean;
   showFilter: boolean;
   showSidebar: boolean;
+  showNewsletter: boolean;
 }
 
 const loadUserFavoritesFromLocalStorage = (): any => {
@@ -44,6 +45,7 @@ const initialState: CartState = {
   items: loadUserCartFromLocalStorage(),
   favorites: loadUserFavoritesFromLocalStorage(),
   showSignIn: false,
+  showNewsletter: false,
   showSearch: false,
   showSidebar: false,
   showFilter: false,
@@ -70,6 +72,9 @@ export const cartSlice = createSlice({
 
     toggleShowSignIn: (state) => {
       state.showSignIn = !state.showSignIn;
+    },
+    toggleShowNewsletter: (state) => {
+      state.showNewsletter = !state.showNewsletter;
     },
     toggleShowSearch: (state) => {
       state.showSearch = !state.showSearch;
@@ -126,6 +131,7 @@ export const {
   toggleShowFilter,
   setCartQuantity,
   addToCart,
+  toggleShowNewsletter,
 
   removeFromCart,
 } = cartSlice.actions;

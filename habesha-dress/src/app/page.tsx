@@ -22,6 +22,7 @@ import SidebarNavigation from "./components/SidebarNavigation/SidebarNavigation"
 import Navbar from "./components/Navbar/Navbar";
 import SearchBar from "./components/Navbar/SearchBar";
 import FilterData from "./components/Filter/Filter";
+import ToggleSubscribe from "./components/NewsletterSlider/ToggleSubscribe";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const { status, data, error } = useSelector((state: any) => state.data);
 
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showSidebar = useSelector((state: any) => state.cart.showSidebar);
@@ -55,6 +57,7 @@ export default function Home() {
         <Navbar showIcons={showIcons} />
       )}
       {showSidebar && <SidebarNavigation />}
+      {showNewsletter && <ToggleSubscribe />}
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}

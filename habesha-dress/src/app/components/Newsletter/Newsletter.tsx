@@ -1,7 +1,13 @@
+import { toggleShowNewsletter } from "@/app/lib/cartSlice/cartSlice";
 import React from "react";
 import { GiClover } from "react-icons/gi";
+import { useDispatch } from "react-redux";
 
 const Newsletter = () => {
+  const dispatch = useDispatch();
+  const handleClose = () => {
+    dispatch(toggleShowNewsletter());
+  };
   return (
     <section className="w-full flex items-center justify-around p-3 mb-10 shadow-lg  mt-16 bg-gray-100 rounded-lg">
       <div className=" w-1/2 mt-4 flex flex-col items-start p-4">
@@ -15,7 +21,10 @@ const Newsletter = () => {
           <br /> Noami clothes{" "}
           <GiClover className="inline text-green-300  text-xl" />
         </p>
-        <button className="border border-gray-500 mt-4 rounded text-sm  p-1 pl-4 pr-4">
+        <button
+          onClick={handleClose}
+          className="border border-gray-500 mt-4 rounded text-sm  p-1 pl-4 pr-4"
+        >
           Subscribe
         </button>
       </div>

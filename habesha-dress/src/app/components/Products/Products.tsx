@@ -21,6 +21,7 @@ const Products: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("http://localhost:3000/api/product/");
+
       if (res.data.cloth) {
         setData(res.data.cloth);
       }

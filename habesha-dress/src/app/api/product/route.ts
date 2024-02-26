@@ -1,5 +1,5 @@
 import connectMongoDB from "@/app/api/libs/mongodb";
-import ClothProduct from "../models/newsletter";
+import ClothProduct from "../models/product";
 import { NextResponse } from "next/server";
 
 export async function GET(req: any, res: any) {
