@@ -1,11 +1,11 @@
 import connectMongoDB from "@/app/api/libs/mongodb";
-import ClothProduct from "../models/product";
+import ClothProduct from "../models/newsletter";
 import { NextResponse } from "next/server";
 
 export async function GET(req: any, res: any) {
   await connectMongoDB();
   const id: string = req.nextUrl.searchParams.get("id");
-  if(id){
+  if (id) {
     const cloth = await ClothProduct.findById(id);
     return NextResponse.json(
       { message: "fetched single cloth", cloth },

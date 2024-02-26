@@ -34,7 +34,13 @@ export default function Home() {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
-
+  const showIcons = {
+    search: true,
+    user: true,
+    wishlist: true,
+    cart: true,
+    navigation: true,
+  };
   useEffect(() => {
     if (status === "idle") {
       const data: any = fetchData();
@@ -43,21 +49,23 @@ export default function Home() {
   }, [status, dispatch]);
   return (
     <main className="flex relative min-h-screen flex-col bg-alice-blue items-center ">
-      {/* <NavContainer setIsOpen={setIsCartOpen} setShow={setShowSidebar} /> */}
-      {showSearch ? <SearchBar /> : <Navbar />}
+      {showSearch ? (
+        <SearchBar showIcons={showIcons} />
+      ) : (
+        <Navbar showIcons={showIcons} />
+      )}
       {showSidebar && <SidebarNavigation />}
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}
       {showFilter && <FilterData />}
-      {/* {showRegister && <Register />} */}
+
       <Discount />
       <Products />
       <Category />
       <NewProduct />
       <ForHer />
       <Discount />
-      {/* <LowerDiscount /> */}
       <Newsletter />
       <Footer />
     </main>

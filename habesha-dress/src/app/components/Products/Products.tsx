@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/lib/hooks";
 import { RootState } from "@reduxjs/toolkit/query";
 import { useDispatch, useSelector } from "react-redux";
-import ClothProduct from "@/app/api/models/product";
+import ClothProduct from "@/app/api/models/newsletter";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 

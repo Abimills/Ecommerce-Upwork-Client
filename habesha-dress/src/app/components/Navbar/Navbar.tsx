@@ -24,17 +24,26 @@ import {
 } from "@/app/lib/cartSlice/cartSlice";
 import { useDispatch } from "react-redux";
 
-// interface Props {
-//   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
-//   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-//   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-// }
+interface ShowTypes {
+  search: Boolean;
+  user: Boolean;
+  wishlist: Boolean;
+  cart: Boolean;
+  navigation: Boolean;
+}
+interface Props {
+  showIcons: ShowTypes;
+}
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<Props> = ({ showIcons }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const cartItems = useAppSelector((state: RootState) => state.cart.items);
-  const user = useAppSelector((state: RootState) => state.auth.user);
+  const cartItems: any = useAppSelector((state: RootState) => state.cart.items);
+  const favorites: any = useAppSelector(
+    (state: RootState) => state.cart.favorites
+  );
+  const user: any = useAppSelector((state: RootState) => state.auth.user);
+
   const handleCloseSearch = () => {
     dispatch(toggleShowSearch());
   };
@@ -42,45 +51,31 @@ const Navbar: React.FC = () => {
     dispatch(toggleShowSidebar());
   };
   const handleLogin = () => {
-    if (user) {
+    if (user && user?.email) {
       router.push("/user-profile");
-    } else {
+    } else if (!user || !user?.email) {
       dispatch(toggleShowSignIn());
     }
   };
+
   return (
-    <div className="flex font-poppins text-base flex-col h-max   w-full items-center ">
-      <nav className="flex font-poppins text-base h-max   min-h-16  w-full items-center justify-between  ">
-        <div className="flex align-items w-max mr-3 gap-5   justify-start ">
-          <GiHamburgerMenu
-            className="text-2xl  ml-3 mt-1 mr-6"
-            onClick={handleClose}
-          />
-          <h1
-            className="font-semibold text-2xl cursor-pointer font-roboto"
-            onClick={() => router.push("/")}
-          >
-            HabeshaD
-          </h1>
-          {/* <ul className="flex align-items w-4/5 justify-between ">
-          <li
-            className="ml-8 flex align-items text-green-400 font-semibold cursor-pointer"
-            onClick={() => router.push("/")}
-          >
-            <RxDragHandleDots2 className="flex align-items mt-1" />
-            Home
-          </li>
-          <li className="ml-8 font-semibold text-green-400">Today's Deals</li>
-          <li className="ml-8 font-semibold text-green-400">Populars</li>
-          <li
-            className="ml-8 font-semibold cursor-pointer text-green-400"
-            onClick={() => router.push("/contact")}
-          >
-            Contact
-          </li>
-        </ul> */}
-        </div>
-        <div className="flex  flex-1 align-items w-1\2 mt-1  justify-between ">
+    <div className="flex font-poppins text-base flex-col h-max    w-full items-center ">
+      <nav className="flex font-poppins text-base h-max min-h-16  w-full items-center justify-between  ">
+        {showIcons.navigation && (
+          <div className="flex items-center w-max mr-3 gap-5 h-16   justify-center ">
+            <GiHamburgerMenu
+              className="text-2xl  ml-3 mt-1 mr-6"
+              onClick={handleClose}
+            />
+            <h1
+              className="font-semibold text-2xl cursor-pointer font-roboto"
+              onClick={() => router.push("/")}
+            >
+              HabeshaD
+            </h1>
+          </div>
+        )}
+        <div className="flex  flex-1 align-items w-1\2  h-16   justify-between ">
           <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
             {/* <div className="flex items-center  bg-alice-blue   gap-3  ml-3  ">
             <input
@@ -89,27 +84,59 @@ const Navbar: React.FC = () => {
               placeholder="What are you looking for? "
             />
           </div> */}
-            <TfiSearch
-              onClick={handleCloseSearch}
-              className="text-2xl text-gray-800 cursor-pointer   border border-gray-100    h-full "
-            />
-            <HiOutlineUser
-              onClick={handleLogin}
-              className="text-3xl h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer "
-            />
-            <FaRegHeart
-              className="text-2xl h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100  cursor-pointer  "
-              onClick={() => router.push("/wishlist")}
-            />
-            <div className="mr-4 w-max h-full  flex items-center">
-              <LiaShoppingBagSolid
-                className="text-3xl h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100 cursor-pointer "
-                onClick={() => router.push("/cart")}
-              />
-              <span className=" bg-gray-800 text-white px-2 cursor-pointer font-poppins rounded-full ">
-                {cartItems.length || 0}
-              </span>
-            </div>
+            {showIcons.search && (
+              <div
+                onClick={handleCloseSearch}
+                className="h-8  cursor-pointer w-8 flex items-center justify-center"
+              >
+                <TfiSearch className="text-2xl w-full text-gray-800 cursor-pointer p-1   border border-gray-100    h-full " />
+              </div>
+            )}
+            {showIcons.user && (
+              <div
+                onClick={handleLogin}
+                className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
+              >
+                <HiOutlineUser className="text-3xl w-full h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer " />
+                {user?.email && (
+                  <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
+                    <div className="h-2 w-2  bg-black rounded-full"></div>
+                  </div>
+                )}
+              </div>
+            )}
+            {showIcons.wishlist && (
+              <div
+                onClick={() => router.push("/wishlist")}
+                className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center"
+              >
+                <FaRegHeart className="text-2xl  h-full text-gray-600    cursor-pointer  " />
+
+                {favorites?.length > 0 && (
+                  <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
+                    <div className="h-2 w-2  bg-black rounded-full"></div>
+                  </div>
+                )}
+              </div>
+            )}
+            {showIcons.cart && (
+              <div className="mr-4 w-max h-full  flex items-center">
+                <div
+                  onClick={() => router.push("/cart")}
+                  className="h-8 w-8 relative w-8  cursor-pointer rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center "
+                >
+                  <LiaShoppingBagSolid className="text-3xl w-full h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100 cursor-pointer " />
+                  {cartItems?.length > 0 && (
+                    <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
+                      <div className="h-2 w-2  bg-black rounded-full"></div>
+                    </div>
+                  )}
+                </div>
+                <span className=" bg-green-500 text-sm text-white px-2 cursor-pointer font-poppins rounded-full ">
+                  {cartItems.length || 0}
+                </span>
+              </div>
+            )}
           </ul>
         </div>
       </nav>
