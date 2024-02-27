@@ -25,6 +25,7 @@ import { toggleShowSignIn } from "../lib/cartSlice/cartSlice";
 import Navbar from "../components/Navbar/Navbar";
 import SingleNavigation from "../components/singleItemNavigation/SingleNav";
 import SingleSearchBar from "../components/Searchbar/Searchbar";
+import SearchBar from "../components/Navbar/SearchBar";
 
 const UserProfile: React.FC = () => {
   // const [show, setShow] = useState(["welcome", "order"]);
@@ -37,12 +38,24 @@ const UserProfile: React.FC = () => {
   const firstName = user?.name?.split(" ")[0];
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(toggleShowSignIn());
     router.push("/");
   };
   // TODO REMOVE THE FOOTER FROM ALL CHILD COMPS OF USER-PROFILE AND APPLY TO HOME COMP
+  const showIcons = {
+    search: true,
+    user: true,
+    wishlist: true,
+    cart: true,
+    navigation: true,
+  };
   return (
     <main className="w-full min-h-screen  flex flex-col bg-white ">
-      {showSearch ? <SingleSearchBar /> : <SingleNavigation />}
+      {showSearch ? (
+        <SearchBar showIcons={showIcons} />
+      ) : (
+        <Navbar showIcons={showIcons} />
+      )}
       <div className="flex w-full flex-col justify-center items-center h-max ">
         <div className="w-full text-center mb-4 p-10">
           <h1 className="font-semibold text-2xl"> Hi {firstName}!</h1>

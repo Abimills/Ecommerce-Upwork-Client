@@ -2,34 +2,57 @@
 
 import { useState } from "react";
 import Footer from "../components/Footer/Footer";
-import Navbar from "../components/Navbar/SearchBar";
 import validateData from "../util/validateData";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import SearchBar from "../components/Navbar/SearchBar";
+import Navbar from "../components/Navbar/Navbar";
 interface ProductData {
   title: string;
   description: string;
   img: string;
   price: number;
+  discount: number;
+  discountInPercent: number;
   purchasedNo: number;
+  stock: number;
+  likes: number;
   rating: number;
   availableSizes: string[];
   availableColors: string[];
   boughtWithIds: string[];
   category: string[];
   forWhichGender: string[];
+  whichGroupCloth: string[];
+  clothOccasion: string[];
+  couples: string;
 }
+const showIcons = {
+  search: true,
+  user: true,
+  wishlist: true,
+  cart: true,
+  navigation: true,
+};
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
 
   const [data, setData] = useState<ProductData>({
     title: "",
+    couples: "false",
     description: "",
     img: "",
     price: 0,
+    discount: 0,
+    discountInPercent: 0,
+    stock: 0,
+    likes: 0,
     purchasedNo: 0,
     rating: 0,
     availableSizes: [],
+    clothOccasion: [],
     availableColors: [],
+    whichGroupCloth: [],
     boughtWithIds: [],
     category: [],
     forWhichGender: [],
@@ -37,6 +60,8 @@ const AddProducts: React.FC = () => {
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
+
   const handleImageChange = async (e: any) => {
     const file = e.target.files[0];
 
@@ -66,9 +91,13 @@ const AddProducts: React.FC = () => {
   };
 
   return (
-    <div className="">
-      <Navbar />
-      <section className="max-w-4xl p-6 mb-10 mx-auto bg-green-500 rounded-md shadow-md  mt-20">
+    <div className="bg-white w-full ">
+      {showSearch ? (
+        <SearchBar showIcons={showIcons} />
+      ) : (
+        <Navbar showIcons={showIcons} />
+      )}
+      <section className="max-w-full p-6 mb-10 mx-auto bg-gray-700 rounded-md shadow-md  mt-20">
         <h1 className="text-xl font-bold text-white capitalize dark:text-white">
           Product Information
         </h1>
@@ -97,6 +126,52 @@ const AddProducts: React.FC = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
+            <div>
+              <label className="text-white dark:text-gray-200">
+                Total Liked by users
+              </label>
+              <input
+                type="number"
+                name="likes"
+                value={data.likes}
+                onChange={(e) => handleChange(e)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+            <div>
+              <label className="text-white dark:text-gray-200">
+                Stock Status :
+              </label>
+              <input
+                type="number"
+                name="stock"
+                value={data.stock}
+                onChange={(e) => handleChange(e)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+            <div>
+              <label className="text-white dark:text-gray-200">Discount</label>
+              <input
+                type="number"
+                name="discount"
+                value={data.discount}
+                onChange={(e) => handleChange(e)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
+            <div>
+              <label className="text-white dark:text-gray-200">
+                Discount Percentage
+              </label>
+              <input
+                type="number"
+                name="discountInPercent"
+                value={data.discountInPercent}
+                onChange={(e) => handleChange(e)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              />
+            </div>
 
             <div>
               <label className="text-white dark:text-gray-200">
@@ -109,6 +184,24 @@ const AddProducts: React.FC = () => {
                 name="purchasedNo"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
+            </div>
+            <div>
+              <label className="text-white dark:text-gray-200">
+                Couples Clothes
+              </label>
+              <select
+                value={data.couples}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    couples: JSON.parse(e.target.value),
+                  })
+                }
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              >
+                <option value={"true"}>true</option>
+                <option value={"false"}>false</option>
+              </select>
             </div>
             <div>
               <label className="text-white dark:text-gray-200">
@@ -129,6 +222,49 @@ const AddProducts: React.FC = () => {
                 <option value={"Women"}>Women</option>
                 <option value={"Kids"}>Kids</option>
                 <option value={"Uni Sex"}>Uni Sex</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-white dark:text-gray-200">Groups</label>
+              <select
+                value={data.whichGroupCloth}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    whichGroupCloth: [...data.whichGroupCloth, e.target.value],
+                  })
+                }
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              >
+                <option>...</option>
+                <option value={"Friends"}>Friends</option>
+                <option value={"Family"}>Family</option>
+                <option value={"Men Friends"}>Men Friends</option>
+                <option value={"Women Friends"}>Women Friends</option>
+                <option value={"Family Holiday"}>Family Holiday</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-white dark:text-gray-200">
+                For which occasions
+              </label>
+              <select
+                value={data.clothOccasion}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    clothOccasion: [...data.clothOccasion, e.target.value],
+                  })
+                }
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              >
+                <option>...</option>
+                <option value={"Wedding"}>Wedding</option>
+                <option value={"Holiday"}>Holiday</option>
+                <option value={"Timket"}>Timket</option>
+                <option value={"Awdeamet"}>Awdeamet</option>
+                <option value={"Birthday"}>Birthday</option>
+                <option value={"Other Occasions"}>Other Occasions</option>
               </select>
             </div>
 

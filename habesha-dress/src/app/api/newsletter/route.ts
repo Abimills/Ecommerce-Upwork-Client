@@ -22,14 +22,22 @@ export async function GET(req: any, res: any) {
 export async function POST(req: any) {
   const { name, email } = await req.json();
   await connectMongoDB();
-  const newUserMail = await ClothNewsletter.create({
-    name,
-    email,
-  });
-  return NextResponse.json(
-    { message: "created a new newsletter user", newUserMail },
-    { status: 201 }
-  );
+  const foundEmail: any = await ClothNewsletter.findOne({ email });
+  if (foundEmail) {
+    return NextResponse.json(
+      { success: false, message: "user already registered" },
+      { status: 400 }
+    );
+  } else {
+    const newUserMail: any = await ClothNewsletter.create({
+      name,
+      email,
+    });
+    return NextResponse.json(
+      { success: true, message: "created a new newsletter user", newUserMail },
+      { status: 201 }
+    );
+  }
 }
 
 export async function DELETE(req: any) {

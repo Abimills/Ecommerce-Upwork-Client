@@ -16,31 +16,35 @@ import {
 } from "@/app/lib/cartSlice/cartSlice";
 
 const ToggleSubscribe: React.FC = () => {
-  const [open, setOpen] = useState(true);
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<any>("");
+  const [name, setName] = useState<string>("");
   const router = useRouter();
   const dispatch = useDispatch();
   const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (email !== "" && password !== "") {
-      const res = await axios.post("http://localhost:3000/api/login", {
-        email,
-        password,
-      });
-      if (res.data.success) {
-        alert("successfully signed In");
+    try {
+      if (email !== "" && name !== "") {
+        const res = await axios.post("http://localhost:3000/api/newsletter", {
+          email,
+          name,
+        });
+        if (res.data.success) {
+          alert("Email added to db  successfully!");
 
-        dispatch(loginSuccess(res.data.user));
-
-        router.push("/user-profile");
+          dispatch(toggleShowNewsletter());
+        }
       } else {
-        alert("could not signIn successfully : check your credentials");
+        alert("fill all fields");
       }
-    } else {
-      alert("fill all fields");
+    } catch (err: any) {
+      console.log(err);
+      if (err?.code == "ERR_BAD_REQUEST") {
+        alert("Email already saved to database");
+      } else {
+        console.log(err);
+      }
     }
   };
   const handleClose = () => {
@@ -107,10 +111,10 @@ const ToggleSubscribe: React.FC = () => {
                                 Name
                               </label> */}
                               <input
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={(e: any) => setEmail(e.target.value)}
+                                type="text"
+                                name="name"
+                                value={name}
+                                onChange={(e: any) => setName(e.target.value)}
                                 className="border-b-2 w-full border-white border-b-gray-400 text-gray-900 text-sm   block w-full p-2.5 "
                                 placeholder="Name"
                                 required

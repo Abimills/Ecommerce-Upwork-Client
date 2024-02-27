@@ -32,6 +32,13 @@ export async function POST(req: any) {
     availableColors,
     forWhichGender,
     boughtWithIds,
+    discount,
+    discountInPercent,
+    stock,
+    likes,
+    clothOccasion,
+    whichGroupCloth,
+    couples,
   } = await req.json();
   await connectMongoDB();
   const newCloth = await ClothProduct.create({
@@ -46,6 +53,13 @@ export async function POST(req: any) {
     availableColors,
     forWhichGender,
     boughtWithIds,
+    discount,
+    discountInPercent,
+    stock,
+    likes,
+    clothOccasion,
+    whichGroupCloth,
+    couples,
   });
   return NextResponse.json(
     { message: "created a new cloth", newCloth },

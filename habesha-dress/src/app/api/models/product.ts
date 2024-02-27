@@ -6,28 +6,44 @@ const clothProductSchema = new Schema(
       type: String,
       required: [true, "Title is required"],
     },
-    description: String,
+    description: { type: String, default: "" },
     img: { type: String, required: [true, "image is required"] },
     price: { type: Number, required: [true, "Price is required"] },
     rating: { type: Number, required: [true, "Rating is required"] },
+    discount: { type: Number, default: 0 },
+    discountInPercent: { type: Number, default: 0 },
+    whichGroupCloth: {
+      type: Array,
+
+      default: [],
+    },
+    likes: { type: Number, default: 0 },
+    stock: { type: Number, default: 0 },
+    clothOccasion: {
+      type: Array,
+      default: [],
+    },
+    couples: { type: String, default: "false" },
     category: {
       type: Array,
       required: [true, "At least one category is required"],
     },
-    purchasedNumber: { type: Number },
+    purchasedNumber: { type: Number, default: 0 },
     availableSizes: {
       type: Array,
       required: [true, "At lease one size is required"],
     },
     availableColors: {
       type: Array,
-      required: [true, "At lease one color is required"],
+      default: [],
     },
     forWhichGender: {
       type: Array,
+      default: [],
     },
     boughtWithIds: {
       type: Array,
+      default: [],
     },
   },
   {
