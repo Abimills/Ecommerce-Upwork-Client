@@ -67,6 +67,65 @@ export async function POST(req: any) {
   );
 }
 
+export async function PUT(req: any) {
+  const {
+    id,
+    title,
+    description,
+    img,
+    price,
+    rating,
+    category,
+    purchasedNumber,
+    availableSizes,
+    availableColors,
+    forWhichGender,
+    boughtWithIds,
+    discount,
+    discountInPercent,
+    stock,
+    likes,
+    clothOccasion,
+    whichGroupCloth,
+    couples,
+  } = await req.json();
+  await connectMongoDB();
+  const updatedCloth = await ClothProduct.findByIdAndUpdate(
+    id,
+    {
+      title,
+      description,
+      img,
+      price,
+      rating,
+      category,
+      purchasedNumber,
+      availableSizes,
+      availableColors,
+      forWhichGender,
+      boughtWithIds,
+      discount,
+      discountInPercent,
+      stock,
+      likes,
+      clothOccasion,
+      whichGroupCloth,
+      couples,
+    },
+    { new: true }
+  );
+  if (!updatedCloth) {
+    return NextResponse.json(
+      { message: "Cloth product not found" },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json(
+    { message: "updated cloth product", updatedCloth },
+    { status: 200 }
+  );
+}
 export async function DELETE(req: any) {
   const id: string = req.nextUrl.searchParams.get("id");
   await connectMongoDB();

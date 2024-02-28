@@ -88,7 +88,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       )}
       <Link href={`/${_id}`}>
         <img
-          className="object-contain w-full h-56 rounded-t-lg bg-gray-100 mb-10"
+          className="object-contain   w-full h-56 rounded-t-lg bg-gray-100 mb-10"
           src={img}
           alt="product image"
         />
@@ -121,7 +121,10 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               </ul>
             </div>
           </div>
-          <p className="text-2xl  text-gray-900 relative mr-4 font-roboto">
+          <p
+            onClick={() => router.push(`/add-products/${_id}`)}
+            className="text-2xl  text-gray-900 relative mr-4 font-roboto cursor-pointer"
+          >
             <span className="text-base absolute right-8 mr-3 mt-0.5 ">$</span>
             {price}
             <span className="text-base absolute left-8 ml-3  mt-0.5 ">89</span>
