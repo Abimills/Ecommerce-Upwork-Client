@@ -12,9 +12,14 @@ export async function GET(req: any, res: any) {
       { status: 200 }
     );
   }
-  const cloth = await ClothProduct.find();
+  const cloths = await ClothProduct.find();
   return NextResponse.json(
-    { message: "fetched all clothes", cloth },
+    {
+      success: true,
+      count: cloths?.length,
+      message: "fetched all clothes",
+      cloths,
+    },
     { status: 200 }
   );
 }

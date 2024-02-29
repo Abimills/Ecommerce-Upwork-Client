@@ -209,12 +209,19 @@ const AddProducts: React.FC = () => {
               </label>
               <select
                 value={data.forWhichGender}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    forWhichGender: [...data.forWhichGender, e.target.value],
-                  })
-                }
+                onChange={(e: any) => {
+                  const found = data?.forWhichGender?.find(
+                    (item: any) => item == e.target.value
+                  );
+                  if (!found) {
+                    setData({
+                      ...data,
+
+                      forWhichGender: [...data.forWhichGender, e.target.value],
+                    });
+                  }
+                  return;
+                }}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
                 <option>...</option>
@@ -223,17 +230,50 @@ const AddProducts: React.FC = () => {
                 <option value={"Kids"}>Kids</option>
                 <option value={"Uni Sex"}>Uni Sex</option>
               </select>
+              {data.forWhichGender.length > 0 && (
+                <div className="w-max flex items-center gap-3 my-3">
+                  {data?.forWhichGender?.map((item: any) => {
+                    return (
+                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                        <span
+                          onClick={() =>
+                            setData({
+                              ...data,
+                              forWhichGender: data.forWhichGender.filter(
+                                (cat: any) => cat !== item
+                              ),
+                            })
+                          }
+                          className="hover:line-through cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div>
               <label className="text-white dark:text-gray-200">Groups</label>
               <select
                 value={data.whichGroupCloth}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    whichGroupCloth: [...data.whichGroupCloth, e.target.value],
-                  })
-                }
+                onChange={(e: any) => {
+                  const found = data?.whichGroupCloth?.find(
+                    (item: any) => item == e.target.value
+                  );
+                  if (!found) {
+                    setData({
+                      ...data,
+
+                      whichGroupCloth: [
+                        ...data.whichGroupCloth,
+                        e.target.value,
+                      ],
+                    });
+                  }
+                  return;
+                }}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
                 <option>...</option>
@@ -243,6 +283,29 @@ const AddProducts: React.FC = () => {
                 <option value={"Women Friends"}>Women Friends</option>
                 <option value={"Family Holiday"}>Family Holiday</option>
               </select>
+              {data.whichGroupCloth.length > 0 && (
+                <div className="w-max flex items-center gap-3 my-3">
+                  {data?.whichGroupCloth?.map((item: any) => {
+                    return (
+                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                        <span
+                          onClick={() =>
+                            setData({
+                              ...data,
+                              whichGroupCloth: data.whichGroupCloth.filter(
+                                (cat: any) => cat !== item
+                              ),
+                            })
+                          }
+                          className="hover:line-through cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div>
               <label className="text-white dark:text-gray-200">
@@ -250,12 +313,19 @@ const AddProducts: React.FC = () => {
               </label>
               <select
                 value={data.clothOccasion}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    clothOccasion: [...data.clothOccasion, e.target.value],
-                  })
-                }
+                onChange={(e: any) => {
+                  const found = data?.clothOccasion?.find(
+                    (item: any) => item == e.target.value
+                  );
+                  if (!found) {
+                    setData({
+                      ...data,
+
+                      clothOccasion: [...data.clothOccasion, e.target.value],
+                    });
+                  }
+                  return;
+                }}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
                 <option>...</option>
@@ -266,6 +336,29 @@ const AddProducts: React.FC = () => {
                 <option value={"Birthday"}>Birthday</option>
                 <option value={"Other Occasions"}>Other Occasions</option>
               </select>
+              {data.clothOccasion.length > 0 && (
+                <div className="w-max flex items-center gap-3 my-3">
+                  {data?.clothOccasion?.map((item: any) => {
+                    return (
+                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                        <span
+                          onClick={() =>
+                            setData({
+                              ...data,
+                              clothOccasion: data.clothOccasion.filter(
+                                (cat: any) => cat !== item
+                              ),
+                            })
+                          }
+                          className="hover:line-through cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             <div>
@@ -295,12 +388,22 @@ const AddProducts: React.FC = () => {
               <label className="text-white dark:text-gray-200">Colors</label>
               <select
                 name="availableColors"
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    availableColors: [...data.availableColors, e.target.value],
-                  })
-                }
+                onChange={(e: any) => {
+                  const found = data?.availableColors?.find(
+                    (item: any) => item == e.target.value
+                  );
+                  if (!found) {
+                    setData({
+                      ...data,
+
+                      availableColors: [
+                        ...data.availableColors,
+                        e.target.value,
+                      ],
+                    });
+                  }
+                  return;
+                }}
                 value={data.availableColors}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
@@ -314,17 +417,46 @@ const AddProducts: React.FC = () => {
                 <option value={"yellow"}>yellow</option>
                 <option value={""}>orange</option>
               </select>
+              {data.availableColors.length > 0 && (
+                <div className="w-max flex items-center gap-3 my-3">
+                  {data?.availableColors?.map((item: any) => {
+                    return (
+                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                        <span
+                          onClick={() =>
+                            setData({
+                              ...data,
+                              availableColors: data.availableColors.filter(
+                                (cat: any) => cat !== item
+                              ),
+                            })
+                          }
+                          className="hover:line-through cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div>
               <label className="text-white dark:text-gray-200">Sizes</label>
               <select
                 name="availableSizes"
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    availableSizes: [...data.availableSizes, e.target.value],
-                  })
-                }
+                onChange={(e: any) => {
+                  const found = data?.availableSizes?.find(
+                    (item: any) => item == e.target.value
+                  );
+                  if (!found) {
+                    setData({
+                      ...data,
+                      availableSizes: [...data.availableSizes, e.target.value],
+                    });
+                  }
+                  return;
+                }}
                 value={data.availableSizes}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
@@ -336,16 +468,46 @@ const AddProducts: React.FC = () => {
                 <option value={"2XL"}>2XL</option>
                 <option value={"3XL"}>3XL</option>
               </select>
+              {data.availableSizes.length > 0 && (
+                <div className="w-max flex items-center gap-3 my-3">
+                  {data?.availableSizes?.map((item: any) => {
+                    return (
+                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                        <span
+                          onClick={() =>
+                            setData({
+                              ...data,
+                              availableSizes: data.availableSizes.filter(
+                                (cat: any) => cat !== item
+                              ),
+                            })
+                          }
+                          className="hover:line-through cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div>
               <label className="text-white dark:text-gray-200">Category</label>
               <select
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    category: [...data.category, e.target.value],
-                  })
-                }
+                onChange={(e: any) => {
+                  const found = data?.category?.find(
+                    (item: any) => item == e.target.value
+                  );
+                  if (!found) {
+                    setData({
+                      ...data,
+
+                      category: [...data.category, e.target.value],
+                    });
+                  }
+                  return;
+                }}
                 value={data.category}
                 name="category"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
@@ -355,6 +517,29 @@ const AddProducts: React.FC = () => {
                 <option value={"Recommended"}>Recommended</option>
                 <option value={"Popular"}>Popular</option>
               </select>
+              {data.category.length > 0 && (
+                <div className="w-max flex items-center gap-3 my-3">
+                  {data?.category?.map((item: any) => {
+                    return (
+                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                        <span
+                          onClick={() =>
+                            setData({
+                              ...data,
+                              category: data.category.filter(
+                                (cat: any) => cat !== item
+                              ),
+                            })
+                          }
+                          className="hover:line-through cursor-pointer"
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             <div>
@@ -400,7 +585,7 @@ const AddProducts: React.FC = () => {
                     </label>
                     <p className="pl-1 text-white">or drag and drop</p>
                   </div>
-                  <p className="text-xs text-white">PNG, JPG, GIF up to 10MB</p>
+                  <p className="text-xs text-white">PNG, JPG, GIF up to 5MB</p>
                 </div>
               </div>
             </div>

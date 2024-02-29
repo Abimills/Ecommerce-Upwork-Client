@@ -16,20 +16,19 @@ import { GetServerSideProps } from "next";
 import axios from "axios";
 import { useAppDispatch } from "./lib/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "./lib/cartSlice/dataSlice";
 import Login from "./components/LoginSlider/Login";
 import SidebarNavigation from "./components/SidebarNavigation/SidebarNavigation";
 import Navbar from "./components/Navbar/Navbar";
 import SearchBar from "./components/Navbar/SearchBar";
 import FilterData from "./components/Filter/Filter";
 import ToggleSubscribe from "./components/NewsletterSlider/ToggleSubscribe";
+import { setAllProducts, sortDataReducer } from "./lib/cartSlice/dataSlice";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
 export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   // const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { status, data, error } = useSelector((state: any) => state.data);
 
   const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
@@ -43,12 +42,19 @@ export default function Home() {
     cart: true,
     navigation: true,
   };
+
   useEffect(() => {
-    if (status === "idle") {
-      const data: any = fetchData();
-      dispatch(data);
-    }
-  }, [status, dispatch]);
+    const fetchData = async () => {
+      const res = await axios.get("http://localhost:3000/api/product/");
+
+      if (res.data.cloths) {
+        dispatch(setAllProducts(res.data.cloths));
+        dispatch(sortDataReducer(res.data.cloths));
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <main className="flex relative min-h-screen flex-col bg-alice-blue items-center ">
       {showSearch ? (
@@ -61,7 +67,6 @@ export default function Home() {
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}
-      {showFilter && <FilterData />}
 
       <Discount />
       <Products />

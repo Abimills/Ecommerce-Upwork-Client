@@ -1,14 +1,28 @@
+"use client";
 import { useDispatch } from "react-redux";
 import ProductCard from "../ProductCard/ProductCard";
-import allProducts from "../Products/allProducts";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const NewProduct: React.FC = () => {
+  const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const handleOpenFilter = (e: any) => {
     dispatch(toggleShowFilter());
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get("http://localhost:3000/api/product/");
+
+      if (res.data.cloths) {
+        setData(res.data.cloths);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <main className="w-full flex flex-col mt-16 items-center justify-start">
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
@@ -24,9 +38,15 @@ const NewProduct: React.FC = () => {
         </button>
       </div>
       <div className="w-full flex flex-wrap justify-between items-center">
-        {allProducts?.slice(0, 5).map((product: any) => {
-          return <ProductCard key={product.id} product={product} />;
-        })}
+        {data
+          ?.filter(
+            (cloth: any) =>
+              cloth.category?.includes("Recommended") ||
+              cloth.category?.includes("New Product")
+          )
+          .map((product: any) => {
+            return <ProductCard key={product._id} product={product} />;
+          })}
       </div>
     </main>
   );

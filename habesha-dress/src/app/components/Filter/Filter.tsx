@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import CartItem from "../CartItem/CartItem";
 import { IoCloseOutline } from "react-icons/io5";
 import { Fragment, useState } from "react";
@@ -6,13 +7,24 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
+import { sortDataReducer } from "@/app/lib/cartSlice/dataSlice";
 
 const sortProducts = [
-  { id: 1, value: "Price(low to high)", checked: true },
-  { id: 2, value: "Price(high to low)", checked: false },
-  { id: 3, value: "Most Popular", checked: false },
-  { id: 4, value: "Newest", checked: false },
-  { id: 5, value: "Best Rating", checked: false },
+  {
+    id: 1,
+    value: "Price(low to high)",
+    checked: true,
+    typeFilter: "ascending",
+  },
+  {
+    id: 2,
+    value: "Price(high to low)",
+    checked: false,
+    typeFilter: "descending",
+  },
+  { id: 3, value: "Most Popular", checked: false, typeFilter: "ascending" },
+  { id: 4, value: "Newest", checked: false, typeFilter: "ascending" },
+  { id: 5, value: "Best Rating", checked: false, typeFilter: "ascending" },
 ];
 const genderFilter = [
   { id: 1, value: "Women", checked: true },
@@ -34,13 +46,37 @@ const sizeFilter = [
   { id: 7, value: "4XL", label: "4XL", checked: false },
   { id: 8, value: "5XL", label: "5XL", checked: false },
 ];
-
+// interface Props {
+//   toFilterData: any;
+//   typeFilter: any;
+//   setToFilterData: React.Dispatch<React.SetStateAction<any>>;
+// }
 const FilterData: React.FC = () => {
   const showFilter = useSelector((state: any) => state.cart.showFilter);
+  const data = useSelector((state: any) => state.data.data);
+
   const dispatch = useDispatch();
   const [rangeValue, setRangeValue] = useState(90);
   const handleRangeChange = (e: any) => {
     setRangeValue(e.target.value);
+  };
+  const handleSort = (typeFilter: any) => {
+    if (typeFilter === "ascending") {
+      const newData = [...data].sort((a, b) => {
+        const priceA = parseFloat(a.price);
+        const priceB = parseFloat(b.price);
+        return priceA - priceB;
+      });
+      dispatch(sortDataReducer(newData));
+    }
+    if (typeFilter === "descending") {
+      const newData = [...data].sort((a, b) => {
+        const priceA = parseFloat(a.price);
+        const priceB = parseFloat(b.price);
+        return priceB - priceA;
+      });
+      dispatch(sortDataReducer(newData));
+    }
   };
   const handleOpenFilter = (e: any) => {
     dispatch(toggleShowFilter());
@@ -109,6 +145,9 @@ const FilterData: React.FC = () => {
                                     <input
                                       type="radio"
                                       name="sort"
+                                      onClick={() =>
+                                        handleSort(item.typeFilter)
+                                      }
                                       defaultChecked={item.checked}
                                       className=" w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500 "
                                     />
@@ -132,7 +171,7 @@ const FilterData: React.FC = () => {
                               Sizes
                             </h1>
                             <div className="w-full border-y-2  py-2 border-gray-400">
-                              {sizeFilter.map((item) => {
+                              {sizeFilter.map((item: any) => {
                                 return (
                                   <div
                                     className="flex items-center gap-4 text-lg mb-8"

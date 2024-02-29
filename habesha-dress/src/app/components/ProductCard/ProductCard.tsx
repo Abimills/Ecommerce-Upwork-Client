@@ -106,7 +106,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                 {Array(rating)
                   ?.fill("")
                   ?.map((_, index) => (
-                    <li>
+                    <li key={index}>
                       <GoStarFill className="text-lg text-yellow-500" />
                     </li>
                   ))}
@@ -114,7 +114,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                   Array(5 - parseInt(rating))
                     ?.fill("")
                     ?.map((_, index) => (
-                      <li>
+                      <li key={index}>
                         <GoStar className="text-lg text-gray-500" />
                       </li>
                     ))}
@@ -127,7 +127,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           >
             <span className="text-base absolute right-8 mr-3 mt-0.5 ">$</span>
             {price}
-            <span className="text-base absolute left-8 ml-3  mt-0.5 ">89</span>
+            {/* <span className="text-base absolute left-8 ml-3  mt-0.5 ">89</span> */}
           </p>
         </div>
         <div className=" p-1 flex gap-3 w-full font-roboto mb-3">

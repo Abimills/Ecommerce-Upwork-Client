@@ -20,7 +20,7 @@ const Discount: React.FC = () => {
 
   const fetchData = async () => {
     const res = await axios.get(`http://localhost:3000/api/product/`);
-    setData(res.data.cloth);
+    setData(res.data.cloths);
   };
   useEffect(() => {
     fetchData();
@@ -40,10 +40,10 @@ const Discount: React.FC = () => {
         // onSwiper={(swiper) => console.log(swiper)}
         modules={[Pagination, Navigation, Autoplay, EffectCreative]}
       >
-        {data.map((item: any) => {
+        {data?.slice(0, 6)?.map((item: any) => {
           return (
             <SwiperSlide className="cursor-pointer w-max  ">
-              <DiscountCard item={item} key={item.id} />
+              <DiscountCard item={item} key={item._id} />
             </SwiperSlide>
           );
         })}

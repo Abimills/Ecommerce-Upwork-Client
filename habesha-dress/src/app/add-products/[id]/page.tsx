@@ -82,17 +82,17 @@ const AddProducts: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const validatedData = validateData(data);
+    // TODO:  add validation here
+    // if (Object.keys(validatedData).length > 1) {
+    //   alert("fill all fields please");
+    // } else {
+    const res = await axios.put("http://localhost:3000/api/product", {
+      ...data,
+      id,
+    });
 
-    if (Object.keys(validatedData).length > 1) {
-      alert("fill all fields please");
-    } else {
-      const res = await axios.put("http://localhost:3000/api/product", {
-        ...data,
-        id,
-      });
-
-      alert("product updated in database");
-    }
+    alert("product updated in database");
+    // }
   };
   useEffect(() => {
     const fetchData = async () => {

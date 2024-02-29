@@ -2,13 +2,12 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 // Define a type for the slice state
-export const fetchData = createAsyncThunk("data/fetchData", async () => {
-  const response = await fetch("http://localhost:3000/api/product"); // Replace with your actual API endpoint
-  const data = response.json();
-  
+// export const fetchData = createAsyncThunk("data/fetchData", async () => {
+//   const response = await fetch("http://localhost:3000/api/product"); // Replace with your actual API endpoint
+//   const data = response.json();
 
-  return data;
-});
+//   return data;
+// });
 // export interface CartItem {
 //   id: string;
 //   title: string;
@@ -30,31 +29,30 @@ export const fetchData = createAsyncThunk("data/fetchData", async () => {
 
 // };
 
+export interface DataType {
+  data: any[];
+  sortedData: any[];
+}
+const initialState: DataType = {
+  data: [],
+  sortedData: [],
+};
 export const dataSlice = createSlice({
   name: "data",
   // `createSlice` will infer the state type from the `initialState` argument
-  initialState: { status: "idle", data: null, error: {} },
-
+  // initialState: { status: "idle", data: null, error: {} },
+  initialState,
   reducers: {
-    //     setInitialData: (state, action: PayloadAction<any[]>) => {},
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchData.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.data = action.payload;
-      })
-      .addCase(fetchData.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = { error: "error while trying to fetch" };
-      });
+    setAllProducts: (state, action: PayloadAction<any>) => {
+      state.data = action.payload;
+    },
+    sortDataReducer: (state, action: PayloadAction<any>) => {
+      state.sortedData = action.payload;
+    },
   },
 });
 
-// export const { setInitialData } = dataSlice.actions;
+export const { sortDataReducer, setAllProducts } = dataSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectData = (state: RootState) => state.data;
