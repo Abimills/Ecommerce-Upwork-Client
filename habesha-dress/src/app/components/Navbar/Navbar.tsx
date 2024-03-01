@@ -64,7 +64,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
         {showIcons.navigation && (
           <div className="flex items-center w-max mr-3 gap-5 h-16   justify-center ">
             <GiHamburgerMenu
-              className="text-2xl  ml-3 mt-1 mr-6"
+              className="text-2xl  ml-3 mt-1 mr-6 cursor-pointer"
               onClick={handleClose}
             />
             <h1

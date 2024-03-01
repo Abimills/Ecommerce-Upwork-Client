@@ -7,26 +7,64 @@ import { CiLocationOn } from "react-icons/ci";
 import { PiSignIn } from "react-icons/pi";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { toggleShowSidebar } from "@/app/lib/cartSlice/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleShowNewsletter,
+  toggleShowSidebar,
+  toggleShowSignIn,
+} from "@/app/lib/cartSlice/cartSlice";
+import { useRouter } from "next/navigation";
+import { logout } from "@/app/lib/authSlice/authSlice";
 
 const SidebarNavigation: React.FC = () => {
+  const user = useSelector((state: any) => state.auth.user);
   const dispatch = useDispatch();
+  const router = useRouter();
   const handleClose = () => {
     dispatch(toggleShowSidebar());
   };
+  const handleAccount = () => {
+    if (user || user?.email) {
+      router.push("/user-profile");
+    } else if (!user) {
+      dispatch(toggleShowSignIn());
+    }
+    dispatch(toggleShowSidebar());
+  };
+  const handleNewsletter = () => {
+    if (user || user?.email) {
+      dispatch(toggleShowSidebar());
+      dispatch(toggleShowNewsletter());
+      // TODO :  Add newsletter functionality here
+    } else if (!user) {
+      dispatch(toggleShowSidebar());
+      dispatch(toggleShowNewsletter());
+    }
+    //  TODO: REMOVE TOGGLE  SHOW NEWSLETTER HERE WHEN VERIFIED
+  };
+  const handleRecommendForYou = () => {
+    if (user || user?.email) {
+      router.push("all-products-cloths");
+    } else if (!user) {
+      dispatch(toggleShowSidebar());
+      dispatch(toggleShowSignIn());
+    }
+    //  TODO: REMOVE TOGGLE  SHOW NEWSLETTER HERE WHEN VERIFIED
+  };
+  const handleLogout = () => {
+    if (user && user?.email) {
+      dispatch(logout());
+      dispatch(toggleShowSidebar());
+    } else if (!user || !user?.email) {
+      dispatch(toggleShowSidebar());
+      dispatch(toggleShowSignIn());
+    }
+  };
+  const handleGroupNavigation = (group: string) => {
+    router.push(`/filtered-products/${group}`);
+  };
   return (
     <div className="w-full h-full relative ">
-      {/* <div className="text-center">
-        <button
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          type="button"
-          onClick={() => window.scrollTo(0, 0)}
-        >
-          Show navigation
-        </button>
-      </div> */}
-
       <div className="fixed top-0 left-0 z-40 w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
         <h5 className="text-xl mb-8 font-semibold text-gray-800 uppercase dark:text-gray-400">
           HabeshaD
@@ -40,7 +78,10 @@ const SidebarNavigation: React.FC = () => {
         <div className="py-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">
             <li>
-              <button className=" w-full flex items-center p-2 text-gray-900  cursor-pointer">
+              <button
+                onClick={() => handleGroupNavigation("Women")}
+                className=" w-full flex items-center p-2 text-gray-900  cursor-pointer"
+              >
                 <span className="ms-3 font-bold font-poppins tracking-wider hover:underline leading-4 text-xl uppercase">
                   Zurya
                 </span>
@@ -48,7 +89,10 @@ const SidebarNavigation: React.FC = () => {
               </button>
             </li>
             <li>
-              <button className=" w-full flex items-center p-2 text-gray-900  cursor-pointer">
+              <button
+                onClick={() => handleGroupNavigation("Kids")}
+                className=" w-full flex items-center p-2 text-gray-900  cursor-pointer"
+              >
                 <span className="ms-3 font-bold font-poppins tracking-wider hover:underline leading-4 text-xl uppercase">
                   Shifon
                 </span>
@@ -56,7 +100,10 @@ const SidebarNavigation: React.FC = () => {
               </button>
             </li>
             <li>
-              <button className=" w-full flex items-center mb-8 p-2 text-gray-900  cursor-pointer">
+              <button
+                onClick={() => handleGroupNavigation("Men")}
+                className=" w-full flex items-center mb-8 p-2 text-gray-900  cursor-pointer"
+              >
                 <span className="ms-3 font-bold font-poppins tracking-wider hover:underline leading-4 text-xl uppercase">
                   Men
                 </span>
@@ -65,7 +112,10 @@ const SidebarNavigation: React.FC = () => {
             </li>
 
             <li>
-              <button className=" w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 group">
+              <button
+                onClick={handleAccount}
+                className=" w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 group"
+              >
                 <CiUser className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
                 <span className="ms-3">My Account</span>
               </button>
@@ -99,12 +149,13 @@ const SidebarNavigation: React.FC = () => {
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  3
+                  0
                 </span>
               </a>
             </li>
             <li>
               <button
+                onClick={handleNewsletter}
                 type="button"
                 className=" w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
@@ -115,12 +166,13 @@ const SidebarNavigation: React.FC = () => {
             </li>
             <li>
               <button
+                onClick={handleRecommendForYou}
                 type="button"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className="flex w-full  items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <HiShoppingBag className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
-                <span className="flex-1 ms-3 whitespace-nowrap">
+                <span className="flex-1 text-left ms-3 whitespace-nowrap">
                   Recommended for you
                 </span>
               </button>
@@ -128,23 +180,26 @@ const SidebarNavigation: React.FC = () => {
             <li>
               <button
                 type="button"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <CiLocationOn className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
-                <span className="flex-1 ms-3 whitespace-nowrap">
+                <span className="flex-1 text-left ms-3 whitespace-nowrap">
                   Find a Store
                 </span>
               </button>
             </li>
             <li>
               <button
+                onClick={handleLogout}
                 type="button"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <PiSignIn className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
-                <span className="flex-1 ms-3 whitespace-nowrap">Sign In</span>
+                <span className="flex-1 ms-3 text-left whitespace-nowrap">
+                  {user && user.email ? "Sign out" : "Sign in"}
+                </span>
               </button>
             </li>
           </ul>

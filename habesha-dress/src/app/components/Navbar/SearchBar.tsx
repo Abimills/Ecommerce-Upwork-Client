@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
@@ -23,6 +23,8 @@ import {
   toggleShowSidebar,
   toggleShowSignIn,
 } from "@/app/lib/cartSlice/cartSlice";
+import axios from "axios";
+import ProductCard from "../ProductCard/ProductCard";
 // interface Props {
 //   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 //   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,7 +45,8 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
   const favorites = useAppSelector((state: RootState) => state.cart.favorites);
   const user = useAppSelector((state: RootState) => state.auth.user);
-
+  const [data, setData] = useState([]);
+  const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   const handleCloseSearch = () => {
     dispatch(toggleShowSearch());
@@ -58,13 +61,30 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
       dispatch(toggleShowSignIn());
     }
   };
+  useEffect(() => {
+    const searchData = async () => {
+      if (query !== "" || !query) {
+        setData([]);
+      }
+      if (query && query !== "") {
+        const res = await axios.get(
+          `http://localhost:3000/api/search/?query=${query}`
+        );
+        console.log(res.data.cloths);
+        if (res.data.cloths) {
+          setData(res.data.cloths);
+        }
+      }
+    };
+    searchData();
+  }, [query]);
   return (
     <div className="flex font-poppins text-base flex-col h-max z-10 absolute top-0  bg-white  w-full items-center ">
       <nav className="flex font-poppins text-base h-max   min-h-24  w-full items-center justify-between  ">
         {showIcons.navigation && (
           <div className="flex align-items w-max mr-3 gap-5   justify-start ">
             <GiHamburgerMenu
-              className="text-2xl  ml-3 mt-1 mr-6"
+              className="text-2xl  ml-3 mt-1 mr-6 cursor-pointer"
               onClick={handleClose}
             />
             <h1
@@ -81,10 +101,15 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               <div className="flex items-center  border-b border-b-2 border-gray-700  w-full min-h-16    gap-3  ml-6  ">
                 <input
                   type="text"
-                  className=" w-full  text-xl tracking-widest outline-none border-none  font-roboto"
+                  value={query}
+                  onChange={(e: any) => setQuery(e.target.value)}
+                  className=" w-full focus-none  text-xl tracking-widest outline-none border-none  font-roboto"
                   placeholder="What are you looking for? "
                 />
-                <IoIosArrowRoundForward className="text-3xl text-black cursor-pointer   h-full " />
+                <IoIosArrowRoundForward
+                  onClick={() => router.push(`/search/${query}`)}
+                  className="text-3xl text-black cursor-pointer   h-full "
+                />
               </div>
             )}
             {showIcons.search && (
@@ -149,6 +174,12 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
         <p className=" text-md text-gray-500 underline mb-4">
           Search by category
         </p>
+      </div>
+      <div className="w-full flex items-center gap-4 justify-between flex-wrap">
+        {data.length > 0 &&
+          data?.slice(0, 11)?.map((item: any) => {
+            return <ProductCard key={item._id} product={item} />;
+          })}
       </div>
     </div>
   );

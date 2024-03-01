@@ -6,7 +6,6 @@ import Footer from "../components/Footer/Footer";
 import ProductCard from "../components/ProductCard/ProductCard";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../lib/cartSlice/dataSlice";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { RiHome2Line } from "react-icons/ri";

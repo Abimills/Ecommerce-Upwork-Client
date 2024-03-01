@@ -25,7 +25,7 @@ const WelcomeUserProfile: React.FC = () => {
   // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
   const fetchData = async () => {
     const res = await axios.get(`http://localhost:3000/api/product/`);
-    setData(res.data.cloth);
+    setData(res.data.cloths);
   };
   useEffect(() => {
     fetchData();
@@ -55,7 +55,7 @@ const WelcomeUserProfile: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {data.map((item: any) => {
+          {data?.slice(15, 23)?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
                 <WelcomeCard item={item} />
@@ -82,7 +82,7 @@ const WelcomeUserProfile: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {data.map((item: any) => {
+          {data?.slice(4, 9)?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
                 <InspirationCard item={item} />
