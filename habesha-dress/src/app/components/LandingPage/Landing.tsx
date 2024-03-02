@@ -152,7 +152,7 @@ const Landing = () => {
               </div>
               <img
                 className="w-1/3 h-max mb-10 rounded  object-contain "
-                src="../hana3.png"
+                src="../hab31.png"
                 alt="girl"
               />
             </div>

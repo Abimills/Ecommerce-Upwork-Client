@@ -20,27 +20,50 @@ const showIcons = {
 };
 const Search: React.FC = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [genderData, setGenderData] = useState<any>({});
   const param = useParams<{ query: string }>();
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  // console.log(
+  //   genderData !== {} &&
+  //     genderData?.map((gender: any) => {
+  //       return gender;
+  //     })
+  // );
+  const handleFilterByGender = (gender: string) => {
+    const newData = data.filter((cloth: any) =>
+      cloth.forWhichGender.includes(gender)
+    );
+    setFilteredData(newData);
+  };
 
-  console.log(param.query);
   useEffect(() => {
     const searchData = async () => {
-      if (param?.query !== "" || !param?.query) {
-        setData([]);
-      }
       if (param?.query && param?.query !== "") {
         const res = await axios.get(
           `http://localhost:3000/api/search/?query=${param?.query}`
         );
-        console.log(res.data.cloths);
         if (res.data.cloths) {
           setData(res.data.cloths);
+          setFilteredData(res.data.cloths);
         }
+        const allGender: any = [];
+
+        res.data.cloths.map((product: any) =>
+          allGender.push(...product.forWhichGender)
+        );
+
+        const numberOfGender: any = {};
+        allGender.map((gender: any) => {
+          numberOfGender[gender] = (numberOfGender[gender] || 0) + 1;
+        });
+
+        setGenderData(numberOfGender);
       }
     };
     searchData();
   }, []);
+  // console.log(categoryData);
   const dispatch = useDispatch();
   const handleOpenFilter = (e: any) => {
     dispatch(toggleShowFilter());
@@ -54,31 +77,48 @@ const Search: React.FC = () => {
         <Navbar showIcons={showIcons} />
       )}
       {/* {showFilter && <FilterData />} */}
-      <div className="w-full mb-16 mt-8  flex flex-col  items-center justify-center ">
+      <div className="w-full    flex flex-col  items-center justify-center ">
         <h1 className="font-roboto font-md text-3xl  mx-4 mb-5 font-semibold ">
           Search result
         </h1>
         <p className="mb-8">
-          <span className="font-semibold">{data?.length}results</span> for “{" "}
+          <span className="font-semibold">{data?.length} results </span> for “{" "}
           {param.query} ”
         </p>
-        {/* <button
-          onClick={handleOpenFilter}
-          className="hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
-        >
-          <RiMenuSearchLine className="text-xl" />
-          Filter & Sort
-        </button> */}
+        <div className="flex gap-7 items-center mb-6">
+          {Object.keys(genderData).length > 0 &&
+            Object.entries(genderData)?.map(([category, count]) => (
+              <button
+                className=" font-medium text-black tracking-wide text-sm hover:underline decoration-2 hover:underline-offset-8"
+                key={category}
+                onClick={() => handleFilterByGender(category)}
+              >
+                {category} {"("}
+                {count}
+                {")"}
+              </button>
+            ))}
+        </div>
+        <div className="w-full flex items-center mb-1  justify-between ">
+          <p className="mx-4 font-medium text-sm">
+            {filteredData?.length} Article
+          </p>
+          <button
+            onClick={handleOpenFilter}
+            className=" text-sm hover:text-green-500 mx-4 flex items-center gap-2 font-semibold"
+          >
+            <RiMenuSearchLine className="text-xl" />
+            Filter & Sort
+          </button>
+        </div>
       </div>
-      {/* 
-      <div className="w-full flex items-center gap-4 p-4 justify-between flex-wrap">
-        {data.length > 1 &&
-          data
-            ?.filter((cloth: any) => cloth.category?.includes("Popular"))
-            .map((item: any) => {
-              return <ProductCard key={item._id} product={item} />;
-            })}
-      </div> */}
+
+      <div className="w-full flex items-center border-t border-gray-200 gap-4 justify-between flex-wrap">
+        {filteredData.length > 1 &&
+          filteredData.map((item: any) => {
+            return <ProductCard key={item._id} product={item} />;
+          })}
+      </div>
     </main>
   );
 };

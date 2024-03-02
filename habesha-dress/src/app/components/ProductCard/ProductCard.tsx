@@ -74,21 +74,21 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-80 max-w-sm bg-alice-blue   rounded-md shadow-lg relative  ">
+    <div className="w-80 h-88 max-w-sm bg-alice-blue   rounded-md shadow-lg relative  ">
       {!isFavored ? (
         <IoIosHeartEmpty
           onClick={() => handleFavorites(_id)}
-          className="absolute  text-2xl m-1 text-orange-500 right-0 hover:text-3xl"
+          className="absolute  text-2xl m-1 text-orange-500 right-0 "
         />
       ) : (
         <IoIosHeart
           onClick={() => handleFavorites(_id)}
-          className="absolute  text-2xl m-1 text-orange-500 right-0 hover:text-3xl"
+          className="absolute  text-2xl m-1 text-orange-500 right-0 "
         />
       )}
       <Link href={`/${_id}`}>
         <img
-          className="object-contain   w-full h-56 rounded-t-lg bg-gray-100 mb-10"
+          className="object-contain   w-full h-56 rounded-t-lg bg-gray-50 mb-10"
           src={img}
           alt="product image"
         />

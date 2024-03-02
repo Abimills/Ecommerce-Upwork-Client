@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: any, res: any) {
   await connectMongoDB();
+  const page = parseInt(req.nextUrl.searchParams.get("page")) || 1;
+  const pageSize = parseInt(req.nextUrl.searchParams.get("pageSize")) || 16;
+
+  const skip = (page - 1) * pageSize;
   const id: string = req.nextUrl.searchParams.get("id");
   if (id) {
     const cloth = await ClothProduct.findById(id);
@@ -12,11 +16,14 @@ export async function GET(req: any, res: any) {
       { status: 200 }
     );
   }
-  const cloths = await ClothProduct.find();
+  const totalCloths = await ClothProduct.countDocuments();
+  const totalPages = Math.ceil(totalCloths / pageSize);
+  const cloths = await ClothProduct.find().skip(skip).limit(pageSize);
   return NextResponse.json(
     {
       success: true,
       count: cloths?.length,
+      totalPages,
       message: "fetched all clothes",
       cloths,
     },
