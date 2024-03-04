@@ -89,7 +89,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
                 onClick={handleCloseSearch}
                 className="h-8  cursor-pointer w-8 flex items-center justify-center"
               >
-                <TfiSearch className="text-2xl w-full text-gray-800 cursor-pointer p-1   border border-gray-100    h-full " />
+                <TfiSearch className="text-2xl w-full text-gray-800 cursor-pointer p-1     h-full " />
               </div>
             )}
             {showIcons.user && (

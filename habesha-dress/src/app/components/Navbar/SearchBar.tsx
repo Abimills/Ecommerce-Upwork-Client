@@ -8,6 +8,8 @@ import { RxDragHandleDots2 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { CiTrash } from "react-icons/ci";
+
 import { TfiSearch } from "react-icons/tfi";
 import { TbSearch } from "react-icons/tb";
 import { FaRegUser } from "react-icons/fa6";
@@ -18,6 +20,10 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import { useAppSelector } from "@/app/lib/hooks";
 import { RootState } from "@/app/lib/store";
 import { useDispatch } from "react-redux";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCreative } from "swiper/modules";
+
+import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
 import {
   toggleShowSearch,
   toggleShowSidebar,
@@ -25,11 +31,18 @@ import {
 } from "@/app/lib/cartSlice/cartSlice";
 import axios from "axios";
 import ProductCard from "../ProductCard/ProductCard";
+import SearchCard from "../SearchCard/SearchCard";
 // interface Props {
 //   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 //   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 //   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 // }
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-creative";
 interface ShowTypes {
   search: Boolean;
   user: Boolean;
@@ -40,12 +53,19 @@ interface ShowTypes {
 interface Props {
   showIcons: ShowTypes;
 }
+
 const SearchBar: React.FC<Props> = ({ showIcons }) => {
   const router = useRouter();
+
   const cartItems = useAppSelector((state: RootState) => state.cart.items);
   const favorites = useAppSelector((state: RootState) => state.cart.favorites);
   const user = useAppSelector((state: RootState) => state.auth.user);
   const [data, setData] = useState([]);
+  const storedSearches = localStorage.getItem("habeshaSearches");
+  const initialSearches = storedSearches ? JSON.parse(storedSearches) : [];
+  const [searches, setSearches] = useState<any>(initialSearches);
+  console.log(searches);
+
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   const handleCloseSearch = () => {
@@ -78,110 +98,182 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
     };
     searchData();
   }, [query]);
+  const handleSearchNavigation = () => {
+    router.push(`/search/${query}`);
+    const habeshaSearches: any = JSON.parse(
+      localStorage.getItem("habeshaSearches") || "null"
+    );
+    if (habeshaSearches?.length > 0) {
+      habeshaSearches.unshift(query);
+      localStorage.setItem("habeshaSearches", JSON.stringify(habeshaSearches));
+    }
+    if (!habeshaSearches) {
+      localStorage.setItem("habeshaSearches", JSON.stringify([query]));
+    }
+  };
+  const handleRemoveSearch = () => {
+    localStorage.removeItem("habeshaSearches");
+    setSearches([]);
+  };
   return (
-    <div className="flex font-poppins text-base flex-col h-max z-10 absolute top-0  bg-white  w-full items-center ">
-      <nav className="flex font-poppins text-base h-max   min-h-24  w-full items-center justify-between  ">
-        {showIcons.navigation && (
-          <div className="flex align-items w-max mr-3 gap-5   justify-start ">
-            <GiHamburgerMenu
-              className="text-2xl  ml-3 mt-1 mr-6 cursor-pointer"
-              onClick={handleClose}
-            />
-            <h1
-              className="font-semibold text-2xl cursor-pointer font-roboto"
-              onClick={() => router.push("/")}
-            >
-              HabeshaD
-            </h1>
-          </div>
-        )}
-        <div className="flex  flex-1 align-items w-1\2  justify-between ">
-          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
-            {showIcons.search && (
-              <div className="flex items-center  border-b border-b-2 border-gray-700  w-full min-h-16    gap-3  ml-6  ">
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e: any) => setQuery(e.target.value)}
-                  className=" w-full focus-none  text-xl tracking-widest outline-none border-none  font-roboto"
-                  placeholder="What are you looking for? "
-                />
-                <IoIosArrowRoundForward
-                  onClick={() => router.push(`/search/${query}`)}
-                  className="text-3xl text-black cursor-pointer   h-full "
-                />
-              </div>
-            )}
-            {showIcons.search && (
-              <div
-                onClick={handleCloseSearch}
-                className="h-8 w-8  cursor-pointer relative   flex items-center justify-center"
+    <main className=" overflow-x-hidden  min-h-screen z-10 bg-opacity-50  fixed top-0  bg-gray-700   w-full  ">
+      <div className="flex overflow-y-hidden overflow-x-hidden opacity-100 border-b border-gray-400  font-poppins text-base flex-col h-max   bg-white  w-full items-center ">
+        <nav className="flex font-poppins text-base h-max   min-h-24  w-full items-center justify-between  ">
+          {showIcons.navigation && (
+            <div className="flex align-items w-max mr-3 gap-5   justify-start ">
+              <GiHamburgerMenu
+                className="text-2xl  ml-3 mt-1 mr-6 cursor-pointer"
+                onClick={handleClose}
+              />
+              <h1
+                className="font-semibold text-2xl cursor-pointer font-roboto"
+                onClick={() => router.push("/")}
               >
-                <IoCloseSharp className="text-4xl text-gray-800 cursor-pointer    h-full " />
-              </div>
-            )}
-            {showIcons.user && (
-              <div
-                onClick={handleLogin}
-                className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
-              >
-                <HiOutlineUser className="text-3xl  h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer " />
-                {user?.email && (
-                  <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
-                    <div className="h-2 w-2  bg-black rounded-full"></div>
-                  </div>
-                )}
-              </div>
-            )}
-            {showIcons.wishlist && (
-              <div
-                onClick={() => router.push("/wishlist")}
-                className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center"
-              >
-                <FaRegHeart className="text-2xl  h-full text-gray-600    cursor-pointer  " />
-
-                {favorites?.length > 0 && (
-                  <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
-                    <div className="h-2 w-2  bg-black rounded-full"></div>
-                  </div>
-                )}
-              </div>
-            )}
-            {showIcons.cart && (
-              <div className="mr-4 w-max h-full  flex items-center">
+                HabeshaD
+              </h1>
+            </div>
+          )}
+          <div className="flex  flex-1 align-items w-1\2  justify-between ">
+            <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
+              {showIcons.search && (
+                <div className="flex items-center outline:none   border-b border-b-2 border-gray-700  w-full min-h-16 h-4   gap-3  ml-6  ">
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e: any) => setQuery(e.target.value)}
+                    className=" w-full    focus:outline-none focus:ring focus:ring-transparent  text-xl border border-transparent active:border-none   focus:outline-transparent focus:border-transparent  "
+                    placeholder="What are you looking for? "
+                  />
+                  <IoIosArrowRoundForward
+                    onClick={handleSearchNavigation}
+                    className="text-3xl text-black cursor-pointer   h-full "
+                  />
+                </div>
+              )}
+              {showIcons.search && (
                 <div
-                  onClick={() => router.push("/cart")}
-                  className="h-8 w-8 relative w-8  cursor-pointer rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center "
+                  onClick={handleCloseSearch}
+                  className="h-8 w-8  cursor-pointer relative   flex items-center justify-center"
                 >
-                  <LiaShoppingBagSolid className="text-3xl w-full h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100 cursor-pointer " />
-                  {cartItems?.length > 0 && (
+                  <IoCloseSharp className="text-4xl text-gray-800 cursor-pointer    h-full " />
+                </div>
+              )}
+              {showIcons.user && (
+                <div
+                  onClick={handleLogin}
+                  className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
+                >
+                  <HiOutlineUser className="text-3xl  h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer " />
+                  {user?.email && (
                     <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
                       <div className="h-2 w-2  bg-black rounded-full"></div>
                     </div>
                   )}
                 </div>
-                <span className=" bg-green-500 text-sm text-white px-2 cursor-pointer font-poppins rounded-full ">
-                  {cartItems.length || 0}
-                </span>
+              )}
+              {showIcons.wishlist && (
+                <div
+                  onClick={() => router.push("/wishlist")}
+                  className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center"
+                >
+                  <FaRegHeart className="text-2xl  h-full text-gray-600    cursor-pointer  " />
+
+                  {favorites?.length > 0 && (
+                    <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
+                      <div className="h-2 w-2  bg-black rounded-full"></div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {showIcons.cart && (
+                <div className="mr-4 w-max h-full  flex items-center">
+                  <div
+                    onClick={() => router.push("/cart")}
+                    className="h-8 w-8 relative w-8  cursor-pointer rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center "
+                  >
+                    <LiaShoppingBagSolid className="text-3xl w-full h-full text-gray-600 rounded-full bg-indigo-100  border border-gray-100 cursor-pointer " />
+                    {cartItems?.length > 0 && (
+                      <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
+                        <div className="h-2 w-2  bg-black rounded-full"></div>
+                      </div>
+                    )}
+                  </div>
+                  <span className=" bg-green-500 text-sm text-white px-2 cursor-pointer font-poppins rounded-full ">
+                    {cartItems.length || 0}
+                  </span>
+                </div>
+              )}
+            </ul>
+          </div>
+        </nav>
+        <div className="w-full min-h-full mt-8 mb-8 gap-6 flex items-start  pl-56">
+          <div className=" bg-gray-100 bg-opacity-25 flex flex-col justify-center   w-max h-max  transition-opacity">
+            <h1 className="font-base font-roboto text-xl w-max mb-8">
+              {searches?.length > 0 ? "Latest searches" : " Search suggestions"}
+            </h1>
+
+            {searches?.length > 0 ? (
+              searches?.slice(0, 3).map((search: any) => {
+                return (
+                  <p className=" text-md text-gray-500 font-semibold  underline underline-offset-4 mb-4">
+                    {search}
+                  </p>
+                );
+              })
+            ) : (
+              <div className="">
+                <p className=" text-md text-gray-500 underline mb-4">
+                  Women dress
+                </p>
+                <p className=" text-md text-gray-500 underline mb-4">
+                  Men Cloths
+                </p>
               </div>
             )}
-          </ul>
+            {searches?.length > 0 && (
+              <button
+                onClick={handleRemoveSearch}
+                className="flex items-center gap-4 "
+              >
+                {" "}
+                <CiTrash className="text-xl" />{" "}
+                <span className="tracking-wide underline underline-offset-4 font-roboto">
+                  clear all
+                </span>
+              </button>
+            )}
+          </div>
+          <div className="w-full h-full flex flex-col px-6 ">
+            {data.length > 0 && (
+              <h1 className="text-xl font-semibold mb-8">
+                Matches your search:{" "}
+              </h1>
+            )}
+            <div className="w-full flex overflow-x-hidden items-center gap-4  ">
+              <Swiper
+                loop={true}
+                // effect={"creative"}
+                autoplay={{ delay: 5000 }}
+                spaceBetween={1}
+                slidesPerView={3}
+                // navigation={true}
+                className=" w-88  h-max  cursor-pointer  "
+                modules={[Pagination, Navigation, Autoplay, EffectCreative]}
+              >
+                {data.length > 0 &&
+                  data?.slice(0, 16)?.map((item: any) => {
+                    return (
+                      <SwiperSlide className="  w-80 cursor-pointer   ">
+                        <SearchCard key={item._id} product={item} />
+                      </SwiperSlide>
+                    );
+                  })}
+              </Swiper>
+            </div>
+          </div>
         </div>
-      </nav>
-      <div className=" bg-gray-100 bg-opacity-25 flex flex-col justify-center  p-10 px-56 w-full h-40  transition-opacity">
-        <h1 className="font-semibold text-xl mb-8">Quick links</h1>
-        <p className=" text-md text-gray-500 underline mb-4">Habesha Stores</p>
-        <p className=" text-md text-gray-500 underline mb-4">
-          Search by category
-        </p>
       </div>
-      <div className="w-full flex items-center gap-4 justify-between flex-wrap">
-        {data.length > 0 &&
-          data?.slice(0, 11)?.map((item: any) => {
-            return <ProductCard key={item._id} product={item} />;
-          })}
-      </div>
-    </div>
+    </main>
   );
 };
 

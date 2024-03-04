@@ -8,6 +8,9 @@ import { PiSignIn } from "react-icons/pi";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
+import { MdOutlineWorkHistory } from "react-icons/md";
+import { MdOutlineCall } from "react-icons/md";
+
 import {
   toggleShowNewsletter,
   toggleShowSidebar,
@@ -122,15 +125,16 @@ const SidebarNavigation: React.FC = () => {
             </li>
             <li>
               <button
+                onClick={handleAccount}
                 type="button"
                 className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 "
               >
-                <MdPhoneAndroid className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 " />
+                <MdOutlineWorkHistory className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 " />
 
-                <span className=" ms-3 whitespace-nowrap">App</span>
-                <span className=" flex-1 inline-flex items-center justify-end px-2 ms-3 text-sm font-medium text-gray-800  ">
+                <span className=" ms-3 whitespace-nowrap">My Orders</span>
+                {/* <span className=" flex-1 inline-flex items-center justify-end px-2 ms-3 text-sm font-medium text-gray-800  ">
                   Pro
-                </span>
+                </span> */}
               </button>
             </li>
             <li>
@@ -179,13 +183,14 @@ const SidebarNavigation: React.FC = () => {
             </li>
             <li>
               <button
+                onClick={() => router.push("/contact")}
                 type="button"
                 className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <CiLocationOn className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <MdOutlineCall className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
                 <span className="flex-1 text-left ms-3 whitespace-nowrap">
-                  Find a Store
+                  Contact us
                 </span>
               </button>
             </li>

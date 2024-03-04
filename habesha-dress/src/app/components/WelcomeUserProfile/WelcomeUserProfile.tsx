@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { LiaAngleDoubleRightSolid } from "react-icons/lia";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
-
+import welcome from "./data";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
 import DiscountCard from "../DiscountCard/DiscountCard";
 // Import Swiper styles
@@ -18,8 +18,10 @@ import Products from "../Products/Products";
 import ProductCard from "../ProductCard/ProductCard";
 import InspirationCard from "../DiscountCard/InspirationCard";
 import Footer from "../Footer/Footer";
+import { useSelector } from "react-redux";
 const WelcomeUserProfile: React.FC = () => {
   const [data, setData] = useState<any>([]);
+  const user = useSelector((state: any) => state.auth.user);
 
   // const single: any = data.find((product) => product.id === param.id);
   // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
@@ -32,14 +34,14 @@ const WelcomeUserProfile: React.FC = () => {
   }, []);
   return (
     <div className="w-full flex flex-col  p-10">
-      <div className="flex-1  h-max min-h-32  mt-4 mb-8  p-4 px-8 rounded-lg bg-yellow-100">
+      {/* <div className="flex-1  h-max min-h-32  mt-4 mb-8  p-4 px-8 rounded-lg bg-yellow-100">
         <h1 className="font-semibold mb-6">Welcome to your profile!</h1>
         <p className="text-base text-gray-600 mb-3">
           You will find your Member ID next to your name after you have logged
           in to C&A for you.
         </p>
         <p className="text-base text-gray-600 mb-3">Have fun shopping!</p>
-      </div>
+      </div> */}
       <h1 className="text-2xl font-semibold mb-3">Discover now</h1>
       <main className="flex  w-full p-5 shadow-lg items-center justify-between">
         <Swiper
@@ -55,7 +57,7 @@ const WelcomeUserProfile: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {data?.slice(15, 23)?.map((item: any) => {
+          {welcome?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
                 <WelcomeCard item={item} />
@@ -82,7 +84,7 @@ const WelcomeUserProfile: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {data?.slice(4, 9)?.map((item: any) => {
+          {user?.recommendedProducts?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
                 <InspirationCard item={item} />

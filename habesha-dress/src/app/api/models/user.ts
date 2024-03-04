@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter a name"],
     },
+
     email: {
       type: String,
       required: [true, "Please enter an email"],
@@ -45,6 +46,10 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    message: {
+      type: Array,
+      default: [],
+    },
     itemsBought: {
       type: Array,
       default: [],
@@ -52,6 +57,10 @@ const userSchema = new mongoose.Schema(
     location: {
       type: String,
       default: "",
+    },
+    newsletter: {
+      type: Array,
+      default: [],
     },
     favReviews: {
       type: Array,

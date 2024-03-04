@@ -56,7 +56,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex relative min-h-screen flex-col bg-alice-blue items-center ">
+    <main className="flex  relative min-h-screen flex-col bg-alice-blue items-center ">
       {showSearch ? (
         <SearchBar showIcons={showIcons} />
       ) : (

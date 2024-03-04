@@ -30,7 +30,7 @@ const Cart: React.FC = () => {
           <div className="w-2/3 ">
             <h1 className=" text-4xl leading-7 font-poppins w-full  r mb-5 flex justify-start gap-2  text-gray-600   font-semibold ">
               <FaShoppingBag className=" text-2xl" />
-              <span className="">Shopping Cart </span>
+              <span className="">Cart </span>
             </h1>
             <div className="w-full flex flex-col">
               {cartItems.map((item: any) => (

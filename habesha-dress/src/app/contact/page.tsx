@@ -1,10 +1,26 @@
+"use client";
 import React from "react";
-import Navbar from "../components/Navbar/SearchBar";
+import { useSelector } from "react-redux";
+import SearchBar from "../components/Navbar/SearchBar";
+import Navbar from "../components/Navbar/Navbar";
 
 const Contact: React.FC = () => {
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showIcons = {
+    search: true,
+    user: true,
+    wishlist: true,
+    cart: true,
+    navigation: true,
+  };
+
   return (
     <div className=" w-full min-h-screen  bg-white ">
-      <Navbar />
+      {showSearch ? (
+        <SearchBar showIcons={showIcons} />
+      ) : (
+        <Navbar showIcons={showIcons} />
+      )}
       <section className=" w-full h-full mt-24 p-3 ">
         <div className="flex flex-wrap">
           <div className="mb-10 w-full shrink-0 grow-0 basis-auto md:mb-0 md:w-6/12 md:px-3 lg:px-6">

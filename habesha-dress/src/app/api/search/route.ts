@@ -8,13 +8,13 @@ export async function GET(req: any, res: any) {
   if (query) {
     const cloths = await ClothProduct.find({
       $or: [
+        { forWhichGender: { $regex: new RegExp(query, "i") } },
+        { whichGroupCloth: { $regex: new RegExp(query, "i") } },
         { title: { $regex: new RegExp(query, "i") } },
         { category: { $regex: new RegExp(query, "i") } },
-        { description: { $regex: new RegExp(query, "i") } },
-        { whichGroupCloth: { $regex: new RegExp(query, "i") } },
+        // { description: { $regex: new RegExp(query, "i") } },
         { clothOccasion: { $regex: new RegExp(query, "i") } },
-        { couples: { $regex: new RegExp(query, "i") } },
-        { forWhichGender: { $regex: new RegExp(query, "i") } },
+        // { couples: { $regex: new RegExp(query, "i") } },
       ],
     });
     return NextResponse.json(
