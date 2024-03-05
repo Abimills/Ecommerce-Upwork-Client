@@ -25,12 +25,13 @@ import Navbar from "../components/Navbar/Navbar";
 import SingleNavigation from "../components/singleItemNavigation/SingleNav";
 import SingleSearchBar from "../components/Searchbar/Searchbar";
 import SearchBar from "../components/Navbar/SearchBar";
+import Login from "../components/LoginSlider/Login";
 
 const UserProfile: React.FC = () => {
   // const [show, setShow] = useState(["welcome", "order"]);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [activePage, setActivePage] = useState("welcome");
+  const [activePage, setActivePage] = useState("profile");
   const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
 
@@ -55,6 +56,7 @@ const UserProfile: React.FC = () => {
       ) : (
         <Navbar showIcons={showIcons} />
       )}
+
       <div className="flex w-full flex-col justify-center items-center h-max ">
         <div className="w-full text-center mb-4 p-10">
           <h1 className="font-semibold text-2xl"> Hi {firstName}!</h1>

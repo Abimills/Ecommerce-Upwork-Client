@@ -59,3 +59,37 @@ export async function POST(req: any) {
     console.log({ message: "error while trying to login user", error });
   }
 }
+export async function PUT(req: any) {
+  try {
+    const { token, data, id } = await req.json();
+    await connectMongoDB();
+    const decodedToken = jwt.verify(token, "nice-secret-key");
+    if (decodedToken) {
+      const updatedUser = await ClothUser.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            ...data,
+          },
+        },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return NextResponse.json({
+          success: false,
+          message: "A problem updating user",
+        });
+      }
+    }
+  } catch (error) {
+    console.log({
+      success: false,
+      message: "Error while updating user information:",
+      error,
+    });
+    return NextResponse.json({
+      success: false,
+      message: "error with user updating info",
+    });
+  }
+}

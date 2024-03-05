@@ -22,23 +22,23 @@ import { CiUser } from "react-icons/ci";
 import { MdMailOutline } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
 import { useSelector } from "react-redux";
+import Login from "../LoginSlider/Login";
+import Navbar from "../Navbar/Navbar";
+import UserBasicInfo from "../UserBasicInfo/UserBasicInfo";
+import ChangeEmail from "../ChangeUserEmail/ChangeEmail";
 
 const UserSetting: React.FC = () => {
-  const [data, setData] = useState<any>([]);
-  const user = useSelector((state: any) => state.auth.user);
-  console.log(user);
-  // const single: any = data.find((product) => product.id === param.id);
+  const [open, setOpen] = useState(false);
+  const [openEmail, setOpenEmail] = useState(false);
 
-  const fetchData = async () => {
-    const res = await axios.get(`http://localhost:3000/api/product/`);
-    setData(res.data.cloth);
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const user = useSelector((state: any) => state.auth.user);
+
   return (
-    <div className="w-full flex  flex-col ">
+    <div className="w-full  ">
       {/* empty orders page */}
+      {/* {showUserBasicInfo && <Login />} */}
+      <UserBasicInfo open={open} setOpen={setOpen} />
+      <ChangeEmail open={openEmail} setOpen={setOpenEmail} />
       <div className=" w-full flex   flex-col p-6">
         <h1 className="my-8 text-2xl font-bold "> Your data</h1>
         <div className="w-full  flex justify-between items-start my-4 border-b border-gray-300">
@@ -52,7 +52,10 @@ const UserSetting: React.FC = () => {
               <p className="mb-3 text-gray-500">{user?.location}</p>
             </div>
           </div>
-          <button className="underline text-sm"> modify</button>
+          <button onClick={() => setOpen(true)} className="underline text-sm">
+            {" "}
+            modify
+          </button>
         </div>
         <div className="w-full ">
           <h1 className="my-8 text-2xl font-bold ">Your email address</h1>
@@ -62,7 +65,13 @@ const UserSetting: React.FC = () => {
               <p className="">{user?.email}</p>
             </div>
 
-            <button className="underline text-sm mb-8"> modify</button>
+            <button
+              onClick={() => setOpenEmail(true)}
+              className="underline text-sm mb-8"
+            >
+              {" "}
+              modify
+            </button>
           </div>
         </div>
         <div className="w-full">
