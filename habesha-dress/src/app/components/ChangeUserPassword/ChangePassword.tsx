@@ -15,29 +15,31 @@ interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
+const ChangePassword: React.FC<Props> = ({ open, setOpen }) => {
   const user = useSelector((state: any) => state.auth.user);
 
-  const [email, setEmail] = useState(user?.email || "");
-  const [password, setPassword] = useState<any>("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (email !== "" && password !== "") {
-      const res = await axios.put("http://localhost:3000/api/update-email", {
+    if (currentPassword !== "" && newPassword !== "") {
+      const res = await axios.put("http://localhost:3000/api/update-password", {
         token: user?.token,
 
-        email,
-        password,
+        currentPassword,
+        newPassword,
       });
       if (res.data.success) {
-        alert("successfully updated Email address");
+        alert("successfully updated password ");
         dispatch(loginSuccess(res.data.user));
       } else {
-        alert("could not update email  successfully : check your credentials");
+        alert(
+          "could not update password  successfully : check your credentials"
+        );
       }
     } else {
       alert("fill all fields");
@@ -98,33 +100,36 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
                           <form className="space-y-6" onSubmit={handleSubmit}>
                             <p className="">
-                              Please enter your new email address and confirm
-                              the change by entering your password.
+                              Please enter your new password and confirm the
+                              change by entering your old password.
                             </p>
                             <div>
                               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Your Email
+                                Old Password
                               </label>
                               <input
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="password"
+                                name="password"
+                                value={currentPassword}
+                                placeholder="••••••••"
+                                onChange={(e) =>
+                                  setCurrentPassword(e.target.value)
+                                }
                                 required
                                 className=" border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                               />
                             </div>
                             <div>
                               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Your password
+                                New password
                               </label>
                               <input
                                 type="password"
                                 name="password"
-                                value={password}
+                                value={newPassword}
                                 required
                                 onChange={(e: any) =>
-                                  setPassword(e.target.value)
+                                  setNewPassword(e.target.value)
                                 }
                                 placeholder="••••••••"
                                 className=" border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
@@ -135,7 +140,7 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
                               type="submit"
                               className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                              Save New Email
+                              Save New Password
                             </button>
                           </form>
                         </div>
@@ -152,4 +157,4 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
   );
 };
 
-export default ChangeEmail;
+export default ChangePassword;

@@ -26,10 +26,12 @@ import Login from "../LoginSlider/Login";
 import Navbar from "../Navbar/Navbar";
 import UserBasicInfo from "../UserBasicInfo/UserBasicInfo";
 import ChangeEmail from "../ChangeUserEmail/ChangeEmail";
+import ChangePassword from "../ChangeUserPassword/ChangePassword";
 
 const UserSetting: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [openEmail, setOpenEmail] = useState(false);
+  const [openPassword, setOpenPassword] = useState(false);
 
   const user = useSelector((state: any) => state.auth.user);
 
@@ -39,6 +41,7 @@ const UserSetting: React.FC = () => {
       {/* {showUserBasicInfo && <Login />} */}
       <UserBasicInfo open={open} setOpen={setOpen} />
       <ChangeEmail open={openEmail} setOpen={setOpenEmail} />
+      <ChangePassword open={openPassword} setOpen={setOpenPassword} />
       <div className=" w-full flex   flex-col p-6">
         <h1 className="my-8 text-2xl font-bold "> Your data</h1>
         <div className="w-full  flex justify-between items-start my-4 border-b border-gray-300">
@@ -82,7 +85,13 @@ const UserSetting: React.FC = () => {
               <p className="font-bold text-4xl tracking-wide mb-4">.......</p>
             </div>
 
-            <button className="underline text-sm mb-8"> modify</button>
+            <button
+              onClick={() => setOpenPassword(true)}
+              className="underline text-sm mb-8"
+            >
+              {" "}
+              modify
+            </button>
           </div>
         </div>
       </div>

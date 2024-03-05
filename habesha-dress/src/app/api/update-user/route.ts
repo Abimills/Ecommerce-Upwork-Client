@@ -18,7 +18,7 @@ export async function PUT(req: any) {
       });
     }
     if (decodedToken?.userId) {
-      const updatedUser = await ClothUser.findByIdAndUpdate(
+      const updatedUser: any = await ClothUser.findByIdAndUpdate(
         decodedToken?.userId,
         {
           $set: {
