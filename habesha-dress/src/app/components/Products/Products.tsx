@@ -10,29 +10,43 @@ import { RiMenuSearchLine } from "react-icons/ri";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 import FilterData from "../Filter/Filter";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { setAllProducts, sortDataReducer } from "@/app/lib/cartSlice/dataSlice";
 const Products: React.FC = () => {
   // const products = useSelector((state: any) => state.data);
-  const data = useSelector((state: any) => state.data.data);
+  // const data = useSelector((state: any) => state.data.data);
   const sortedData = useSelector((state: any) => state.data.sortedData);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
-
+  const [data, setData] = useState([]);
   const [activePagination, setActivePagination] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [totalCloths, setTotalCloths] = useState(0);
   const dispatch = useDispatch();
   const handleOpenFilter = (e: any) => {
     dispatch(toggleShowFilter());
   };
-  console.log(totalPages);
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get("http://localhost:3000/api/product/");
 
       if (res.data.totalPages) {
         setTotalPages(res.data.totalPages);
+        setData(res.data.cloths);
+        setTotalCloths(res.data.totalCloths);
       }
     };
     fetchData();
   }, []);
+  const handlePagination = async (page: any) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/product/?page=${page}`
+      );
+      console.log(res.data);
+      setData(res.data.cloths);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <main className="w-full  h-full flex flex-col">
       {showFilter && <FilterData />}
@@ -50,8 +64,8 @@ const Products: React.FC = () => {
       </div>
 
       <div className="w-full flex items-center gap-4 justify-between flex-wrap">
-        {sortedData.length > 1 &&
-          sortedData
+        {data.length > 1 &&
+          data
             ?.filter((cloth: any) => cloth.category?.includes("Popular"))
             .map((item: any) => {
               return <ProductCard key={item._id} product={item} />;
@@ -70,9 +84,9 @@ const Products: React.FC = () => {
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p className="text-sm text-gray-700">
-              Showing <span className="font-medium">1</span> to{" "}
-              <span className="font-medium">10</span> of{" "}
-              <span className="font-medium">97</span> results
+              Showing <span className="font-medium">{activePagination}</span> to{" "}
+              <span className="font-medium">{totalPages}</span> of{" "}
+              <span className="font-medium">{totalCloths}</span> results
             </p>
           </div>
           <div>
@@ -80,7 +94,18 @@ const Products: React.FC = () => {
               className="isolate inline-flex -space-x-px rounded-md shadow-sm"
               aria-label="Pagination"
             >
-              <button className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+              <button
+                onClick={() => {
+                  if (activePagination > 1) {
+                    setActivePagination(activePagination - 1);
+                    handlePagination(activePagination - 1);
+                  } else {
+                    setActivePagination(totalPages);
+                    handlePagination(totalPages);
+                  }
+                }}
+                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              >
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -92,7 +117,11 @@ const Products: React.FC = () => {
                     activePagination === index + 1 ? (
                       <button
                         key={index}
-                        onClick={() => setActivePagination(index + 1)}
+                        onClick={() => {
+                          setActivePagination(index + 1);
+
+                          handlePagination(index + 1);
+                        }}
                         className="relative bg-indigo-500 inline-flex items-center px-4 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0"
                       >
                         {index + 1}
@@ -100,7 +129,10 @@ const Products: React.FC = () => {
                     ) : (
                       <button
                         key={index}
-                        onClick={() => setActivePagination(index + 1)}
+                        onClick={() => {
+                          setActivePagination(index + 1);
+                          handlePagination(index + 1);
+                        }}
                         className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                       >
                         {index + 1}
@@ -109,7 +141,18 @@ const Products: React.FC = () => {
                   )}
               </div>
 
-              <button className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+              <button
+                onClick={() => {
+                  if (activePagination < totalPages) {
+                    setActivePagination(activePagination + 1);
+                    handlePagination(activePagination + 1);
+                  } else {
+                    setActivePagination(1);
+                    handlePagination(1);
+                  }
+                }}
+                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              >
                 <span className="sr-only">Next</span>
                 <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
               </button>

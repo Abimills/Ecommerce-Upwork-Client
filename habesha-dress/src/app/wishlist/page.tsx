@@ -6,13 +6,13 @@ import Footer from "../components/Footer/Footer";
 import ProductCard from "../components/ProductCard/ProductCard";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../lib/cartSlice/dataSlice";
 import axios from "axios";
 import { RiMenuSearchLine } from "react-icons/ri";
 
 import { useRouter } from "next/navigation";
 import { toggleShowFilter } from "../lib/cartSlice/cartSlice";
 import FilterData from "../components/Filter/Filter";
+import WishlistCard from "../components/WishlistCard/WishlistCard";
 
 const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
@@ -54,11 +54,7 @@ const Favorites: React.FC = () => {
         setCategories(["All", ...new Set(selected)]);
       }
     };
-    // const fetchData = async () => {
-    //   const res = await axios.get("http://localhost:3000/api/product"); // Replace with your actual API endpoint
-    //   setFilteredProducts(res.data.cloth);
-    //   setCategories(["All", ...new Set(selected)]);
-    // };
+
     fetchData();
   }, [favorites]);
   return (
@@ -66,7 +62,6 @@ const Favorites: React.FC = () => {
       {showFilter && <FilterData />}
       <div className="w-full flex items-center justify-between p-8 ">
         <div className=" w-max flex items-center gap-10 ">
-          {/* <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" /> */}
           <h1 className=" text-lg  text-gray-600 tracking-tight font-base text-green-400 cursor-pointer">
             <span
               className="hover:underline text-green-400 mx-2"
@@ -95,7 +90,7 @@ const Favorites: React.FC = () => {
       {filterProducts?.length > 0 ? (
         <div className="w-full flex items-center flex-wrap items-center mb-16 justify-evenly gap-4">
           {filterProducts.map((item: any) => {
-            return <ProductCard product={item} key={item.id} />;
+            return <WishlistCard product={item} key={item.id} />;
           })}
         </div>
       ) : (

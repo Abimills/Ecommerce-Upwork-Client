@@ -28,8 +28,18 @@ interface Props {
   product: any;
 }
 const CartProduct: React.FC<Props> = ({ product }) => {
-  const { id, title, img, price, rating, quantity, chosenColor, chosenSize } =
-    product;
+  const {
+    id,
+    title,
+    img,
+    price,
+    rating,
+    quantity,
+    discount,
+    chosenColor,
+    chosenSize,
+  } = product;
+  const shortTitle = title.slice(0, 10);
   const dispatch = useAppDispatch();
 
   const handleRemoveFromCart = (id: any) => {
@@ -39,6 +49,15 @@ const CartProduct: React.FC<Props> = ({ product }) => {
     quantity = parseInt(quantity);
     dispatch(setCartQuantity({ id, quantity }));
   };
+  const discountPercentage = (
+    (parseFloat(discount) / parseFloat(price)) *
+    100
+  ).toFixed(0);
+  console.log(discount);
+  const priceString = discount
+    ? (price * quantity).toFixed(2)
+    : (price * quantity).toFixed(2);
+  const [wholePart, decimalPart] = priceString.split(".");
   return (
     <section className="w-full flex items-start border-b-2  border-b border-gray-200 p-8">
       <div className="w-full flex items-start justify-between">
@@ -47,39 +66,48 @@ const CartProduct: React.FC<Props> = ({ product }) => {
           src={img}
           alt={title}
         />
-        <div className="">
+        <div className="w-full ml-2">
           <div className="text-base text-lg font-base text-gray-500 font-poppins">
             <h2 className=" text-xl mb-7 text-base font-medium text-gray-600 ">
-              {title}
+              {shortTitle}...
             </h2>
-            <div className="flex w-full gap-x-10 mt-9">
-              <p className="w-32">{chosenColor}</p>
-              <span className=" text-2xl text-gray-300">|</span>
+            <div className="flex w-full  items-center   gap-x-10 mt-9">
+              <div className="flex items-center gap-4">
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                <p className="w-40">Available</p>
+              </div>
+              {/* <span className=" text-2xl text-gray-300">|</span> */}
               <p className="">{chosenSize} </p>
             </div>
             {/* <p className="mb-24 text-lg  font-semibold text-gray-700">
               ${price}
             </p> */}
-            <div className="flex w-full   gap-x-10 mt-9 mb-16">
-              <p className="text-2xl font-semibold text-green-600   text-gray-900 relative mr-4 font-poppins">
-                <span className="text-base font-roboto text-lg  mr-0.5 relative bottom-1">
-                  $
+            <div className="flex w-full  items-center   gap-x-10 mt-9 mb-16">
+              <p className="text-2xl w-40  text-gray-900 font-semibold   font-roboto cursor-pointer">
+                <span className="text-sm font-medium text-black relative bottom-2 mr-0.5  ">
+                  £
                 </span>
-                {parseInt(price) * quantity}
-                <span className="text-base font-roboto  relative bottom-1 ml-1">
-                  89
+                {wholePart}
+                <span className="text-base font-medium relative bottom-1 mr-0.5  ">
+                  {decimalPart}
                 </span>
               </p>
-              <span className=" text-2xl text-gray-300">|</span>
-              <p className="text-base text-orange-400 ">-20% off</p>
+              {/* <span className=" text-2xl text-gray-300">|</span> */}
+              <p className="text-base text-green-400 ">
+                {discount > 0 && ` - ${discountPercentage}% off`}
+              </p>
             </div>
           </div>
-          <div className="text-base text-lg font-base text-gray-500 font-poppins">
-            <p className="flex  items-center gap  ">
-              {" "}
-              <TiTick className="font-thinner text-2xl text-green-300 " /> In
-              stock
-            </p>
+          <div className="text-base flex items-center w-full  justify-between text-lg font-base text-gray-500 font-poppins">
+            <button
+              onClick={() => handleRemoveFromCart(id)}
+              className="bg-gray-700 text-white p-1 px-3 rounded-sm text-sm"
+            >
+              delete
+            </button>
+            <button className="bg-gray-700 text-white p-1 px-3 rounded-sm text-sm">
+              Give your body size
+            </button>
           </div>
         </div>
         <select
@@ -87,7 +115,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
           onChange={(e) => handleSetQuantity(id, e.target.value)}
           value={quantity}
           id=""
-          className="border border-gray-200 p-1 px-3 outline-none rounded-md"
+          className="border border-gray-200 p-1 px-6 w-max outline-none rounded-md"
         >
           <option value="1">1</option>
           <option value="2">2</option>
@@ -100,10 +128,10 @@ const CartProduct: React.FC<Props> = ({ product }) => {
           <option value="9">9</option>
           <option value="10">10</option>
         </select>
-        <IoMdClose
-          className="text-2xl cursor-pointer text-gray-400 float-right"
+        {/* <IoMdClose
+          className="text-2xl cursor-pointer text-gray-400 "
           onClick={() => handleRemoveFromCart(id)}
-        />
+        /> */}
       </div>
     </section>
   );
