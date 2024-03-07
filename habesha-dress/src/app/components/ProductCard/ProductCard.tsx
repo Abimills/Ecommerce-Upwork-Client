@@ -95,7 +95,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-80 h-88 max-w-sm bg-alice-blue   rounded-md shadow-lg relative mb-8 ">
+    <div className="w-80 h-88 max-w-sm bg-gray-600   rounded-md shadow-lg relative mb-8 ">
       {!isFavored ? (
         <div className="absolute m-1 rounded-full cursor-pointer hover:bg-white hover:border hover:border-gray-200 right-0 w-8 h-8  display-flex items-center justify-center bg-white">
           <IoIosHeartEmpty
@@ -113,18 +113,18 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       )}
       <Link href={`/${_id}`}>
         <img
-          className="object-contain   w-full h-56 rounded-t-lg bg-gray-50 "
+          className="object-contain text-left   w-full h-64 rounded-t-lg bg-gray-600  "
           src={img}
           alt="product image"
         />
       </Link>
 
-      <div className="px-5 pb-5 bg-white">
-        <h5 className="text-lg font-semibold uppercase tracking-tight text-gray-900 ">
+      <div className="px-5 pb-5 bg-gray-600 ">
+        <h5 className="text-base font-medium capitalize tracking-tight text-gray-200 ">
           {title}
         </h5>
 
-        <div className="flex items-center justify-between mt-2.5 mb-5">
+        <div className="flex items-center justify-between mt-1 mb-1">
           <div className="flex items-center ">
             <div className="w-full ">
               <ul className=" flex gap-1">
@@ -148,9 +148,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           </div>
           <p
             onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-2xl  text-gray-900 font-semibold   font-roboto cursor-pointer"
+            className="text-2xl  text-gray-100 leading-10 font-medium   font-roboto cursor-pointer"
           >
-            <span className="text-sm font-medium text-black relative bottom-2 mr-0.5  ">
+            <span className="text-sm font-medium text-gray-100 relative bottom-2 mr-0.5  ">
               £
             </span>
             {wholePart}
@@ -159,52 +159,25 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             </span>
           </p>
         </div>
-        {/* <div className=" p-1 flex gap-3 w-full font-roboto mb-3">
-          {product?.availableSizes?.map((size: string) => {
-            return size == sizeChoose ? (
-              <p
-                onClick={() => setSizeChose(size)}
-                className=" text-xs text-indigo-400 cursor-pointer  border border-indigo-300 px-0.5 rounded-sm"
-              >
-                {size}
-              </p>
-            ) : (
-              <p
-                onClick={() => setSizeChose(size)}
-                className=" text-xs text-gray-400 cursor-pointer  border border-gray-300 px-0.5 rounded-sm"
-              >
-                {size}
-              </p>
-            );
-          })}
-        </div> */}
-        {discount > 1 ? (
-          <p
-            onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-xl  text-gray-400 line-through font-medium p-1   mb-6  font-roboto cursor-pointer"
-          >
-            {/* <span className="text-sm font-medium text-black relative bottom-2 mr-0.5  ">
-            £
-          </span> */}
-            {originalWholePart}
-            <span className="text-base line-through font-medium relative bottom-1 mr-0.5  ">
-              {originalDecimalPart}
-            </span>
-          </p>
-        ) : (
-          <p
-            onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-2xl  text-gray-400 line-through font-medium p-1   mb-6  font-roboto cursor-pointer"
-          >
-            {/* <span className="text-sm font-medium text-black relative bottom-2 mr-0.5  ">
-            £
-          </span> */}
-            {""}
-            <span className="text-base line-through font-medium relative bottom-1 mr-0.5  ">
-              {""}
-            </span>
-          </p>
-        )}
+        <div className="flex items-center justify-between mt-1 mb-4">
+          <button className="p-1 px-4 bg-green-400 rounded-full text-sm">
+            available
+          </button>
+          {discount > 1 && (
+            <p
+              onClick={() => router.push(`/add-products/${_id}`)}
+              className="text-xl  text-gray-400 line-through font-medium p-1     font-roboto cursor-pointer"
+            >
+              <span className="text-sm font-medium text-gray-400 relative bottom-2 mr-0.5  ">
+                £
+              </span>
+              {originalWholePart}
+              <span className="text-base line-through font-medium relative bottom-1 mr-0.5  ">
+                {originalDecimalPart}
+              </span>
+            </p>
+          )}
+        </div>
         {/* <div className="flex items-center justify-between">
           <button
             onClick={() => handleAddToCart(product)}
@@ -228,7 +201,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           </button>
           <button
             onClick={() => handleBuy(product)}
-            className="text-white font-roboto border border-gray-500 bg-gray-700 hover:bg-gray-600 hover:border-yellow-400 hover:text-white  font-medium rounded-sm  text-sm p-2 text-center "
+            className="text-white font-roboto border border-gray-500 bg-gray-700 hover:bg-gray-600 hover:border-gray-300 hover:text-white  font-medium rounded-sm  text-sm p-2 text-center "
           >
             Buy now
           </button>

@@ -12,17 +12,16 @@ import FilterData from "../Filter/Filter";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { setAllProducts, sortDataReducer } from "@/app/lib/cartSlice/dataSlice";
 const Products: React.FC = () => {
-  // const products = useSelector((state: any) => state.data);
-  // const data = useSelector((state: any) => state.data.data);
-  const sortedData = useSelector((state: any) => state.data.sortedData);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
+  const [openFilter, setOpenFilter] = useState(false);
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [activePagination, setActivePagination] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCloths, setTotalCloths] = useState(0);
   const dispatch = useDispatch();
   const handleOpenFilter = (e: any) => {
-    dispatch(toggleShowFilter());
+    setOpenFilter(true);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +30,7 @@ const Products: React.FC = () => {
       if (res.data.totalPages) {
         setTotalPages(res.data.totalPages);
         setData(res.data.cloths);
+        setFilteredData(res.data.cloths);
         setTotalCloths(res.data.totalCloths);
       }
     };
@@ -41,15 +41,22 @@ const Products: React.FC = () => {
       const res = await axios.get(
         `http://localhost:3000/api/product/?page=${page}`
       );
-      console.log(res.data);
       setData(res.data.cloths);
+      setFilteredData(res.data.cloths);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <main className="w-full  h-full flex flex-col">
-      {showFilter && <FilterData />}
+    <main className="w-full  h-full min-h[500px] flex flex-col">
+      {openFilter && (
+        <FilterData
+          data={data}
+          open={openFilter}
+          setOpen={setOpenFilter}
+          setData={setFilteredData}
+        />
+      )}
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
         <h1 className="font-roboto font-md text-3xl  mx-4 ">
           Popular Products
@@ -64,8 +71,8 @@ const Products: React.FC = () => {
       </div>
 
       <div className="w-full flex items-center gap-4 justify-between flex-wrap">
-        {data.length > 1 &&
-          data
+        {filteredData.length > 1 &&
+          filteredData
             ?.filter((cloth: any) => cloth.category?.includes("Popular"))
             .map((item: any) => {
               return <ProductCard key={item._id} product={item} />;

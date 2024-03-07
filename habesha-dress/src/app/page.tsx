@@ -69,10 +69,10 @@ export default function Home() {
       {showSignIn && <Login />}
 
       <Discount />
-      <Products />
       <Category />
-      <NewProduct />
+      <Products />
       <ForHer />
+      <NewProduct />
       <Discount />
       <Newsletter />
       <Footer />

@@ -17,7 +17,7 @@ const Category: React.FC = () => {
   return (
     <main className="w-full ">
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
-        <h1 className="w-full text-left mb-16 font-semibold font-roboto text-3xl ">
+        <h1 className="w-full text-left mb-4 px-6 font-medium leading-10 font-roboto text-3xl ">
           Shop By Categories
         </h1>
       </div>

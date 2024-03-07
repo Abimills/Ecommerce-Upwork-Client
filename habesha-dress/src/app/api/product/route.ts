@@ -11,8 +11,27 @@ export async function GET(req: any, res: any) {
   const id: string = req.nextUrl.searchParams.get("id");
   if (id) {
     const cloth = await ClothProduct.findById(id);
+    if (!cloth) {
+      return NextResponse.json({ message: "Cloth not found", status: 404 });
+    }
+    // Fetch 10 random similar clothes based on gender and occasion
+    const similarClothes = await ClothProduct.aggregate([
+      {
+        $match: {
+          gender: cloth.gender,
+          // occasion: cloth.occasion,
+          _id: { $ne: id }, // Exclude the current cloth ID
+        },
+      },
+      { $sample: { size: 10 } }, // Get 10 random documents
+    ]);
+
     return NextResponse.json(
-      { message: "fetched single cloth", cloth },
+      {
+        message: "fetched single cloth & similar Clothes",
+        cloth,
+        similarClothes,
+      },
       { status: 200 }
     );
   }

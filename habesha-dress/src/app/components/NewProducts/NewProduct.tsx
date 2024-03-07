@@ -13,7 +13,13 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 const NewProduct: React.FC = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
+  const showFilter = useSelector((state: any) => state.cart.showFilter);
+
   const [activePagination, setActivePagination] = useState(1);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
+
   const [totalPages, setTotalPages] = useState(0);
   const [totalCloths, setTotalCloths] = useState(0);
   const dispatch = useDispatch();
@@ -27,6 +33,8 @@ const NewProduct: React.FC = () => {
       if (res.data.totalPages) {
         setTotalPages(res.data.totalPages);
         setData(res.data.cloths);
+        setFilteredData(res.data.cloths);
+
         setTotalCloths(res.data.totalCloths);
       }
     };
@@ -39,18 +47,28 @@ const NewProduct: React.FC = () => {
       );
       console.log(res.data);
       setData(res.data.cloths);
+      setFilteredData(res.data.cloths);
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <main className="w-full flex flex-col mt-16 items-center justify-start">
+      {openFilter && (
+        <FilterData
+          data={data}
+          open={openFilter}
+          setOpen={setOpenFilter}
+          setData={setFilteredData}
+        />
+      )}
+
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
         <h1 className="w-full text-left font-semibold font-roboto text-3xl">
           New & Recommended Products
         </h1>
         <button
-          onClick={handleOpenFilter}
+          onClick={() => setOpenFilter(true)}
           className="w-48 hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
         >
           <RiMenuSearchLine className="text-xl" />
@@ -58,7 +76,7 @@ const NewProduct: React.FC = () => {
         </button>
       </div>
       <div className="w-full flex flex-wrap justify-between items-center">
-        {data
+        {filteredData
           ?.filter(
             (cloth: any) =>
               cloth.category?.includes("Recommended") ||

@@ -20,9 +20,9 @@ const CategoryCard: React.FC<Props> = ({ item }) => {
   return (
     <div
       onClick={handleClick}
-      className="w-full flex flex-col items-center hover:text-yellow-200"
+      className="w-full  m-2 flex flex-col items-center hover:text-yellow-200"
     >
-      <div className="w-60 h-96 bg-indigo-200 overflow-hidden rounded-full hover:bg-yellow-200">
+      <div className="w-88 h-80 bg-indigo-200 overflow-hidden rounded-sm hover:bg-yellow-200">
         <img
           src={img}
           alt={title}

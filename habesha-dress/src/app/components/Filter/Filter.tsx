@@ -48,14 +48,15 @@ const sizeFilter = [
   { id: 7, value: "4XL", label: "4XL", checked: false },
   { id: 8, value: "5XL", label: "5XL", checked: false },
 ];
-// interface Props {
-//   toFilterData: any;
-//   typeFilter: any;
-//   setToFilterData: React.Dispatch<React.SetStateAction<any>>;
-// }
-const FilterData: React.FC = () => {
+interface Props {
+  data: any;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<any>>;
+  setData: React.Dispatch<React.SetStateAction<any>>;
+}
+const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
   const showFilter = useSelector((state: any) => state.cart.showFilter);
-  const data = useSelector((state: any) => state.data.data);
+  // const data = useSelector((state: any) => state.data.data);
   const [sizes, setSizes] = useState(["S", "M", "L"]);
   const [gender, setGender] = useState(["Women"]);
   const [occasion, setOccasion] = useState(["Holidays", "Awdeamet"]);
@@ -111,7 +112,7 @@ const FilterData: React.FC = () => {
         const priceB = parseFloat(b.price);
         return priceA - priceB;
       });
-      dispatch(sortDataReducer(newData));
+      setData(newData);
     }
     if (typeFilter === "descending") {
       const newData = [...data].sort((a, b) => {
@@ -119,7 +120,7 @@ const FilterData: React.FC = () => {
         const priceB = parseFloat(b.price);
         return priceB - priceA;
       });
-      dispatch(sortDataReducer(newData));
+      setData(newData);
     }
     if (typeFilter === "time") {
       const newData = [...data].sort((a, b) => {
@@ -127,7 +128,7 @@ const FilterData: React.FC = () => {
         const dateB: any = new Date(b.updatedAt).getTime();
         return dateB - dateA;
       });
-      dispatch(sortDataReducer(newData));
+      setData(newData);
     }
     if (typeFilter === "rating") {
       const newData = [...data].sort((a, b) => {
@@ -135,12 +136,11 @@ const FilterData: React.FC = () => {
         const ratingB: any = b.rating;
         return ratingB - ratingA;
       });
-      dispatch(sortDataReducer(newData));
+      setData(newData);
     }
   };
   const handleOpenFilter = (e: any) => {
-    dispatch(toggleShowFilter());
-    dispatch(sortDataReducer(data));
+    setOpen(false);
   };
 
   const handleFilterAll = () => {
@@ -168,13 +168,13 @@ const FilterData: React.FC = () => {
           )
         );
       }
-      console.log(finalFilteredData);
-      dispatch(sortDataReducer(finalFilteredData));
+
+      setData(finalFilteredData);
       dispatch(toggleShowFilter());
     }
   };
   return (
-    <Transition.Root show={showFilter} as={Fragment}>
+    <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleOpenFilter}>
         <Transition.Child
           as={Fragment}
@@ -372,7 +372,7 @@ const FilterData: React.FC = () => {
                       <button
                         type="button"
                         className="w-full text-center text-gray-400 hover:text-indigo-500"
-                        onClick={handleOpenFilter}
+                        onClick={() => setData(data)}
                       >
                         clear filter
                         <span aria-hidden="true"> &rarr;</span>

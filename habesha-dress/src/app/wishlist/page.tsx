@@ -17,6 +17,8 @@ import WishlistCard from "../components/WishlistCard/WishlistCard";
 const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilteredProducts] = useState([]);
+  const [openFilter, setOpenFilter] = useState(false);
+
   const [categories, setCategories] = useState<any>([]);
   const favorites = useSelector((state: any) => state.cart.favorites);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
@@ -59,7 +61,15 @@ const Favorites: React.FC = () => {
   }, [favorites]);
   return (
     <main className="w-full min-h-screen  flex flex-col bg-white ">
-      {showFilter && <FilterData />}
+     
+      {openFilter && (
+        <FilterData
+          data={products}
+          open={openFilter}
+          setOpen={setOpenFilter}
+          setData={setFilteredProducts}
+        />
+      )}
       <div className="w-full flex items-center justify-between p-8 ">
         <div className=" w-max flex items-center gap-10 ">
           <h1 className=" text-lg  text-gray-600 tracking-tight font-base text-green-400 cursor-pointer">
@@ -78,7 +88,7 @@ const Favorites: React.FC = () => {
         </div>
         <div className="w-1/2  flex justify-end items-center gap-10">
           <button
-            onClick={handleOpenFilter}
+            onClick={() => setOpenFilter(true)}
             className="hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
           >
             <RiMenuSearchLine className="text-xl" />
@@ -89,7 +99,7 @@ const Favorites: React.FC = () => {
       <div className="w-full  p-2 mb-10"></div>
       {filterProducts?.length > 0 ? (
         <div className="w-full flex items-center flex-wrap items-center mb-16 justify-evenly gap-4">
-          {filterProducts.map((item: any) => {
+          {filterProducts?.map((item: any) => {
             return <WishlistCard product={item} key={item.id} />;
           })}
         </div>
