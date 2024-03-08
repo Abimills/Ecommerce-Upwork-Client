@@ -95,7 +95,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-80 h-88 max-w-sm bg-gray-600   rounded-md shadow-lg relative mb-8 ">
+    <div className="w-80 h-[460px] max-w-sm bg-gray-600   rounded-md shadow-lg relative mb-8 ">
       {!isFavored ? (
         <div className="absolute m-1 rounded-full cursor-pointer hover:bg-white hover:border hover:border-gray-200 right-0 w-8 h-8  display-flex items-center justify-center bg-white">
           <IoIosHeartEmpty
@@ -111,17 +111,16 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           />
         </div>
       )}
-      <Link href={`/${_id}`}>
-        <img
-          className="object-contain text-left   w-full h-64 rounded-t-lg bg-gray-600  "
-          src={img}
-          alt="product image"
-        />
-      </Link>
+      <img
+        onClick={() => router.push(`/${_id}`)}
+        className="object-contain text-left   w-full h-64  rounded-t-lg bg-white  "
+        src={img}
+        alt="product image"
+      />
 
-      <div className="px-5 pb-5 bg-gray-600 ">
+      <div className="px-5 py-3 w-full top-3/3 pb-5 bg-gray-600 absolute ">
         <h5 className="text-base font-medium capitalize tracking-tight text-gray-200 ">
-          {title}
+          {title?.slice(0, 15)}..
         </h5>
 
         <div className="flex items-center justify-between mt-1 mb-1">
@@ -160,7 +159,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           </p>
         </div>
         <div className="flex items-center justify-between mt-1 mb-4">
-          <button className="p-1 px-4 bg-green-400 rounded-full text-sm">
+          <button className="p-1 px-4 bg-green-100 rounded-full text-sm">
             available
           </button>
           {discount > 1 && (
@@ -178,20 +177,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             </p>
           )}
         </div>
-        {/* <div className="flex items-center justify-between">
-          <button
-            onClick={() => handleAddToCart(product)}
-            className="text-white font-roboto bg-gray-700  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-          >
-            Add to Cart
-          </button>
-          <button
-            onClick={() => handleBuy(product)}
-            className="text-gray-800 font-roboto border border-gray-500 hover:bg-yellow-400 hover:border-yellow-400 hover:text-white  font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-          >
-            Buy Now
-          </button>
-        </div> */}
+
         <div className="flex items-center gap-4 justify-between">
           <button
             onClick={() => handleAddToCart(product)}
@@ -205,20 +191,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           >
             Buy now
           </button>
-          {/* <div className=" h-8 w-8 rounded-full bg-gray-100 border border-gray-100">
-               <MdDeleteOutline
-                 onClick={() => handleFavorites(_id)}
-                 className=" text-2xl m-1 text-orange-500  "
-               />
-             </div> */}
-          {/* <div className=" h-8 w-8 rounded-full bg-gray-100 border border-gray-100">
-            <MdDeleteOutline
-              onClick={() => handleFavorites(_id)}
-              className="  text-3xl w-6 h-6  m-1 text-gray-700   hover:text-red-700  hover:rounded-full "
-            />
-          </div> */}
-          {/* {isFavored && (
-          )} */}
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import data from "../components/Products/allProducts";
 import { IoMdArrowBack } from "react-icons/io";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -16,18 +15,18 @@ import { GiBodyHeight } from "react-icons/gi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
-import { addToCart, addToFavorites } from "../lib/cartSlice/cartSlice";
-import { useAppDispatch } from "../lib/hooks";
-import SearchBar from "../components/Navbar/SearchBar";
-import Navbar from "../components/Navbar/Navbar";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
-import InspirationCard from "../components/DiscountCard/InspirationCard";
-import Footer from "../components/Footer/Footer";
+import { useAppDispatch } from "@/app/lib/hooks";
+import { addToCart, addToFavorites } from "@/app/lib/cartSlice/cartSlice";
+import InspirationCard from "../../components/DiscountCard/InspirationCard";
+import Footer from "../../components/Footer/Footer";
+import SearchBar from "@/app/components/Navbar/SearchBar";
+import Navbar from "@/app/components/Navbar/Navbar";
 // interface DataType {
 //   title: string;
 //   id: string;
@@ -48,8 +47,9 @@ const SingleProduct: React.FC = () => {
   const param = useParams<{ id: string }>();
   const [data, setData] = useState<any>([]);
   const [similarClothes, setSimilarClothes] = useState<any>([]);
-  const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+
+  const user = useSelector((state: any) => state.auth.user);
   const [isFavored, setIsFavored] = useState(
     favorites?.includes(param?.id) || false
   );
@@ -65,7 +65,7 @@ const SingleProduct: React.FC = () => {
       itemId,
     });
   };
-
+  console.log(similarClothes);
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);
@@ -76,7 +76,7 @@ const SingleProduct: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/product/?id=${param.id}`
+        `http://localhost:3000/api/discount/?id=${param.id}`
       );
 
       setData(res.data.cloth);
@@ -118,7 +118,7 @@ const SingleProduct: React.FC = () => {
     originalPriceString.split(".");
   return (
     <div className="bg-white w-full h-full ">
-      <div className=" mb-8 border border-gray-200 border-2">
+      <div className="mb-8 border border-gray-200 border-2">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
         ) : (
@@ -131,7 +131,7 @@ const SingleProduct: React.FC = () => {
             <div className="md:flex-1 px-4">
               <div className="h-[560px] rounded-lg  mb-4">
                 <img
-                  className="w-full h-full object-contain bg-indigo-100 rounded-full overflow-visible "
+                  className="w-full h-full rounded-b-full object-contain bg-indigo-100 rounded-full overflow-visible "
                   src={data?.img}
                   alt="Product Image"
                 />
@@ -296,13 +296,17 @@ const SingleProduct: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {similarClothes?.map((product: any) => {
-            return (
-              <SwiperSlide className="cursor-pointer w-max  " key={product._id}>
-                <InspirationCard product={product} />
-              </SwiperSlide>
-            );
-          })}
+          {similarClothes?.length > 0 &&
+            similarClothes?.map((product: any) => {
+              return (
+                <SwiperSlide
+                  className="cursor-pointer w-max  "
+                  key={product._id}
+                >
+                  <InspirationCard product={product} />
+                </SwiperSlide>
+              );
+            })}
           {/* <LiaAngleDoubleRightSolid className="text-lg text-gray-400" /> */}
         </Swiper>
       </main>

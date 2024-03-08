@@ -16,17 +16,15 @@ import axios from "axios";
 const Discount: React.FC = () => {
   const [data, setData] = useState<any>([]);
 
-  // const single: any = data.find((product) => product.id === param.id);
-
   const fetchData = async () => {
-    const res = await axios.get(`http://localhost:3000/api/product/`);
-    setData(res.data.cloths);
+    const res = await axios.get(`http://localhost:3000/api/discount/`);
+    setData(res.data.data);
   };
   useEffect(() => {
     fetchData();
   }, []);
   return (
-    <main className="flex  w-full p-5 shadow-lg items-center justify-between">
+    <main className="flex w-full p-5  shadow-lg items-center justify-between">
       <Swiper
         loop={true}
         // effect={"creative"}

@@ -94,8 +94,8 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
       </Link>
 
       <div className="px-5 pb-5 bg-white">
-        <h5 className="text-lg font-semibold uppercase tracking-tight text-gray-900 my-1">
-          {title}
+        <h5 className="text-base font-medium uppercase tracking-tight text-gray-700 my-1">
+          {title?.slice(0, 25)}..
         </h5>
 
         <div className="flex items-center justify-between mt-2.5 mb-5">

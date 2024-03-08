@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 interface Item {
   img: string;
@@ -5,20 +6,30 @@ interface Item {
   desc: string;
 }
 interface Props {
-  item: Item;
+  item: any;
 }
 const DiscountCard: React.FC<Props> = ({ item }) => {
-  const { img, title, desc } = item;
+  const router = useRouter();
+  const { _id, img, title, desc, discount, price } = item.products;
+  const discountInPercent = (discount / price) * 100;
+  console.log(item);
   return (
-    <div className="flex  items-center gap-5">
+    <div
+      onClick={() => router.push(`discount/${_id}`)}
+      className="flex h-48 rounded-lg  items-center gap-5"
+    >
       <img
-        className="w-20 h-20 object-contain rounded-full"
+        className="w-24 h-24 object-contain rounded-full hover:bg-yellow-300 bg-indigo-100"
         src={img}
         alt={title}
       />
       <div className=" flex  flex-col justify-start w-full">
-        <h3 className="text-xl font-medium text-gray-900">{title}</h3>
-        <p className=" text-xs text-green-400">{"20% discount"}</p>
+        <h3 className="text-xl font-medium text-gray-600 mb-4">
+          {title.slice(0, 15)}...
+        </h3>
+        <p className=" text-sm text-green-400">
+          {`${discountInPercent.toFixed(0)}% discount`}
+        </p>
       </div>
     </div>
   );

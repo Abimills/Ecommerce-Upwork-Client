@@ -70,9 +70,10 @@ const Products: React.FC = () => {
         </button>
       </div>
 
-      <div className="w-full flex items-center gap-4 justify-between flex-wrap">
+      <div className="w-full flex items-center gap-8 px-2 justify-center  flex-wrap">
         {filteredData.length > 1 &&
           filteredData
+            .slice(0, 7)
             ?.filter((cloth: any) => cloth.category?.includes("Popular"))
             .map((item: any) => {
               return <ProductCard key={item._id} product={item} />;

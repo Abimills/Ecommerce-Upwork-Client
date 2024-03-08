@@ -59,7 +59,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
   };
 
   return (
-    <div className="flex font-poppins text-base flex-col h-max    w-full items-center ">
+    <div className="flex   font-poppins text-base  flex-col h-max    w-full items-center ">
       <nav className="flex font-poppins text-base h-max min-h-16  w-full items-center justify-between  ">
         {showIcons.navigation && (
           <div className="flex items-center w-max mr-3 gap-5 h-16   justify-center ">

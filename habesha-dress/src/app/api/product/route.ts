@@ -18,7 +18,7 @@ export async function GET(req: any, res: any) {
     const similarClothes = await ClothProduct.aggregate([
       {
         $match: {
-          gender: cloth.gender,
+          forWhichGender: cloth.forWhichGender,
           // occasion: cloth.occasion,
           _id: { $ne: id }, // Exclude the current cloth ID
         },

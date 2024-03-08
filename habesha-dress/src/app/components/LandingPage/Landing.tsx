@@ -13,13 +13,13 @@ import { useEffect, useState } from "react";
 import { Anybody } from "next/font/google";
 const Landing = () => {
   return (
-    <main className="flex w-full  h-80vh bg-alice-blue mt-10">
+    <main className="flex w-full  h-80vh bg-alice-blue mt-8">
       <div className="flex w-full h-screen   items-center px-8 mb-16">
         <div className="h-full w-16  pb-8 mr-8    flex flex-col items-center justify-evenly ">
           <Swiper
             loop={true}
             // effect={"creative"}
-            autoplay={{ delay: 5000 }}
+            autoplay={{ delay: 3000 }}
             spaceBetween={30}
             slidesPerView={1}
             // navigation={true}
@@ -98,7 +98,7 @@ const Landing = () => {
         <Swiper
           loop={true}
           // effect={"creative"}
-          autoplay={{ delay: 5000 }}
+          autoplay={{ delay: 3000 }}
           spaceBetween={30}
           slidesPerView={1}
           // navigation={true}

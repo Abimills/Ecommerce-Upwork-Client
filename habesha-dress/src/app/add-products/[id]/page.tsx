@@ -312,11 +312,9 @@ const AddProducts: React.FC = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
                 <option>...</option>
-                <option value={"Friends"}>Friends</option>
                 <option value={"Family"}>Family</option>
                 <option value={"Men Friends"}>Men Friends</option>
                 <option value={"Women Friends"}>Women Friends</option>
-                <option value={"Family Holiday"}>Family Holiday</option>
               </select>
               {data.whichGroupCloth.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">
@@ -369,7 +367,6 @@ const AddProducts: React.FC = () => {
                 <option value={"Timket"}>Timket</option>
                 <option value={"Awdeamet"}>Awdeamet</option>
                 <option value={"Birthday"}>Birthday</option>
-                <option value={"Other Occasions"}>Other Occasions</option>
               </select>
               {data.clothOccasion.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">

@@ -8,14 +8,7 @@ const Footer = () => {
           <h1 className=" mb-3">Company Info</h1>
           <h3 className="">About Noami.net</h3>
         </div>
-        <div className="">
-          <h1 className=" mt-5 mb-3 pt-5">Contact Us:</h1>
 
-          <p className="mb-1">how to contact us </p>
-          <p className="mb-1">how to return </p>
-          <p className="mb-1">how to order</p>
-          <p className="mb-1">how to order custom products</p>
-        </div>
         <div className="">
           <h1 className="text-center mt-5 mb-3 pt-5"> Company Policy</h1>
 
