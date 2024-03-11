@@ -131,31 +131,29 @@ const SingleProduct: React.FC = () => {
             <div className="md:flex-1 px-4">
               <div className="h-[560px] rounded-lg  mb-4">
                 <img
-                  className="w-full h-full object-contain bg-indigo-100 rounded-full overflow-visible "
+                  className="w-full h-full object-contain bg-indigo-100 rounded-full overflow-hidden "
                   src={data?.img}
                   alt="Product Image"
                 />
               </div>
             </div>
-            <div className=" w-full md:flex-1 px-4">
-              <div className=" w-full flex items-center justify-between mb-6 pr-8">
+            <div className=" w-full md:flex-1  px-4 mr-6">
+              <div className=" w-full flex items-start justify-between mb-6 ">
                 <h2 className="text-2xl font-bold text-gray-800  ">
-                  <span>{data?.title}</span>
-                  <span>
-                    <p className="font-medium text-xl">
-                      #{data?.forWhichGender}
-                    </p>
+                  <span className="mb-4">{data?.title}</span> <br />
+                  <span className="font-medium text-xl">
+                    #{data?.forWhichGender}
                   </span>
                 </h2>
                 {isFavored ? (
                   <IoIosHeart
                     onClick={() => handleFavorites(param?.id)}
-                    className="absolute  text-3xl m-1 mr-8 text-orange-500 right-0 hover:text-3xl"
+                    className="  text-3xl mx-1  text-red-500  cursor-pointer"
                   />
                 ) : (
                   <IoIosHeartEmpty
                     onClick={() => handleFavorites(param?.id)}
-                    className="absolute  text-3xl m-1 mr-8 text-orange-500 right-0 hover:text-3xl"
+                    className="  text-3xl mx-1  text-gray-700 cursor-pointer "
                   />
                 )}
               </div>
@@ -179,25 +177,8 @@ const SingleProduct: React.FC = () => {
                     {originalDecimalPart}
                   </span>
                 </p>
-                {/* <div>
-                  <span className="font-bold text-gray-700 dark:text-gray-300 mr-3">
-                    Availability:
-                  </span>
-                  <span className="text-green-500 mr-8">In Stock</span>
-                </div> */}
               </div>
-              {/* <div className="mb-4">
-              <span className="font-bold text-gray-700 dark:text-gray-300">
-                Select Color:
-              </span>
-              <div className="flex items-center mt-2">
-                <button className="w-6 h-6 rounded-full bg-gray-800 dark:bg-gray-200 mr-2"></button>
-                <button className="w-6 h-6 rounded-full bg-red-500 dark:bg-red-700 mr-2"></button>
-                <button className="w-6 h-6 rounded-full bg-blue-500 dark:bg-blue-700 mr-2"></button>
-                <button className="w-6 h-6 rounded-full bg-yellow-500 dark:bg-yellow-700 mr-2"></button>
-              </div>
-            </div> 
-          */}
+
               <div className="w-full flex items-center justify-between mb-8 mt-4 ">
                 <div className=" w-full flex items-center gap-4">
                   <div className="w-3 h-3 rounded-full bg-green-400"></div>

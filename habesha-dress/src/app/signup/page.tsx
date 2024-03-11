@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-
+import { saveAs } from "file-saver";
 const LoginPage: React.FC = () => {
   const [data, setData] = useState<any>({
     name: "",
@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
   });
   const [passwordAgain, setPasswordAgain] = useState<any>("");
   const router = useRouter();
-  console.log(data);
+
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
     ) {
       if (data.password === passwordAgain) {
         const res = await axios.post("http://localhost:3000/api/user", data);
-        console.log(res.data);
+
         if (res.data.success) {
           alert("successfully registered");
           router.push("/login");
@@ -39,8 +39,11 @@ const LoginPage: React.FC = () => {
       }
     } else {
       alert("fill all fields");
-      console.log(data);
     }
+  };
+  const handleDownloadTerms = () => {
+    const pdfFile = "/terms.pdf";
+    saveAs(pdfFile, "downloaded_file.pdf");
   };
   return (
     <div className="w-full   h-max  bg-white p-1">
@@ -61,6 +64,7 @@ const LoginPage: React.FC = () => {
                     name="name"
                     onChange={(e) => handleChange(e)}
                     value={data.name}
+                    required
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name"
                   />
@@ -74,27 +78,12 @@ const LoginPage: React.FC = () => {
                     name="email"
                     onChange={(e) => handleChange(e)}
                     value={data.email}
+                    required
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="john@gmail.com"
                   />
                 </div>
-                {/* <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Country
-                  </label>
-                  <select
-                    name="location"
-                    onChange={(e) => handleChange(e)}
-                    value={data.location}
-                    className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                  >
-                    <option>Choose a country</option>
-                    <option value={"USA"}>USA</option>
-                    <option value={"Canada"}>Canada</option>
-                    <option value={"Germany"}>Germany</option>
-                    <option value={"Netherlands"}>Netherlands</option>
-                  </select>
-                </div> */}
+
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Gender
@@ -103,13 +92,11 @@ const LoginPage: React.FC = () => {
                     name="gender"
                     onChange={(e) => handleChange(e)}
                     value={data.gender}
+                    required
                     className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   >
-                    <option>Choose a Gender</option>
-                    <option>...</option>
                     <option value={"man"}>man</option>
                     <option value={"women"}>women</option>
-                    <option value={"Rather not say"}>Rather not say</option>
                   </select>
                 </div>
                 <div>
@@ -122,6 +109,7 @@ const LoginPage: React.FC = () => {
                     onChange={(e) => handleChange(e)}
                     value={data.password}
                     placeholder="••••••••"
+                    required
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
@@ -135,6 +123,7 @@ const LoginPage: React.FC = () => {
                     onChange={(e: any) => setPasswordAgain(e.target.value)}
                     placeholder="••••••••"
                     value={passwordAgain}
+                    required
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
@@ -143,19 +132,20 @@ const LoginPage: React.FC = () => {
                     <input
                       aria-describedby="terms"
                       type="checkbox"
+                      required
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     />
                   </div>
-                  <div className="ml-3 text-sm">
+                  <div className="ml-3 text-sm flex">
                     <label className="font-light text-gray-500 dark:text-gray-300">
-                      I accept the{" "}
-                      <a
-                        className="font-medium text-blue-600 hover:underline dark:text-primary-500"
-                        href="#"
-                      >
-                        Terms and Conditions
-                      </a>
+                      I accept the
                     </label>
+                    <p
+                      className="font-medium text-blue-600 hover:underline dark:text-primary-500 cursor-pointer"
+                      onClick={handleDownloadTerms}
+                    >
+                      Terms and Conditions
+                    </p>
                   </div>
                 </div>
                 <button
@@ -166,12 +156,12 @@ const LoginPage: React.FC = () => {
                 </button>
                 <p className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
                   Already have an account?
-                  <a
-                    href="#"
-                    className="font-medium text-blue-600 hover:underline dark:text-primary-500"
+                  <p
+                    onClick={() => router.push("/login")}
+                    className="font-medium text-blue-600 hover:underline dark:text-primary-500 cursor-pointer"
                   >
                     Login here
-                  </a>
+                  </p>
                 </p>
               </form>
             </div>

@@ -87,7 +87,7 @@ const WelcomeUserProfile: React.FC = () => {
           {user?.recommendedProducts?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
-                <InspirationCard item={item} />
+                <InspirationCard product={item} />
               </SwiperSlide>
             );
           })}
