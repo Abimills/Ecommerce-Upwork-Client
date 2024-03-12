@@ -11,19 +11,34 @@ import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 import { useRouter } from "next/navigation";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import FilterData from "../components/Filter/Filter";
+import SearchBar from "../components/Navbar/SearchBar";
+import Navbar from "../components/Navbar/Navbar";
+import Filtering from "../components/FilteringComponent/FilteringComponents";
+import Footer from "../components/Footer/Footer";
 // interface Props {
 //   category: string[];
 // }
+const showIcons = {
+  search: true,
+  user: true,
+  wishlist: true,
+  cart: true,
+  navigation: true,
+};
 const AllProducts: React.FC = () => {
   // const products = useSelector((state: any) => state.data);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
-
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
   const router = useRouter();
   const [activePagination, setActivePagination] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [paginationNumber, setPaginationNumber] = useState(
+    totalPages ? 96 / totalPages : 8
+  );
   const [totalCloths, setTotalCloths] = useState(0);
   const handlePagination = async (page: any) => {
     try {
@@ -50,8 +65,24 @@ const AllProducts: React.FC = () => {
     };
     fetchData();
   }, []);
+  const handleMuliplyPagination = () => {
+    if (currentPage <= totalPages) {
+      const newPagination = currentPage + 1;
+      setCurrentPage(newPagination);
+      setPaginationNumber(newPagination * paginationNumber);
+      console.log(currentPage);
+    }
+    return;
+  };
   return (
-    <main className="w-full  h-max bg-white px-5 py-3 flex flex-col ">
+    <main className="w-full  h-max bg-white flex flex-col ">
+      <div className="w-full   border border-gray-100 mb-8 border-2 ">
+        {showSearch ? (
+          <SearchBar showIcons={showIcons} />
+        ) : (
+          <Navbar showIcons={showIcons} />
+        )}
+      </div>
       {openFilter && (
         <FilterData
           data={data}
@@ -60,27 +91,43 @@ const AllProducts: React.FC = () => {
           setData={setFilteredData}
         />
       )}
-      <div className="w-full mb-16 mt-6  flex items-center justify-between ">
-        <h1 className="font-roboto font-md text-3xl  mx-4 ">
-          Discover All Products
-        </h1>
-        <button
-          onClick={() => setOpenFilter(true)}
-          className="hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
-        >
-          <RiMenuSearchLine className="text-xl" />
-          Filter & Sort
-        </button>
+      <div className="">
+        <Filtering
+          data={data}
+          setData={setFilteredData}
+          open={openFilter}
+          setOpen={setOpenFilter}
+        />
       </div>
 
-      <div className="w-full flex items-center mt-8 gap-4 justify-between flex-wrap">
+      <div className="w-full px-32 border-b border-gray-300 flex items-center mt-8 mb-16 gap-16 justify-center flex-wrap">
         {filteredData.length > 1 &&
           filteredData?.map((item: any) => {
             return <ProductCard key={item._id} product={item} />;
           })}
       </div>
+      <div className="w-full flex flex-col  items-center justify-center">
+        <div className="">
+          <p className=" text-sm mb-4 text-gray-400">
+            showing <span className="">24</span> of{" "}
+            <span className="">100</span> results
+          </p>
+        </div>
+        <div className="mb-8 w-96 h-0.5 bg-red-200 rounded-full">
+          <div
+            className={`w-${paginationNumber} h-0.5 bg-black rounded-full`}
+          ></div>
+        </div>
+
+        <button
+          onClick={handleMuliplyPagination}
+          className="px-24 py-2  mb-24 text-xs font-medium border border-gray-600 rounded-full text-center"
+        >
+          Show more
+        </button>
+      </div>
       {/* pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
+      {/* <div className="flex items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p className="text-sm text-gray-700">
@@ -158,7 +205,9 @@ const AllProducts: React.FC = () => {
             </nav>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <Footer />
     </main>
   );
 };

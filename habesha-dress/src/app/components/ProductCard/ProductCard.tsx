@@ -95,7 +95,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-80 h-[460px] max-w-sm bg-gray-600   rounded-md shadow-lg relative mb-8 ">
+    <div className="w-80 h-[460px] max-w-sm bg-white rounded-md shadow-lg relative mb-8 ">
       {!isFavored ? (
         <div className="absolute m-1 rounded-full cursor-pointer hover:bg-white hover:border hover:border-gray-200 right-0 w-8 h-8  display-flex items-center justify-center bg-white">
           <IoIosHeartEmpty
@@ -118,8 +118,8 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         alt="product image"
       />
 
-      <div className="px-5 py-3 w-full top-3/3 pb-5 bg-gray-600 absolute ">
-        <h5 className="text-base font-medium capitalize tracking-tight text-gray-200 ">
+      <div className="px-5 py-3 w-full h-max pb-5 bg-white ">
+        <h5 className="text-base font-medium capitalize tracking-tight text-gray-600 ">
           {title?.slice(0, 15)}..
         </h5>
 
@@ -147,9 +147,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           </div>
           <p
             onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-2xl  text-gray-100 leading-10 font-medium   font-roboto cursor-pointer"
+            className="text-2xl  text-gray-800 leading-10 font-medium   font-roboto cursor-pointer"
           >
-            <span className="text-sm font-medium text-gray-100 relative bottom-2 mr-0.5  ">
+            <span className="text-sm font-medium text-gray-800 relative bottom-2 mr-0.5  ">
               £
             </span>
             {wholePart}
