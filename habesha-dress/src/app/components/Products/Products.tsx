@@ -11,6 +11,15 @@ import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 import FilterData from "../Filter/Filter";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { setAllProducts, sortDataReducer } from "@/app/lib/cartSlice/dataSlice";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCreative } from "swiper/modules";
+
+import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-creative";
 const Products: React.FC = () => {
   const showFilter = useSelector((state: any) => state.cart.showFilter);
   const [openFilter, setOpenFilter] = useState(false);
@@ -25,7 +34,9 @@ const Products: React.FC = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/product/");
+      const res = await axios.get(
+        `http://localhost:3000/api/product/?page=${4}`
+      );
 
       if (res.data.totalPages) {
         setTotalPages(res.data.totalPages);
@@ -48,7 +59,7 @@ const Products: React.FC = () => {
     }
   };
   return (
-    <main className="w-full  h-full min-h[500px] flex flex-col">
+    <main className="w-full  h-full min-h[500px]  flex flex-col">
       {openFilter && (
         <FilterData
           data={data}
@@ -71,13 +82,31 @@ const Products: React.FC = () => {
       </div>
 
       <div className="w-full flex items-center gap-8 px-2 justify-center  flex-wrap">
-        {filteredData.length > 1 &&
-          filteredData
-            .slice(0, 7)
-            ?.filter((cloth: any) => cloth.category?.includes("Popular"))
-            .map((item: any) => {
-              return <ProductCard key={item._id} product={item} />;
-            })}
+        <Swiper
+          loop={true}
+          // effect={"creative"}
+          autoplay={{ delay: 5000 }}
+          spaceBetween={30}
+          slidesPerView={4}
+          // navigation={true}
+          // pagination={{ clickable: true }}
+          className="w-max h-max flex  cursor-pointer  "
+          // onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
+          modules={[Pagination, Navigation, Autoplay, EffectCreative]}
+        >
+          {filteredData.length > 1 &&
+            filteredData
+
+              ?.filter((cloth: any) => cloth.category?.includes("Popular"))
+              .map((item: any) => {
+                return (
+                  <SwiperSlide className="cursor-pointer w-max  ">
+                    <ProductCard key={item._id} product={item} />
+                  </SwiperSlide>
+                );
+              })}
+        </Swiper>
       </div>
       {/* pagination */}
       <div className="flex items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
@@ -89,7 +118,7 @@ const Products: React.FC = () => {
             Next
           </button>
         </div> */}
-        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        {/* <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p className="text-sm text-gray-700">
               Showing <span className="font-medium">{activePagination}</span> to{" "}
@@ -117,7 +146,6 @@ const Products: React.FC = () => {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-              {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
               <div className="flex ">
                 {Array(totalPages)
                   ?.fill("")
@@ -166,7 +194,7 @@ const Products: React.FC = () => {
               </button>
             </nav>
           </div>
-        </div>
+        </div> */}
       </div>
     </main>
   );

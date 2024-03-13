@@ -34,7 +34,7 @@ const AllProducts: React.FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const router = useRouter();
-  const [activePagination, setActivePagination] = useState(1);
+  const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [paginationNumber, setPaginationNumber] = useState(
     totalPages ? 96 / totalPages : 8
@@ -61,16 +61,28 @@ const AllProducts: React.FC = () => {
         setFilteredData(res.data.cloths);
         setTotalPages(res.data.totalPages);
         setTotalCloths(res.data.totalCloths);
+        setActivePage(res.data.page);
       }
     };
     fetchData();
   }, []);
-  const handleMuliplyPagination = () => {
-    if (currentPage <= totalPages) {
+  const handleMultiplyPagination = async () => {
+    if (currentPage < totalPages) {
       const newPagination = currentPage + 1;
       setCurrentPage(newPagination);
       setPaginationNumber(newPagination * paginationNumber);
-      console.log(currentPage);
+      try {
+        const incrementCurrentPage = activePage + 1;
+        setActivePage(incrementCurrentPage);
+        const res = await axios.get(
+          `http://localhost:3000/api/product/?page=${incrementCurrentPage}`
+        );
+        setData(res.data.cloths);
+        setFilteredData(res.data.cloths);
+        setActivePage(res.data.page);
+      } catch (error) {
+        console.log(error);
+      }
     }
     return;
   };
@@ -109,8 +121,8 @@ const AllProducts: React.FC = () => {
       <div className="w-full flex flex-col  items-center justify-center">
         <div className="">
           <p className=" text-sm mb-4 text-gray-400">
-            showing <span className="">24</span> of{" "}
-            <span className="">100</span> results
+            showing <span className="">{filteredData?.length}</span> out of{" "}
+            <span className="">{totalCloths}</span> results
           </p>
         </div>
         <div className="mb-8 w-96 h-0.5 bg-red-200 rounded-full">
@@ -120,7 +132,7 @@ const AllProducts: React.FC = () => {
         </div>
 
         <button
-          onClick={handleMuliplyPagination}
+          onClick={handleMultiplyPagination}
           className="px-24 py-2  mb-24 text-xs font-medium border border-gray-600 rounded-full text-center"
         >
           Show more

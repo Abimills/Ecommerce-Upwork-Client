@@ -12,7 +12,6 @@ const DiscountCard: React.FC<Props> = ({ item }) => {
   const router = useRouter();
   const { _id, img, title, desc, discount, price } = item.products;
   const discountInPercent = (discount / price) * 100;
-  console.log(item);
   return (
     <div
       onClick={() => router.push(`discount/${_id}`)}

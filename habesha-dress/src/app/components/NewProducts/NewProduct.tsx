@@ -10,7 +10,15 @@ import { RiMenuSearchLine } from "react-icons/ri";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 import FilterData from "../Filter/Filter";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCreative } from "swiper/modules";
 
+import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-creative";
 const NewProduct: React.FC = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -28,7 +36,9 @@ const NewProduct: React.FC = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/product/");
+      const res = await axios.get(
+        `http://localhost:3000/api/product/?page=${4}`
+      );
 
       if (res.data.totalPages) {
         setTotalPages(res.data.totalPages);
@@ -76,17 +86,35 @@ const NewProduct: React.FC = () => {
         </button>
       </div>
       <div className="w-full flex flex-wrap justify-between items-center">
-        {filteredData
-          ?.filter(
-            (cloth: any) =>
-              cloth.category?.includes("Recommended") ||
-              cloth.category?.includes("New Product")
-          )
-          .map((product: any) => {
-            return <ProductCard key={product._id} product={product} />;
-          })}
+        <Swiper
+          // loop={true}
+          // effect={"creative"}
+          autoplay={{ delay: 5000 }}
+          spaceBetween={30}
+          slidesPerView={4}
+          navigation={true}
+          // pagination={{ clickable: true }}
+          className="w-max h-max flex  cursor-pointer  "
+          // onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
+          modules={[Pagination, Navigation, Autoplay, EffectCreative]}
+        >
+          {filteredData
+            ?.filter(
+              (cloth: any) =>
+                cloth.category?.includes("Recommended") ||
+                cloth.category?.includes("New Product")
+            )
+            .map((product: any) => {
+              return (
+                <SwiperSlide className="cursor-pointer w-max  ">
+                  <ProductCard key={product._id} product={product} />
+                </SwiperSlide>
+              );
+            })}
+        </Swiper>
       </div>
-      <div className="flex w-full items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
+      {/* <div className="flex w-full items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
         <div className="hidden w-full items-center justify-between  sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p className="text-sm text-gray-700">
@@ -115,7 +143,6 @@ const NewProduct: React.FC = () => {
                 <span className="sr-only">Previous</span>
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </button>
-              {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
               <div className="flex ">
                 {Array(totalPages)
                   ?.fill("")
@@ -165,7 +192,7 @@ const NewProduct: React.FC = () => {
             </nav>
           </div>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 };

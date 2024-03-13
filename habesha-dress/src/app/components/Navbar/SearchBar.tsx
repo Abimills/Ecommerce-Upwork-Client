@@ -57,14 +57,16 @@ interface Props {
 const SearchBar: React.FC<Props> = ({ showIcons }) => {
   const router = useRouter();
 
-  const cartItems = useAppSelector((state: RootState) => state.cart.items);
-  const favorites = useAppSelector((state: RootState) => state.cart.favorites);
+  const cartItems: any = useAppSelector((state: RootState) => state.cart.items);
+  const favorites: any = useAppSelector(
+    (state: RootState) => state.cart.favorites
+  );
   const user = useAppSelector((state: RootState) => state.auth.user);
   const [data, setData] = useState([]);
+  const [queryEmpty, setQueryEmpty] = useState(false);
   const storedSearches = localStorage.getItem("habeshaSearches");
   const initialSearches = storedSearches ? JSON.parse(storedSearches) : [];
   const [searches, setSearches] = useState<any>(initialSearches);
-  console.log(searches);
 
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
@@ -87,10 +89,10 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
         setData([]);
       }
       if (query && query !== "") {
+        setQueryEmpty(false);
         const res = await axios.get(
           `http://localhost:3000/api/search/?query=${query}`
         );
-        console.log(res.data.cloths);
         if (res.data.cloths) {
           setData(res.data.cloths);
         }
@@ -98,17 +100,43 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
     };
     searchData();
   }, [query]);
-  const handleSearchNavigation = () => {
-    router.push(`/search/${query}`);
-    const habeshaSearches: any = JSON.parse(
-      localStorage.getItem("habeshaSearches") || "null"
-    );
-    if (habeshaSearches?.length > 0) {
-      habeshaSearches.unshift(query);
-      localStorage.setItem("habeshaSearches", JSON.stringify(habeshaSearches));
+  const handleSearchNavigation = (suggestion?: string) => {
+    if (!query || query == "") {
+      setQueryEmpty(true);
+      // const timeOut = setTimeout(() => {
+      //   setQueryEmpty(false);
+      // }, 2000);
+      // clearTimeout(timeOut);
+      // alert("Please enter a search term");
+    } else if (query) {
+      dispatch(toggleShowSearch());
+      router.push(`/search?query=${query ? query : suggestion}`);
+      const habeshaSearches: any = JSON.parse(
+        localStorage.getItem("habeshaSearches") || "null"
+      );
+      if (habeshaSearches?.length > 0) {
+        const found = habeshaSearches.find(
+          (searches: any) => searches == query || searches == suggestion
+        );
+        if (!found) {
+          habeshaSearches.unshift(query ? query : suggestion);
+          localStorage.setItem(
+            "habeshaSearches",
+            JSON.stringify(habeshaSearches)
+          );
+        }
+      }
+      if (!habeshaSearches) {
+        localStorage.setItem(
+          "habeshaSearches",
+          JSON.stringify([query ? query : suggestion])
+        );
+      }
     }
-    if (!habeshaSearches) {
-      localStorage.setItem("habeshaSearches", JSON.stringify([query]));
+  };
+  const handleKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      handleSearchNavigation();
     }
   };
   const handleRemoveSearch = () => {
@@ -136,16 +164,21 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
           <div className="flex  flex-1 align-items w-1\2  justify-between ">
             <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
               {showIcons.search && (
-                <div className="flex items-center outline:none   border-b border-b-2 border-gray-700  w-full min-h-16 h-4   gap-3  ml-6  ">
+                <div
+                  className={`flex items-center outline:none   border-b border-b-2 border-gray-700  w-full min-h-16 h-4   gap-3  ml-6 ${
+                    queryEmpty && "  border-b-red-500 "
+                  } `}
+                >
                   <input
                     type="text"
                     value={query}
                     onChange={(e: any) => setQuery(e.target.value)}
+                    onKeyDown={(e) => handleKeyPress(e)}
                     className=" w-full    focus:outline-none focus:ring focus:ring-transparent  text-xl border border-transparent active:border-none   focus:outline-transparent focus:border-transparent  "
                     placeholder="What are you looking for? "
                   />
                   <IoIosArrowRoundForward
-                    onClick={handleSearchNavigation}
+                    onClick={() => handleSearchNavigation()}
                     className="text-3xl text-black cursor-pointer   h-full "
                   />
                 </div>
@@ -213,20 +246,41 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
             </h1>
 
             {searches?.length > 0 ? (
-              searches?.slice(0, 3).map((search: any) => {
+              searches?.slice(0, 6).map((search: any) => {
                 return (
-                  <p className=" text-md text-gray-500 font-semibold  underline underline-offset-4 mb-4">
+                  <p
+                    onClick={() => handleSearchNavigation(search)}
+                    className=" text-md text-gray-500 hover:text-gray-700 font-semibold cursor-pointer  hover:underline underline-offset-4 mb-4"
+                  >
                     {search}
                   </p>
                 );
               })
             ) : (
               <div className="">
-                <p className=" text-md text-gray-500 underline mb-4">
-                  Women dress
+                <p
+                  onClick={() => handleSearchNavigation("habesha dress")}
+                  className=" hover:text-gray-700 cursor-pointer hover:underline-offset-6 text-md text-gray-500 underline mb-4"
+                >
+                  Habesha dress
                 </p>
-                <p className=" text-md text-gray-500 underline mb-4">
-                  Men Cloths
+                <p
+                  onClick={() => handleSearchNavigation("men")}
+                  className=" hover:text-gray-700 cursor-pointer hover:underline-offset-6 text-md text-gray-500 underline mb-4"
+                >
+                  Men
+                </p>
+                <p
+                  onClick={() => handleSearchNavigation("wedding")}
+                  className=" hover:text-gray-700 cursor-pointer hover:underline-offset-6 text-md text-gray-500 underline mb-4"
+                >
+                  Wedding
+                </p>
+                <p
+                  onClick={() => handleSearchNavigation("Awdeamet")}
+                  className=" hover:text-gray-700 cursor-pointer hover:underline-offset-6 text-md text-gray-500 underline mb-4"
+                >
+                  Awdeamet
                 </p>
               </div>
             )}

@@ -37,9 +37,10 @@ export async function GET(req: any, res: any) {
   }
   if (page) {
     const skip = (page - 1) * pageSize;
+    const infiniteScroll = page * pageSize;
     const totalCloths = await ClothProduct.countDocuments();
     const totalPages = Math.ceil(totalCloths / pageSize);
-    const cloths = await ClothProduct.find().skip(skip).limit(pageSize);
+    const cloths = await ClothProduct.find().limit(infiniteScroll);
     return NextResponse.json(
       {
         success: true,
