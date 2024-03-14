@@ -5,6 +5,7 @@ import data from "./wishData";
 import CartProduct from "../components/CartProduct/CartProduct";
 import Footer from "../components/Footer/Footer";
 import { useAppSelector } from "../lib/hooks";
+import { RiArrowGoBackLine } from "react-icons/ri";
 
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -16,11 +17,13 @@ const Cart: React.FC = () => {
   const router = useRouter();
   // const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
-  const subTotal: number = cartItems.reduce(
-    (total: number, current: any) =>
-      total + parseFloat(current.price) * parseFloat(current.quantity),
-    0
-  );
+  const subTotal: number = cartItems
+    .reduce(
+      (total: number, current: any) =>
+        total + parseFloat(current.price) * parseFloat(current.quantity),
+      0
+    )
+    .toFixed(2);
   const subTotalDiscount: number = cartItems
     .reduce(
       (total: number, current: any) =>
@@ -39,17 +42,21 @@ const Cart: React.FC = () => {
   return (
     <main className="w-full  min-h-screen p-2 bg-white">
       <div className=" mb-8 flex items-center">
-        <div className=" w-max flex items-center gap-10 ">
-          <h1 className=" text-lg  text-gray-600 tracking-tight font-base text-green-400 cursor-pointer">
+        <div className=" w-max flex items-center gap-4 p-0.5 ">
+          <RiArrowGoBackLine
+            onClick={() => router.back()}
+            className="ml-6 font-medium hover:text-green-700  cursor-pointer"
+          />
+          <h1 className=" text-xl font-medium  text-gray-600 tracking-tight font-base text-gray-700 cursor-pointer">
             <span
-              className="hover:underline text-green-400 mx-2"
+              className="hover:underline text-gray-700 mx-1"
               onClick={() => router.push("/")}
             >
               Home
             </span>
-            {">"}
+            {"/"}
 
-            <span className=" hover:underline text-green-400 mx-2 ">Cart</span>
+            <span className=" hover:underline text-gray-700  mx-1">Cart</span>
           </h1>
         </div>
         {showSearch ? (
@@ -62,15 +69,29 @@ const Cart: React.FC = () => {
         {/* left side cart */}
         {cartItems?.length > 0 ? (
           <div className="w-2/3 ">
-            <h1 className=" text-4xl  px-2 leading-7 font-poppins w-full  r mb-5 flex justify-start gap-2  text-gray-600   font-semibold ">
+            {/* <h1 className=" text-4xl  px-2 leading-7 font-poppins w-full  r mb-5 flex justify-start gap-2  text-gray-600   font-semibold ">
               <FaShoppingBag className=" text-2xl" />
               <span className="">Cart </span>
-            </h1>
+            </h1> */}
             <div className="w-full flex flex-col">
               {cartItems.map((item: any) => (
                 <CartProduct key={item.id} product={item} />
               ))}
             </div>
+            {cartItems.length > 1 && (
+              <div className="w-full flex items-center border-b-2 bg-gray-50 px-4 py-1 border-b-gray-400 justify-between ">
+                <div className="flex items-center">
+                  <p className="text-base font-semibold text-xl text-gray-600 my-4 ">
+                    Total <span>{`(${cartItems?.length}) items`}</span>:
+                  </p>
+                  <p className="my-4 font-semibold text-xl ml-3"> £{total}</p>
+                </div>
+
+                <button className=" w-1/3 my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white">
+                  Checkout
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="w-2/3 flex mt-8  flex-col">
@@ -112,6 +133,7 @@ const Cart: React.FC = () => {
             </p>
             <p className="my-4 font-medium">$8.32</p>
           </div> */}
+
           <div className="w-full flex items-center mt-2 justify-between ">
             <p className="text-base font-semibold text-lg text-gray-600 my-4 ">
               Total

@@ -28,6 +28,7 @@ export async function POST(req: any) {
           { $match: { forWhichGender: userGender } },
           { $sample: { size: 10 } },
         ]);
+        const sendIds = recommendedItems.map((item: any) => item._id);
 
         const userInfo = {
           _id: user._id,
@@ -40,7 +41,7 @@ export async function POST(req: any) {
           message: user.message,
           newsletter: user.message,
           wishlist: user.favReviews,
-          recommendedProducts: recommendedItems,
+          recommendedProducts: sendIds,
           token: token,
         };
         return NextResponse.json({

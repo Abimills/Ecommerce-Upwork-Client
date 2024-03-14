@@ -69,7 +69,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       price: product.price,
       quantity: 1,
       id: product._id,
-      discount: discount,
+      discount: discount ? discount : 0,
       inStock: true,
       chosenSize: sizeChoose || "",
       img: product.img,

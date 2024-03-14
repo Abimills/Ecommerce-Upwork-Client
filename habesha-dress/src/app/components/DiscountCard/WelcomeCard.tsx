@@ -1,15 +1,25 @@
+import { useRouter } from "next/navigation";
 import React from "react";
 interface Item {
   img: string;
   title: string;
+  searchTerm: string;
 }
 interface Props {
   item: Item;
 }
 const WelcomeCard: React.FC<Props> = ({ item }) => {
-  const { img, title } = item;
+  const router = useRouter();
+  const { img, title, searchTerm } = item;
+  const handleSearch = (value: string) => {
+    router.push(`/search?query=${value}`);
+  };
+
   return (
-    <div className="flex flex-col  items-center gap-5">
+    <div
+      onClick={() => handleSearch(searchTerm)}
+      className="flex flex-col  items-center gap-5"
+    >
       <img
         className="w-64 h-80 object-contain rounded-lg "
         src={img}

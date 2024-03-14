@@ -84,7 +84,7 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-80 h-88 max-w-sm bg-white   rounded-md shadow-lg relative  ">
+    <div className="w-80 h-88 max-w-sm bg-white    border border-gray-300 relative  ">
       <Link href={`/${_id}`}>
         <img
           className="object-contain   w-full h-56 rounded-t-lg bg-gray-50 "

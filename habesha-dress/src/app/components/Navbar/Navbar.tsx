@@ -132,7 +132,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
                     </div>
                   )}
                 </div>
-                <span className=" bg-green-500 text-sm text-white px-2 cursor-pointer font-poppins rounded-full ">
+                <span className={` ${cartItems.length > 0 ? "bg-red-700" :"bg-gray-800"  }  text-sm text-white px-2 cursor-pointer font-poppins rounded-full `}>
                   {cartItems.length || 0}
                 </span>
               </div>

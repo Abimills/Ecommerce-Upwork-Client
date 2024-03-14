@@ -31,7 +31,7 @@ const UserProfile: React.FC = () => {
   // const [show, setShow] = useState(["welcome", "order"]);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [activePage, setActivePage] = useState("profile");
+  const [activePage, setActivePage] = useState("welcome");
   const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
 

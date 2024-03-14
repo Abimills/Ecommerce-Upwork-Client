@@ -101,8 +101,12 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
     searchData();
   }, [query]);
   const handleSearchNavigation = (suggestion?: string) => {
+    if (suggestion) {
+      setQuery(suggestion);
+    }
     if (!query || query == "") {
       setQueryEmpty(true);
+
       // const timeOut = setTimeout(() => {
       //   setQueryEmpty(false);
       // }, 2000);
@@ -305,12 +309,12 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
             )}
             <div className="w-full flex overflow-x-hidden items-center gap-4  ">
               <Swiper
-                loop={true}
+                // loop={true}
                 // effect={"creative"}
                 autoplay={{ delay: 5000 }}
                 spaceBetween={1}
                 slidesPerView={3}
-                // navigation={true}
+                navigation={true}
                 className=" w-88  h-max  cursor-pointer  "
                 modules={[Pagination, Navigation, Autoplay, EffectCreative]}
               >

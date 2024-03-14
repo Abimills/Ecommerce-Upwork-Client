@@ -90,11 +90,12 @@ const SingleProduct: React.FC = () => {
       price: product.price,
       quantity: 1,
       id: product._id,
+      discount: product.discount ? product.discount : 0,
       inStock: true,
       chosenSize: sizeChoose || "",
-      chosenColor: colorChoose || "",
       img: product.img,
     };
+
     dispatch(addToCart(data));
   };
   const handleBuy = (product: any) => {

@@ -21,6 +21,8 @@ import Footer from "../Footer/Footer";
 import { useSelector } from "react-redux";
 const WelcomeUserProfile: React.FC = () => {
   const [data, setData] = useState<any>([]);
+  const [recommendedData, setRecommendedData] = useState<any>([]);
+
   const user = useSelector((state: any) => state.auth.user);
 
   // const single: any = data.find((product) => product.id === param.id);
@@ -29,6 +31,24 @@ const WelcomeUserProfile: React.FC = () => {
     const res = await axios.get(`http://localhost:3000/api/product/`);
     setData(res.data.cloths);
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user?.recommendedProducts?.length > 0) {
+        const selected: any = [];
+        const res = await Promise.all(
+          user?.recommendedProducts?.map((id: any) =>
+            axios.get(`http://localhost:3000/api/product/?id=${id}`)
+          )
+        );
+        const wishlistProducts: any = res.map((product) => product.data.cloth);
+        wishlistProducts?.map((item: any) => selected.push(...item.category));
+
+        setRecommendedData(wishlistProducts);
+      }
+    };
+
+    fetchData();
+  }, []);
   useEffect(() => {
     fetchData();
   }, []);
@@ -84,7 +104,7 @@ const WelcomeUserProfile: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {user?.recommendedProducts?.map((item: any) => {
+          {recommendedData?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
                 <InspirationCard product={item} />
