@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import data from "../components/Products/allProducts";
+import data from "../../components/Products/allProducts";
 import { IoMdArrowBack } from "react-icons/io";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -16,18 +16,18 @@ import { GiBodyHeight } from "react-icons/gi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
-import { addToCart, addToFavorites } from "../lib/cartSlice/cartSlice";
-import { useAppDispatch } from "../lib/hooks";
-import SearchBar from "../components/Navbar/SearchBar";
-import Navbar from "../components/Navbar/Navbar";
+import { addToCart, addToFavorites } from "../../lib/cartSlice/cartSlice";
+import { useAppDispatch } from "../../lib/hooks";
+import SearchBar from "../../components/Navbar/SearchBar";
+import Navbar from "../../components/Navbar/Navbar";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
-import InspirationCard from "../components/DiscountCard/InspirationCard";
-import Footer from "../components/Footer/Footer";
+import InspirationCard from "../../components/DiscountCard/InspirationCard";
+import Footer from "../../components/Footer/Footer";
 // interface DataType {
 //   title: string;
 //   id: string;
@@ -118,7 +118,7 @@ const SingleProduct: React.FC = () => {
   const [originalWholePart, originalDecimalPart] =
     originalPriceString.split(".");
   return (
-    <div className="bg-white w-full h-full ">
+    <div className="bg-white w-full h-full font-Dosis font-semibold">
       <div className=" mb-8 border border-gray-200 border-2">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -140,16 +140,16 @@ const SingleProduct: React.FC = () => {
             </div>
             <div className=" w-full md:flex-1  px-4 mr-6">
               <div className=" w-full flex items-start justify-between mb-6 ">
-                <h2 className="text-2xl font-bold text-gray-800  ">
+                <h2 className="text-3xl font-Dosis font-semibold text-gray-800  ">
                   <span className="mb-4">{data?.title}</span> <br />
-                  <span className="font-medium text-xl">
+                  <span className="font-medium text-base text-gray-400">
                     #{data?.forWhichGender}
                   </span>
                 </h2>
                 {isFavored ? (
                   <IoIosHeart
                     onClick={() => handleFavorites(param?.id)}
-                    className="  text-3xl mx-1  text-red-500  cursor-pointer"
+                    className="  text-3xl mx-1  text-black  cursor-pointer"
                   />
                 ) : (
                   <IoIosHeartEmpty
@@ -160,21 +160,21 @@ const SingleProduct: React.FC = () => {
               </div>
 
               <div className="flex mb-4 justify-between">
-                <p className="text-3xl  text-gray-900 leading-10 font-semibold   font-roboto cursor-pointer">
-                  <span className="text-sm font-semibold text-black relative bottom-2 mr-0.5  ">
-                    £
+                <p className="text-3xl  text-gray-900 leading-10 font-Dosis font-bold  cursor-pointer">
+                  <span className="text-sm font-Dosis font-semibold text-black relative bottom-2 mr-0.5  ">
+                    $
                   </span>
                   {wholePart}
-                  <span className="text-base font-semibold relative bottom-1 mr-0.5  ">
+                  <span className="text-base font-Dosis font-semibold relative bottom-1 mr-0.5  ">
                     {decimalPart}
                   </span>
                 </p>
-                <p className="text-3xl  text-gray-300 leading-10 font-semibold  line-through  font-roboto cursor-pointer">
-                  <span className="text-sm font-semibold text-gray-300 relative bottom-2 mr-0.5  ">
-                    £
+                <p className="text-2xl  text-gray-200 leading-10  line-through font-Dosis font-semibold cursor-pointer">
+                  <span className="text-sm font-Dosis font-semibold text-gray-300 relative bottom-2 mr-0.5  ">
+                    $
                   </span>
                   {originalWholePart}
-                  <span className="text-base font-semibold relative bottom-1 mr-0.5  ">
+                  <span className="text-base font-Dosis font-semibold relative bottom-1 mr-0.5  ">
                     {originalDecimalPart}
                   </span>
                 </p>
@@ -183,7 +183,7 @@ const SingleProduct: React.FC = () => {
               <div className="w-full flex items-center justify-between mb-8 mt-4 ">
                 <div className=" w-full flex items-center gap-4">
                   <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                  <p className="w-40">Available</p>
+                  <p className="w-40 text-gray-300">Available</p>
                 </div>
                 <ul className="my-1 flex gap-1 mb-4">
                   {Array(data?.rating)
@@ -249,10 +249,10 @@ const SingleProduct: React.FC = () => {
                 </div>
               </div>
               <div>
-                <span className="font-bold text-gray-700 dark:text-gray-300">
+                <span className="font-bold text-gray-400 dark:text-gray-300">
                   Product Description:
                 </span>
-                <p className="text-gray-600   text-sm mt-2">
+                <p className="text-gray-300 hover:text-gray-500   text-sm mt-2">
                   {data?.description}
                 </p>
               </div>
@@ -261,7 +261,7 @@ const SingleProduct: React.FC = () => {
         </div>
       </div>
 
-      <h1 className="mt-16 font-semibold text-4xl px-2 mb-4">
+      <h1 className="mt-16  font-Dosis font-semibold text-4xl px-2 mb-4">
         Similar Products
       </h1>
       <main className="flex  w-full p-5 shadow-lg items-center justify-between">

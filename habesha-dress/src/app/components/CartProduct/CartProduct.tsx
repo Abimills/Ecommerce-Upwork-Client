@@ -40,7 +40,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
     chosenColor,
     chosenSize,
   } = product;
-  const shortTitle = title.slice(0, 10);
+  const shortTitle = title.slice(0, 20);
   const discountedPrice = (price * quantity - discount * quantity).toFixed(2);
   console.log(discountedPrice);
   const [discountedPart, decimalDiscountedPart] = discountedPrice.split(".");
@@ -60,7 +60,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
     : (price * quantity).toFixed(2);
   const [wholePart, decimalPart] = priceString.split(".");
   return (
-    <section className="w-full flex items-start border-b-2  border-b border-gray-200 p-8">
+    <section className="w-full flex items-start font-Dosis border-b-2  border-b border-gray-200 p-8">
       <div className="w-full flex items-start justify-between">
         <img
           className="w-2/4 h-64 bg-white object-contain border rounded-sm border-gray-300 "
@@ -68,14 +68,14 @@ const CartProduct: React.FC<Props> = ({ product }) => {
           alt={title}
         />
         <div className="w-full ml-2">
-          <div className=" w-full text-base text-lg font-base text-gray-500 font-poppins">
-            <h2 className=" text-xl mb-7 text-base font-medium text-gray-400 ">
+          <div className=" w-full text-base text-lg font-base text-gray-500 font-Dosis">
+            <h2 className=" text-xl mb-7 text-base font-medium text-gray-700 uppercase">
               {shortTitle}...
             </h2>
             <div className="flex w-full  items-center   gap-x-10 mt-9">
               <div className="flex items-center gap-4">
                 <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                <p className="w-40 text-gray-400">Available</p>
+                <p className="w-40 text-gray-400 text-base">Available</p>
               </div>
               {/* <span className=" text-2xl text-gray-300">|</span> */}
               <p className="">{chosenSize} </p>
@@ -84,24 +84,13 @@ const CartProduct: React.FC<Props> = ({ product }) => {
               ${price}
             </p> */}
             <div className="flex w-full  items-center   gap-x-10 mt-9 mb-16">
-              {discount > 0 && (
-                <p className="text-2xl w-40  text-gray-400 font-medium line-through   font-roboto cursor-pointer">
-                  <span className="text-sm font-medium text-gray-400 relative bottom-2 mr-0.5  ">
-                    £
-                  </span>
-                  {discountedPart}
-                  <span className="text-base font-medium relative bottom-1 mr-0.5  ">
-                    {decimalDiscountedPart}
-                  </span>
-                </p>
-              )}
               {/* <span className=" text-2xl text-gray-300">|</span> */}
               <p className="text-base text-green-400 ">
                 {discount > 0 && ` - ${discountPercentage}% off`}
               </p>
             </div>
           </div>
-          <div className="text-base flex items-center w-full  gap-10 text-lg font-base text-gray-500 font-poppins">
+          <div className="text-base flex items-center w-full  gap-10 text-lg font-base text-gray-500 font-Dosis">
             <button
               onClick={() => handleRemoveFromCart(id)}
               className="bg-gray-200 text-black hover:bg-gray-300 p-1 px-3 rounded-sm text-sm"
@@ -119,7 +108,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
             onChange={(e) => handleSetQuantity(id, e.target.value)}
             value={quantity}
             id=""
-            className="border border-gray-200 p-1 px-6 w-max outline-none rounded-md"
+            className="border font-roboto border-gray-200 p-1 px-6 w-max outline-none rounded-md"
           >
             <option value="1">1</option>
             <option value="2">2</option>
@@ -132,15 +121,26 @@ const CartProduct: React.FC<Props> = ({ product }) => {
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-          <p className="text-2xl w-40 mt-6 text-gray-900 font-semibold   font-roboto cursor-pointer">
-            <span className="text-sm font-medium text-black relative bottom-2 mr-0.5  ">
-              £
+          <p className="text-2xl w-40 mt-6 text-gray-900 font-bold   font-Dosis cursor-pointer">
+            <span className="text-sm font-medium text-black relative font-Dosis bottom-2 mr-0.5  ">
+              $
             </span>
-            {wholePart}
+            {discountedPart}
             <span className="text-base font-medium relative bottom-1 mr-0.5  ">
-              {decimalPart}
+              {decimalDiscountedPart}
             </span>
           </p>
+          {discount > 0 && (
+            <p className="text-xl w-40  text-gray-200 font-medium line-through   font-Dosis cursor-pointer">
+              <span className="text-sm font-medium font-Dosis text-gray-400 relative bottom-2 mr-0.5  ">
+                $
+              </span>
+              {wholePart}
+              <span className="text-base font-medium relative bottom-1 mr-0.5  ">
+                {decimalPart}
+              </span>
+            </p>
+          )}
         </div>
         {/* <IoMdClose
           className="text-2xl cursor-pointer text-gray-400 "

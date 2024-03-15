@@ -40,7 +40,7 @@ const Cart: React.FC = () => {
     navigation: false,
   };
   return (
-    <main className="w-full  min-h-screen p-2 bg-white">
+    <main className="w-full font-Dosis  min-h-screen p-2 bg-white">
       <div className=" mb-8 flex items-center">
         <div className=" w-max flex items-center gap-4 p-0.5 ">
           <RiArrowGoBackLine
@@ -65,7 +65,7 @@ const Cart: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
-      <div className="w-full flex mb-24  justify-between min-h-screen p-5 gap-8 bg-white">
+      <div className="w-full flex mb-24 font-Dosis  justify-between min-h-screen p-5 gap-8 bg-white">
         {/* left side cart */}
         {cartItems?.length > 0 ? (
           <div className="w-2/3 ">
@@ -73,18 +73,21 @@ const Cart: React.FC = () => {
               <FaShoppingBag className=" text-2xl" />
               <span className="">Cart </span>
             </h1> */}
-            <div className="w-full flex flex-col">
+            <div className="w-full flex font-Dosis flex-col">
               {cartItems.map((item: any) => (
                 <CartProduct key={item.id} product={item} />
               ))}
             </div>
             {cartItems.length > 1 && (
-              <div className="w-full flex items-center border-b-2 bg-gray-50 px-4 py-1 border-b-gray-400 justify-between ">
+              <div className="w-full font-Dosis flex items-center border-b-2 bg-gray-50 px-4 py-1 border-b-gray-400 justify-between ">
                 <div className="flex items-center">
                   <p className="text-base font-semibold text-xl text-gray-600 my-4 ">
                     Total <span>{`(${cartItems?.length}) items`}</span>:
                   </p>
-                  <p className="my-4 font-semibold text-xl ml-3"> £{total}</p>
+                  <p className="my-4 font-semibold font-Dosis text-xl ml-3">
+                    {" "}
+                    $ {total}
+                  </p>
                 </div>
 
                 <button className=" w-1/3 my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white">
@@ -96,7 +99,7 @@ const Cart: React.FC = () => {
         ) : (
           <div className="w-2/3 flex mt-8  flex-col">
             {/* empty orders page */}
-            <div className=" w-full flex   items-center justify-center flex-col ">
+            <div className=" w-full flex  font-Dosis  items-center justify-center flex-col ">
               <img
                 src="../cart-empty.gif"
                 alt=""
@@ -115,17 +118,19 @@ const Cart: React.FC = () => {
           </div>
         )}
         {/* right side cart  */}
-        <div className="w-1/3 bg-gray-100 font-poppins  text-base mt-8  p-8 h-max rounded-lg shadow-lg">
+        <div className="w-1/3 bg-gray-100 font-Dosis text-base mt-8  p-8 h-max rounded-lg shadow-lg">
           <h1 className="text-xl font-medium mb-7 ">Order summary</h1>
           <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">Subtotal</p>
-            <p className="my-4 font-medium">£{subTotal}</p>
+            <p className="my-4 font-medium">${subTotal}</p>
           </div>
           <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">
               Discount estimate
             </p>
-            <p className="my-4 font-medium">- £{subTotalDiscount}</p>
+            <p className="my-4 font-medium text-green-500">
+              - ${subTotalDiscount}
+            </p>
           </div>
           {/* <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">
@@ -138,7 +143,7 @@ const Cart: React.FC = () => {
             <p className="text-base font-semibold text-lg text-gray-600 my-4 ">
               Total
             </p>
-            <p className="my-4 font-semibold">£{total}</p>
+            <p className="my-4 font-semibold">${total}</p>
           </div>
           <button className=" w-full my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white">
             Checkout

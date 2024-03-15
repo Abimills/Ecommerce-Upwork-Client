@@ -161,7 +161,7 @@ const SingleProduct: React.FC = () => {
               </div>
 
               <div className="flex mb-4 justify-between">
-                <p className="text-3xl  text-gray-900 leading-10 font-semibold   font-roboto cursor-pointer">
+                <p className="text-3xl  text-gray-900 leading-10 font-semibold   font-Dosis cursor-pointer">
                   <span className="text-sm font-semibold text-black relative bottom-2 mr-0.5  ">
                     £
                   </span>
@@ -170,7 +170,7 @@ const SingleProduct: React.FC = () => {
                     {decimalPart}
                   </span>
                 </p>
-                <p className="text-3xl  text-gray-300 leading-10 font-semibold  line-through  font-roboto cursor-pointer">
+                <p className="text-3xl  text-gray-300 leading-10 font-semibold  line-through  font-Dosis cursor-pointer">
                   <span className="text-sm font-semibold text-gray-300 relative bottom-2 mr-0.5  ">
                     £
                   </span>

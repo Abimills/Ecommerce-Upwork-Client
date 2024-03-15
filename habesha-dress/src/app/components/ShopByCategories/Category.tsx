@@ -15,15 +15,15 @@ import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 import { useDispatch } from "react-redux";
 const Category: React.FC = () => {
   return (
-    <main className="w-full ">
+    <main className="w-full font-Dosis ">
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
-        <h1 className="w-full text-left mb-4 px-6 font-medium leading-10 font-roboto text-3xl ">
+        <h1 className="w-full text-left mb-4 px-6 font-medium leading-10 font-Dosis text-3xl ">
           Shop By Categories
         </h1>
       </div>
 
-      <div className="flex w-full   gap-4 items-center">
-        <Swiper
+      <div className="flex w-full flex-wrap justify-center   gap-4 items-center">
+        {/* <Swiper
           loop={true}
           // effect={"creative"}
           autoplay={{ delay: 5000 }}
@@ -35,15 +35,15 @@ const Category: React.FC = () => {
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
-        >
-          {category.map((item: any) => {
-            return (
-              <SwiperSlide className="cursor-pointer w-max  ">
-                <CategoryCard key={item.id + item.title} item={item} />
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+        > */}
+        {category.map((item: any) => {
+          return (
+            // <SwiperSlide className="cursor-pointer w-max  ">
+            <CategoryCard key={item.id + item.title} item={item} />
+            // </SwiperSlide>
+          );
+        })}
+        {/* </Swiper> */}
       </div>
     </main>
   );

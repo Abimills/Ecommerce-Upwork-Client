@@ -11,10 +11,12 @@ import "swiper/css/navigation";
 import "swiper/css/effect-creative";
 import { useEffect, useState } from "react";
 import { Anybody } from "next/font/google";
+import { useRouter } from "next/navigation";
 const Landing = () => {
+  const router = useRouter();
   return (
-    <main className="flex w-full  h-80vh bg-alice-blue mt-8">
-      <div className="flex w-full h-screen   items-center px-8 mb-16">
+    <main className="flex w-full font-Dosis  h-80vh bg-alice-blue mt-8">
+      <div className="flex w-full h-screen   items-center px-8 mb-8">
         <div className="h-full w-16  pb-8 mr-8    flex flex-col items-center justify-evenly ">
           <Swiper
             loop={true}
@@ -107,8 +109,8 @@ const Landing = () => {
         >
           <SwiperSlide className="cursor-pointer w-max  ">
             <div className="w-full flex items-center ">
-              <div className="w-2/3 min-h-96   font-poppins  flex  justify-start flex-col">
-                <h1 className="text-left  w-full text-5xl mb-8 leading-relaxed">
+              <div className="w-2/3 min-h-96   font-Dosis  flex  justify-start flex-col">
+                <h1 className="text-left font-bold  w-full text-5xl mb-8 leading-relaxed">
                   Find Your Fashion in <br /> Noami habesha cloth
                 </h1>
                 <p className="text-gray-500 w-full text-base  text-left mb-16">
@@ -118,7 +120,10 @@ const Landing = () => {
                   have it all for you.
                 </p>
                 <div className="w-full flex   mb-5">
-                  <button className=" border-2 bg-green-400 text-white border-green-400 rounded-md p-2 pl-5">
+                  <button
+                    onClick={() => router.push("/all-products-cloths")}
+                    className=" border-2 bg-green-400 text-white border-green-400 rounded-md p-2 pl-5 hover:bg-alice-blue hover:text-green-400 transition-opacity duration-300"
+                  >
                     {" "}
                     Discover Now
                   </button>
@@ -133,8 +138,8 @@ const Landing = () => {
           </SwiperSlide>
           <SwiperSlide className="cursor-pointer w-max  ">
             <div className="w-full flex items-center ">
-              <div className="w-2/3 min-h-96   font-poppins  flex  justify-start flex-col">
-                <h1 className="text-left capitalize  w-full text-5xl mb-8 leading-relaxed">
+              <div className="w-2/3 min-h-96   font-Dosis  flex  justify-start flex-col">
+                <h1 className="text-left font-bold capitalize  w-full text-5xl mb-8 leading-relaxed">
                   Global shopping <br /> delightful experiences
                 </h1>
                 <p className="text-gray-500 w-full text-base  text-left mb-16">
@@ -144,7 +149,10 @@ const Landing = () => {
                   reliable and customer-centric shipping services.
                 </p>
                 <div className="w-full flex   mb-5">
-                  <button className=" border-2 bg-green-400 text-white border-green-400 rounded-md p-2 pl-5">
+                  <button
+                    onClick={() => router.push("/all-products-cloths")}
+                    className=" border-2 bg-green-400 text-white border-green-400 rounded-md p-2 pl-5 hover:bg-alice-blue hover:text-green-400 transition-opacity duration-300"
+                  >
                     {" "}
                     Order Now
                   </button>
@@ -159,8 +167,8 @@ const Landing = () => {
           </SwiperSlide>
           <SwiperSlide className="cursor-pointer w-max  ">
             <div className="w-full flex items-center ">
-              <div className="w-2/3 min-h-96   font-poppins  flex  justify-start flex-col">
-                <h1 className="text-left  w-full text-5xl mb-8 leading-relaxed">
+              <div className="w-2/3 min-h-96  font-Dosis  flex  justify-start flex-col">
+                <h1 className="text-left font-bold  w-full text-5xl mb-8 leading-relaxed">
                   Habesha dress for
                   <br /> wedding & all holiday
                 </h1>
@@ -172,7 +180,10 @@ const Landing = () => {
                   style for every cultural moment with our collections
                 </p>
                 <div className="w-full flex   mb-5">
-                  <button className=" border-2 bg-green-400 text-white border-green-400 rounded-md p-2 pl-5">
+                  <button
+                    onClick={() => router.push("/all-products-cloths")}
+                    className=" border-2 bg-green-400   text-white border-green-400 rounded-md p-2 pl-5 hover:bg-alice-blue hover:text-green-400 transition-opacity duration-300"
+                  >
                     Discover Products
                   </button>
                 </div>

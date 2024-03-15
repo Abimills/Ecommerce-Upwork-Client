@@ -50,7 +50,7 @@ const UserProfile: React.FC = () => {
     navigation: true,
   };
   return (
-    <main className="w-full min-h-screen  flex flex-col bg-white ">
+    <main className="w-full min-h-screen font-Dosis flex flex-col bg-white ">
       {showSearch ? (
         <SearchBar showIcons={showIcons} />
       ) : (

@@ -84,11 +84,11 @@ const SingleSearchBar: React.FC = () => {
         </ul> */}
         </div>
         <div className="flex  flex-1 align-items w-1\2  justify-between ">
-          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
+          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-Dosis ">
             <div className="flex items-center  border-b border-b-2 border-gray-700  w-full min-h-16    gap-3  ml-6  ">
               <input
                 type="text"
-                className=" w-full  text-xl tracking-widest outline-none  font-roboto"
+                className=" w-full  text-xl tracking-widest outline-none  font-Dosis"
                 placeholder="What are you looking for? "
               />
               <IoIosArrowRoundForward className="text-3xl text-black cursor-pointer   h-full " />

@@ -75,18 +75,7 @@ const AllProducts: React.FC = () => {
           </button>
         </div>
       </div>
-      {/* <div className="w-full mb-16 mt-8 flex items-center justify-between ">
-        <h1 className="font-roboto font-md text-3xl  mx-4 ">
-          Popular Products
-        </h1>
-        <button
-          onClick={handleOpenFilter}
-          className="hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
-        >
-          <RiMenuSearchLine className="text-xl" />
-          Filter & Sort
-        </button>
-      </div> */}
+      
 
       <div className="w-full flex items-center gap-4 justify-between flex-wrap p-4">
         {data.length > 1 &&

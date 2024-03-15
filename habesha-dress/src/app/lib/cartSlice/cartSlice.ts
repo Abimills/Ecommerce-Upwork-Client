@@ -22,6 +22,7 @@ export interface CartState {
   showFilter: boolean;
   showSidebar: boolean;
   showNewsletter: boolean;
+  showNotification: boolean;
 }
 
 const loadUserFavoritesFromLocalStorage = (): any => {
@@ -49,6 +50,7 @@ const initialState: CartState = {
   showSearch: false,
   showSidebar: false,
   showFilter: false,
+  showNotification: true,
 };
 
 export const cartSlice = createSlice({
@@ -61,17 +63,26 @@ export const cartSlice = createSlice({
       if (!foundItem) {
         state.favorites.push(action.payload);
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
+        state.showNotification = true;
       }
       if (foundItem) {
         state.favorites = state.favorites.filter(
           (item: any) => item !== action.payload
         );
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
+        state.showNotification = true;
       }
     },
 
     toggleShowSignIn: (state) => {
       state.showSignIn = !state.showSignIn;
+    },
+    toggleShowNotification: (state, action: PayloadAction<boolean>) => {
+      if (action?.payload) {
+        state.showNotification = action?.payload;
+      } else {
+        state.showNotification = !state.showNotification;
+      }
     },
     toggleShowNewsletter: (state) => {
       state.showNewsletter = !state.showNewsletter;
@@ -104,10 +115,12 @@ export const cartSlice = createSlice({
       if (!foundItem) {
         state.items.push(action.payload);
         localStorage.setItem("cart", JSON.stringify(state.items));
+        state.showNotification = true;
       }
       if (foundItem) {
         foundItem.quantity += 1;
         localStorage.setItem("cart", JSON.stringify(state.items));
+        state.showNotification = true;
       }
     },
     removeFromCart: (state, action: PayloadAction<any>) => {
@@ -115,6 +128,7 @@ export const cartSlice = createSlice({
       if (foundItem) {
         state.items = state.items.filter((item) => item.id !== action.payload);
         localStorage.setItem("cart", JSON.stringify(state.items));
+        state.showNotification = true;
       }
       if (!foundItem) {
         alert("No such product exists in the cart");
@@ -132,7 +146,7 @@ export const {
   setCartQuantity,
   addToCart,
   toggleShowNewsletter,
-
+  toggleShowNotification,
   removeFromCart,
 } = cartSlice.actions;
 

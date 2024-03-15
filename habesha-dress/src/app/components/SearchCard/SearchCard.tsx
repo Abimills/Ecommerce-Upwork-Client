@@ -100,7 +100,7 @@ const SearchCard: React.FC<Props> = ({ product }) => {
         </h5>
         <p
           onClick={() => router.push(`/add-products/${_id}`)}
-          className="text-2xl  text-gray-900 font-semibold relative p-1 mr-4 font-roboto cursor-pointer"
+          className="text-2xl  text-gray-900 font-semibold relative p-1 mr-4 font-Dosis cursor-pointer"
         >
           <span className=" p-0">$</span>
           {price}

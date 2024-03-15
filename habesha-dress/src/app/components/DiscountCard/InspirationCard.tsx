@@ -84,7 +84,7 @@ const InspirationCard: React.FC<Props> = ({ product }) => {
     }
   };
   return (
-    <div className="w-80 h-88 max-w-sm bg-white   rounded-md shadow-lg relative  ">
+    <div className="w-80 h-88 max-w-sm bg-white font-Dosis   rounded-md shadow-lg relative  ">
       <Link href={`/${_id}`}>
         <img
           className="object-contain   w-full h-56 rounded-t-lg bg-gray-50 "
@@ -122,10 +122,10 @@ const InspirationCard: React.FC<Props> = ({ product }) => {
           </div>
           <p
             onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-2xl  text-gray-900 font-semibold   font-roboto cursor-pointer"
+            className="text-2xl  text-gray-900 font-Dosis font-bold cursor-pointer"
           >
             <span className="text-sm font-medium text-black relative bottom-2 mr-0.5  ">
-              £
+              $
             </span>
             {wholePart}
             <span className="text-base font-medium relative bottom-1 mr-0.5  ">
@@ -155,7 +155,7 @@ const InspirationCard: React.FC<Props> = ({ product }) => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => handleAddToCart(product)}
-            className="text-white font-roboto bg-gray-700 p-3  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-full text-sm  text-center "
+            className="text-white font-Dosis bg-gray-700 p-3  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-full text-sm  text-center "
           >
             <IoBagAddSharp className="text-lg" />
           </button>

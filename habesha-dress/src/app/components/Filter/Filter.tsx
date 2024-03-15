@@ -243,7 +243,7 @@ const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
                                       className=" w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500 "
                                     />
 
-                                    <label className="text-lg font-roboto text-gray-700">
+                                    <label className="text-lg font-Dosis text-gray-700">
                                       {item.value}
                                     </label>
                                   </div>
@@ -275,7 +275,7 @@ const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
                                       defaultChecked={item.checked}
                                       className=" w-5 h-5 border border-gray-400  "
                                     />
-                                    <label className="text-lg font-roboto text-gray-700">
+                                    <label className="text-lg font-Dosis text-gray-700">
                                       {item.value}
                                     </label>
                                   </div>
@@ -301,7 +301,7 @@ const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
                                     defaultChecked={gender.checked}
                                     className=" w-5 h-5 border border-gray-400  "
                                   />
-                                  <label className="text-lg font-roboto text-gray-700">
+                                  <label className="text-lg font-Dosis text-gray-700">
                                     {gender.value}
                                   </label>
                                 </div>
@@ -315,7 +315,7 @@ const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
                             </h1>
                             <div className="w-full  border-y-2 mb-8 border-gray-400">
                               <div className="flex mt-16 relative items-center gap-4 text-lg mb-8">
-                                <label className="text-lg font-roboto text-gray-700">
+                                <label className="text-lg font-Dosis text-gray-700">
                                   $0
                                 </label>
                                 <input
@@ -328,10 +328,10 @@ const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
                                   defaultChecked
                                   className="w-full  border border-gray-400  "
                                 />
-                                <label className="text-lg font-semibold absolute bottom-8 left-1/2 font-roboto text-gray-700">
+                                <label className="text-lg font-semibold absolute bottom-8 left-1/2 font-Dosis text-gray-700">
                                   ${rangeValue}
                                 </label>
-                                <label className="text-lg font-roboto text-gray-700">
+                                <label className="text-lg font-Dosis text-gray-700">
                                   $800
                                 </label>
                               </div>
@@ -357,7 +357,7 @@ const FilterData: React.FC<Props> = ({ setData, data, open, setOpen }) => {
                                     defaultChecked={occasion.checked}
                                     className=" w-5 h-5 border border-gray-400  "
                                   />
-                                  <label className="text-lg font-roboto text-gray-700">
+                                  <label className="text-lg font-Dosis text-gray-700">
                                     {occasion.value}
                                   </label>
                                 </div>

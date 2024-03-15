@@ -23,6 +23,7 @@ import SearchBar from "./components/Navbar/SearchBar";
 import FilterData from "./components/Filter/Filter";
 import ToggleSubscribe from "./components/NewsletterSlider/ToggleSubscribe";
 import { setAllProducts, sortDataReducer } from "./lib/cartSlice/dataSlice";
+import Notification from "./components/Notification/Notification";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
 export default function Home() {
@@ -56,7 +57,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex  relative min-h-screen flex-col bg-alice-blue  items-center ">
+    <main className="flex font-Dosis  relative min-h-screen flex-col bg-alice-blue  items-center ">
       <div className="w-full   border border-gray-100 border-2 ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -66,10 +67,10 @@ export default function Home() {
       </div>
       {showSidebar && <SidebarNavigation />}
       {showNewsletter && <ToggleSubscribe />}
+      <Notification />
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}
-
       <Discount />
       <Category />
       <Products />

@@ -19,9 +19,11 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
+import { useRouter } from "next/navigation";
 const NewProduct: React.FC = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const router = useRouter();
 
   const showFilter = useSelector((state: any) => state.cart.showFilter);
 
@@ -74,15 +76,15 @@ const NewProduct: React.FC = () => {
       )}
 
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
-        <h1 className="w-full text-left font-semibold font-roboto text-3xl">
+        <h1 className="w-max text-left font-semibold font-Dosis text-3xl">
           New & Recommended Products
         </h1>
         <button
-          onClick={() => setOpenFilter(true)}
-          className="w-48 hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
+          onClick={() => router.push("/all-products-cloths")}
+          className=" w-max hover:text-indigo-300 hover:bg-white text-sm px-4 py-1 border border-indigo-300 bg-indigo-300 text-white rounded-full mx-4 flex items-center gap-2 font-medium"
         >
           <RiMenuSearchLine className="text-xl" />
-          Filter & Sort
+          See All
         </button>
       </div>
       <div className="w-full flex flex-wrap justify-between items-center">

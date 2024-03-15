@@ -24,7 +24,7 @@ const Discount: React.FC = () => {
     fetchData();
   }, []);
   return (
-    <main className="flex w-full p-5  shadow-lg items-center justify-between">
+    <main className="flex w-full p-5 font-Dosis   shadow-sm items-center justify-between">
       <Swiper
         loop={true}
         // effect={"creative"}

@@ -20,18 +20,18 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
+import { useRouter } from "next/navigation";
 const Products: React.FC = () => {
   const showFilter = useSelector((state: any) => state.cart.showFilter);
   const [openFilter, setOpenFilter] = useState(false);
   const [data, setData] = useState([]);
+  const router = useRouter();
   const [filteredData, setFilteredData] = useState([]);
   const [activePagination, setActivePagination] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalCloths, setTotalCloths] = useState(0);
   const dispatch = useDispatch();
-  const handleOpenFilter = (e: any) => {
-    setOpenFilter(true);
-  };
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(
@@ -60,24 +60,22 @@ const Products: React.FC = () => {
   };
   return (
     <main className="w-full  h-full min-h[500px]  flex flex-col">
-      {openFilter && (
+      {/* {openFilter && (
         <FilterData
           data={data}
           open={openFilter}
           setOpen={setOpenFilter}
           setData={setFilteredData}
         />
-      )}
+      )} */}
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
-        <h1 className="font-roboto font-md text-3xl  mx-4 ">
-          Popular Products
-        </h1>
+        <h1 className="font-Dosis font-md text-3xl  mx-4 ">Popular Products</h1>
         <button
-          onClick={handleOpenFilter}
-          className="hover:text-green-500 mx-4 flex items-center gap-2 font-medium"
+          onClick={() => router.push("/all-products-cloths")}
+          className="hover:text-indigo-300 hover:bg-white text-sm px-4 py-1 border border-indigo-300 bg-indigo-300 text-white rounded-full mx-4 flex items-center gap-2 font-medium"
         >
           <RiMenuSearchLine className="text-xl" />
-          Filter & Sort
+          See All
         </button>
       </div>
 

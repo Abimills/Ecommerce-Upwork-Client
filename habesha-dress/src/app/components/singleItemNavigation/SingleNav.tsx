@@ -86,7 +86,7 @@ const SingleNavigation: React.FC = () => {
         </ul> */}
         </div>
         <div className="flex  flex-1 align-items w-1\2 mt-1  justify-between ">
-          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
+          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-Dosis ">
             {/* <div className="flex items-center  bg-alice-blue   gap-3  ml-3  ">
             <input
               type="text"

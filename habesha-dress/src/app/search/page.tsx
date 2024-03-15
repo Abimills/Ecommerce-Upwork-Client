@@ -74,7 +74,7 @@ const Search: React.FC = () => {
   };
 
   return (
-    <main className="w-full  h-max bg-white flex flex-col">
+    <main className="w-full font-Dosis  h-max bg-white flex flex-col">
       {showSearch ? (
         <SearchBar showIcons={showIcons} />
       ) : (
@@ -82,7 +82,7 @@ const Search: React.FC = () => {
       )}
       {/* {showFilter && <FilterData />} */}
       <div className="w-full    flex flex-col  items-center justify-center ">
-        <h1 className="font-roboto font-md text-3xl  mx-4 mb-5 font-semibold ">
+        <h1 className="font-Dosis font-md text-3xl  mx-4 mb-5 font-semibold ">
           Search result
         </h1>
         <p className="mb-8">

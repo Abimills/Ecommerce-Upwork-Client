@@ -68,7 +68,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
               onClick={handleClose}
             />
             <h1
-              className="font-semibold text-2xl cursor-pointer font-roboto"
+              className="font-semibold text-2xl cursor-pointer font-Dosis"
               onClick={() => router.push("/")}
             >
               HabeshaD
@@ -76,7 +76,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
           </div>
         )}
         <div className="flex  flex-1 align-items w-1\2  h-16   justify-between ">
-          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
+          <ul className="flex justify-end flex-1 items-center gap-10 text-base font-Dosis ">
             {/* <div className="flex items-center  bg-alice-blue   gap-3  ml-3  ">
             <input
               type="text"
@@ -132,7 +132,11 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
                     </div>
                   )}
                 </div>
-                <span className={` ${cartItems.length > 0 ? "bg-red-700" :"bg-gray-800"  }  text-sm text-white px-2 cursor-pointer font-poppins rounded-full `}>
+                <span
+                  className={` ${
+                    cartItems.length > 0 ? "bg-red-700" : "bg-gray-800"
+                  }  text-sm text-white px-2 cursor-pointer font-poppins rounded-full `}
+                >
                   {cartItems.length || 0}
                 </span>
               </div>

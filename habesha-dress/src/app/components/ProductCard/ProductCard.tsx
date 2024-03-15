@@ -107,12 +107,12 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <div className="absolute m-1 rounded-full right-0 hover:bg-white hover:border hover:border-gray-200 w-8 h-8 cursor-pointer  display-flex items-center justify-center bg-white">
           <IoIosHeart
             onClick={() => handleFavorites(_id)}
-            className="  text-2xl m-1 text-red-500 p-0.5 text-center  "
+            className="  text-2xl m-1 text-black p-0.5 text-center  "
           />
         </div>
       )}
       <img
-        onClick={() => router.push(`/${_id}`)}
+        onClick={() => router.push(`/singleProduct/${_id}`)}
         className="object-contain text-left   w-full h-64  rounded-t-lg bg-white  "
         src={img}
         alt="product image"
@@ -147,28 +147,29 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           </div>
           <p
             onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-2xl  text-gray-800 leading-10 font-medium   font-roboto cursor-pointer"
+            className="text-2xl  text-gray-800 leading-10 font-bold   font-Dosis cursor-pointer"
           >
-            <span className="text-sm font-medium text-gray-800 relative bottom-2 mr-0.5  ">
-              £
+            <span className="text-sm font-medium text-gray-800 font-Dosis  relative bottom-2 mr-0.5  ">
+              $
             </span>
             {wholePart}
-            <span className="text-base font-medium relative bottom-1 mr-0.5  ">
+            <span className="text-base font-medium font-Dosis  relative bottom-1 mr-0.5  ">
               {decimalPart}
             </span>
           </p>
         </div>
-        <div className="flex items-center justify-between mt-1 mb-4">
-          <button className="p-1 px-4 bg-green-100 rounded-full text-sm">
-            available
-          </button>
+        <div className="flex items-center justify-between mt-1 mb-6">
+          <div className="flex items-center gap-4">
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <p className="w-40 text-gray-400 text-base">Available</p>
+          </div>
           {discount > 1 && (
             <p
               onClick={() => router.push(`/add-products/${_id}`)}
-              className="text-xl  text-gray-400 line-through font-medium p-1     font-roboto cursor-pointer"
+              className="text-xl  text-gray-200 line-through font-medium p-1     font-Dosis  cursor-pointer"
             >
               <span className="text-sm font-medium text-gray-400 relative bottom-2 mr-0.5  ">
-                £
+                $
               </span>
               {originalWholePart}
               <span className="text-base line-through font-medium relative bottom-1 mr-0.5  ">

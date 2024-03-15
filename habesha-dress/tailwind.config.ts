@@ -20,6 +20,7 @@ const config: Config = {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
+        Dosis: ["Dosis", "sans-serif"],
       },
       height: {
         "95vh": "80vh",

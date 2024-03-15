@@ -15,15 +15,15 @@ const DiscountCard: React.FC<Props> = ({ item }) => {
   return (
     <div
       onClick={() => router.push(`discount/${_id}`)}
-      className="flex h-48 rounded-lg  items-center gap-5"
+      className="flex h-48 rounded-lg  items-center gap-5 "
     >
       <img
         className="w-24 h-24 object-contain rounded-full hover:bg-yellow-300 bg-indigo-100"
         src={img}
         alt={title}
       />
-      <div className=" flex  flex-col justify-start w-full">
-        <h3 className="text-xl font-medium text-gray-600 mb-4">
+      <div className=" flex  flex-col justify-start w-full hover:shadow-sm p-1">
+        <h3 className="text-xl font-Dosis font-semibold text-gray-600 mb-4">
           {title.slice(0, 15)}...
         </h3>
         <p className=" text-sm text-green-400">
