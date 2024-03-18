@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../lib/authSlice/authSlice";
-
+import { ToastContainer, toast } from "react-toastify";
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<any>("");
@@ -18,20 +18,25 @@ const LoginPage: React.FC = () => {
         password,
       });
       if (res.data.success) {
-        alert("successfully signed In");
+        toast.success("Login Successful");
 
         dispatch(loginSuccess(res.data.user));
 
         router.push("http://localhost:3000/user-profile");
       } else {
-        alert("could not signIn successfully : check your credentials");
+        toast.error("Login Failed ,try again with correct Email and password", {
+          position: "bottom-right",
+        });
       }
     } else {
-      alert("fill all fields");
+      toast.error("Please Fill all Fields", {
+        position: "bottom-right",
+      });
     }
   };
   return (
     <section className="w-full h-screen flex bg-alice-blue    flex-col  items-center justify-center">
+      <ToastContainer className={"font-Dosis"} />
       <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">

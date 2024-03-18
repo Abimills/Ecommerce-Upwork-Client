@@ -15,7 +15,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { TbBulb } from "react-icons/tb";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
-
+import { ToastContainer, toast } from "react-toastify";
 import WelcomeUserProfile from "../components/WelcomeUserProfile/WelcomeUserProfile";
 import OrderUserProfile from "../components/OrderUserProfile/OrderUserProfile";
 import UserSetting from "../components/UserSetting/UserSetting";
@@ -49,6 +49,9 @@ const UserProfile: React.FC = () => {
     cart: true,
     navigation: true,
   };
+  useEffect(() => {
+    toast.success("You are Signed In");
+  }, []);
   return (
     <main className="w-full min-h-screen font-Dosis flex flex-col bg-white ">
       {showSearch ? (
@@ -56,7 +59,7 @@ const UserProfile: React.FC = () => {
       ) : (
         <Navbar showIcons={showIcons} />
       )}
-
+      <ToastContainer />
       <div className="flex w-full flex-col justify-center items-center h-max ">
         <div className="w-full text-center mb-4 p-10">
           <h1 className="font-semibold text-2xl"> Hi {firstName}!</h1>
@@ -66,8 +69,18 @@ const UserProfile: React.FC = () => {
             onClick={() => setActivePage("welcome")}
             className="flex flex-col relative justify-center cursor-pointer items-center h-24"
           >
-            <RiHome2Line className="text-3xl mb-4" />
-            <p className="font-semibold  leading-4 ">Welcome</p>
+            <RiHome2Line
+              className={`${
+                activePage === "welcome" ? "text-black" : "text-gray-400"
+              } && text-3xl mb-4 `}
+            />
+            <p
+              className={`${
+                activePage === "welcome" ? "font-semibold " : "font-base"
+              }   mb-4   leading-4`}
+            >
+              Welcome
+            </p>
             {activePage === "welcome" && (
               <div className="w-20 h-1 bg-black bottom-0 absolute"></div>
             )}
@@ -76,8 +89,18 @@ const UserProfile: React.FC = () => {
             onClick={() => setActivePage("order")}
             className="flex flex-col relative justify-center cursor-pointer items-center h-24"
           >
-            <MdOutlineLibraryBooks className="text-2xl text-gray-500 mb-4" />
-            <p className=" text-gray-500 leading-4">Orders</p>
+            <MdOutlineLibraryBooks
+              className={`${
+                activePage === "order" ? "text-black" : "text-gray-400"
+              } && text-3xl mb-4 `}
+            />
+            <p
+              className={`${
+                activePage === "order" ? "font-semibold " : "font-base"
+              }   mb-4   leading-4`}
+            >
+              Orders
+            </p>
             {activePage === "order" && (
               <div className="w-20 h-1 bg-black bottom-0 absolute"></div>
             )}
@@ -87,8 +110,18 @@ const UserProfile: React.FC = () => {
             onClick={() => setActivePage("profile")}
             className="flex flex-col relative justify-center cursor-pointer items-center  h-24"
           >
-            <FaRegUser className="text-2xl text-gray-500 mb-4" />
-            <p className=" text-gray-500 leading-4">Profile</p>
+            <FaRegUser
+              className={`${
+                activePage === "profile" ? "text-black" : "text-gray-400"
+              } && text-3xl mb-4 `}
+            />
+            <p
+              className={`${
+                activePage === "profile" ? "font-semibold " : "font-base"
+              }   mb-4   leading-4`}
+            >
+              Profile
+            </p>
             {activePage === "profile" && (
               <div className="w-20 h-1 bg-black bottom-0 absolute"></div>
             )}

@@ -14,8 +14,8 @@ const DiscountCard: React.FC<Props> = ({ item }) => {
   const discountInPercent = (discount / price) * 100;
   return (
     <div
-      onClick={() => router.push(`discount/${_id}`)}
-      className="flex h-48 rounded-lg  items-center gap-5 "
+      onClick={() => router.push(`/singleProduct/${_id}`)}
+      className="flex font-Dosis  h-48 rounded-lg  items-center gap-5 "
     >
       <img
         className="w-24 h-24 object-contain rounded-full hover:bg-yellow-300 bg-indigo-100"

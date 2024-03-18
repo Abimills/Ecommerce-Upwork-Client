@@ -26,22 +26,32 @@ export async function POST(req: any) {
       itemsBought,
     } = await req.json();
     await connectMongoDB();
-    const newUser = await ClothUser.create({
-      name,
-      email,
-      password,
-      gender,
-      photoUser,
-      phone,
-      dateOfBirth,
-      location,
-      favReviews,
-      itemsBought,
-    });
-    return NextResponse.json(
-      { success: true, message: "created a new user", newUser },
-      { status: 201 }
-    );
+    const user = await ClothUser.findOne({ email });
+    if (user) {
+      return NextResponse.json({
+        success: false,
+        registerIssue: "email exist",
+        message: "Either  the email or password is incorrect.",
+      });
+    }
+    if (!user) {
+      const newUser = await ClothUser.create({
+        name,
+        email,
+        password,
+        gender,
+        photoUser,
+        phone,
+        dateOfBirth,
+        location,
+        favReviews,
+        itemsBought,
+      });
+      return NextResponse.json(
+        { success: true, message: "created a new user", newUser },
+        { status: 201 }
+      );
+    }
   } catch (error) {
     console.log({
       success: false,
@@ -60,7 +70,7 @@ export async function PUT(req: any) {
       if (!checkId) {
         const updated = await ClothUser.updateOne(
           { _id: userId },
-          { $push: { favReviews: itemId } } 
+          { $push: { favReviews: itemId } }
         );
 
         return NextResponse.json(

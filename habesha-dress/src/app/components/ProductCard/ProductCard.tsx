@@ -89,9 +89,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);
-    if (user) {
-      addToDbFavorites(user._id, id);
-    }
   };
 
   return (
@@ -107,7 +104,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <div className="absolute m-1 rounded-full right-0 hover:bg-white hover:border hover:border-gray-200 w-8 h-8 cursor-pointer  display-flex items-center justify-center bg-white">
           <IoIosHeart
             onClick={() => handleFavorites(_id)}
-            className="  text-2xl m-1 text-black p-0.5 text-center  "
+            className="  text-2xl m-1 text-red-600 p-0.5 text-center  "
           />
         </div>
       )}

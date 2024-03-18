@@ -25,9 +25,9 @@ const OrderUserProfile: React.FC = () => {
   const [orders, setOrders] = useState([]);
 
   return (
-    <div className="w-full flex  flex-col  p-10">
+    <div className="w-full flex  flex-col  ">
       {orders?.length > 0 ? (
-        <div className=" w-full flex  mb-16 items-center justify-center flex-col ">
+        <div className=" w-full flex  mb-16 items-center justify-center flex-col p-10 ">
           <img
             src="../cart-empty.gif"
             alt=""

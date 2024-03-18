@@ -149,8 +149,8 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
   };
   return (
     <main className=" overflow-x-hidden  min-h-screen z-10 bg-opacity-50  fixed top-0  bg-gray-700   w-full  ">
-      <div className="flex overflow-y-hidden overflow-x-hidden opacity-100 border-b border-gray-400  font-poppins text-base flex-col h-max   bg-white  w-full items-center ">
-        <nav className="flex font-poppins text-base h-max   min-h-24  w-full items-center justify-between  ">
+      <div className="flex overflow-y-hidden overflow-x-hidden opacity-100 border-b border-gray-400  font-Dosis text-base flex-col h-max   bg-alice-blue  w-full items-center ">
+        <nav className="flex font-Dosis text-base h-max   min-h-24  w-full items-center justify-between  ">
           {showIcons.navigation && (
             <div className="flex align-items w-max mr-3 gap-5   justify-start ">
               <GiHamburgerMenu
@@ -158,7 +158,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                 onClick={handleClose}
               />
               <h1
-                className="font-semibold text-2xl cursor-pointer font-roboto"
+                className="font-semibold text-2xl cursor-pointer font-Dosis"
                 onClick={() => router.push("/")}
               >
                 HabeshaD
@@ -166,7 +166,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
             </div>
           )}
           <div className="flex  flex-1 align-items w-1\2  justify-between ">
-            <ul className="flex justify-end flex-1 items-center gap-10 text-base font-roboto ">
+            <ul className="flex justify-end flex-1 items-center gap-10 text-base font-Dosis ">
               {showIcons.search && (
                 <div
                   className={`flex items-center outline:none   border-b border-b-2 border-gray-700  w-full min-h-16 h-4   gap-3  ml-6 ${
@@ -178,7 +178,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                     value={query}
                     onChange={(e: any) => setQuery(e.target.value)}
                     onKeyDown={(e) => handleKeyPress(e)}
-                    className=" w-full    focus:outline-none focus:ring focus:ring-transparent  text-xl border border-transparent active:border-none   focus:outline-transparent focus:border-transparent  "
+                    className=" w-full rounded-full bg-alice-blue   focus:outline-none focus:ring focus:ring-transparent  text-xl border border-transparent active:border-none   focus:outline-transparent focus:border-transparent  "
                     placeholder="What are you looking for? "
                   />
                   <IoIosArrowRoundForward
@@ -245,7 +245,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
         </nav>
         <div className="w-full min-h-full mt-8 mb-8 gap-6 flex items-start  pl-56">
           <div className=" bg-gray-100 bg-opacity-25 flex flex-col justify-center   w-max h-max  transition-opacity">
-            <h1 className="font-base font-roboto text-xl w-max mb-8">
+            <h1 className="font-base font-Dosis text-xl w-max mb-8">
               {searches?.length > 0 ? "Latest searches" : " Search suggestions"}
             </h1>
 
@@ -295,7 +295,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               >
                 {" "}
                 <CiTrash className="text-xl" />{" "}
-                <span className="tracking-wide underline underline-offset-4 font-roboto">
+                <span className="tracking-wide underline underline-offset-4 font-Dosis">
                   clear all
                 </span>
               </button>

@@ -74,7 +74,7 @@ const SearchCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-max h-88 max-w-sm    ml-4 relative  ">
+    <div className="w-max h-88 max-w-sm font-Dosis    ml-4 relative  ">
       {!isFavored ? (
         <IoIosHeartEmpty
           onClick={() => handleFavorites(_id)}
@@ -86,7 +86,7 @@ const SearchCard: React.FC<Props> = ({ product }) => {
           className="absolute  text-2xl m-1 text-black right-0 "
         />
       )}
-      <Link href={`/${_id}`}>
+      <Link href={`singleProduct/${_id}`}>
         <img
           className="object-contain   w-max min-w-72 h-80 bg-yellow-50 mb-10"
           src={img}

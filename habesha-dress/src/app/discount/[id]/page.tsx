@@ -117,7 +117,7 @@ const SingleProduct: React.FC = () => {
   const [originalWholePart, originalDecimalPart] =
     originalPriceString.split(".");
   return (
-    <div className="bg-white w-full h-full ">
+    <div className="bg-white w-full font-Dosis  h-full ">
       <div className="mb-8 border border-gray-200 border-2">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />

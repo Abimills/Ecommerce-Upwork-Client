@@ -53,7 +53,7 @@ const WelcomeUserProfile: React.FC = () => {
     fetchData();
   }, []);
   return (
-    <div className="w-full flex flex-col  p-10">
+    <div className="w-full flex flex-col  ">
       {/* <div className="flex-1  h-max min-h-32  mt-4 mb-8  p-4 px-8 rounded-lg bg-yellow-100">
         <h1 className="font-semibold mb-6">Welcome to your profile!</h1>
         <p className="text-base text-gray-600 mb-3">
@@ -62,8 +62,8 @@ const WelcomeUserProfile: React.FC = () => {
         </p>
         <p className="text-base text-gray-600 mb-3">Have fun shopping!</p>
       </div> */}
-      <h1 className="text-2xl font-semibold mb-3">Discover now</h1>
-      <main className="flex  w-full p-5 shadow-lg items-center justify-between">
+      <h1 className="text-2xl font-semibold mb-3 p-10">Discover now</h1>
+      <main className="flex  w-full p-10 shadow-lg items-center justify-between">
         <Swiper
           loop={true}
           // effect={"creative"}

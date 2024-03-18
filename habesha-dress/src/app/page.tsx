@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <main className="flex font-Dosis  relative min-h-screen flex-col bg-alice-blue  items-center ">
-      <div className="w-full   border border-gray-100 border-2 ">
+      <div className="w-full    ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
         ) : (

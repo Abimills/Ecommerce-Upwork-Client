@@ -15,6 +15,7 @@ import ProductCard from "../components/ProductCard/ProductCard";
 import { useParams } from "next/navigation";
 import SearchBar from "@/app/components/Navbar/SearchBar";
 import Navbar from "@/app/components/Navbar/Navbar";
+import Notification from "../components/Notification/Notification";
 const showIcons = {
   search: false,
   user: true,
@@ -80,6 +81,7 @@ const Search: React.FC = () => {
       ) : (
         <Navbar showIcons={showIcons} />
       )}
+      <Notification />
       {/* {showFilter && <FilterData />} */}
       <div className="w-full    flex flex-col  items-center justify-center ">
         <h1 className="font-Dosis font-md text-3xl  mx-4 mb-5 font-semibold ">

@@ -22,6 +22,7 @@ interface Product {
   description: string;
   img: string;
   price: number;
+  discount: number;
   rating: string;
   availableSizes: string[];
   availableColors: string[];
@@ -33,8 +34,16 @@ interface Props {
   product: Product;
 }
 const WishlistCard: React.FC<Props> = ({ product }) => {
-  const { _id, title, img, price, rating, availableSizes, availableColors } =
-    product;
+  const {
+    _id,
+    title,
+    img,
+    price,
+    rating,
+    availableSizes,
+    discount,
+    availableColors,
+  } = product;
   const favorites = useSelector((state: any) => state.cart.favorites);
   const user = useSelector((state: any) => state.auth.user);
   const [isFavored, setIsFavored] = useState(favorites?.includes(_id) || false);
@@ -45,9 +54,13 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
   );
   //dealing with price ui showing
 
-  const priceString = price.toFixed(2);
-
+  const priceString = discount
+    ? (price - discount).toFixed(2)
+    : price.toFixed(2);
   const [wholePart, decimalPart] = priceString.split(".");
+  const originalPriceString = price.toFixed(2);
+  const [originalWholePart, originalDecimalPart] =
+    originalPriceString.split(".");
 
   const [colorChoose, setColorChose] = useState(
     availableColors ? availableColors[0] : ""
@@ -58,13 +71,14 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
       price: product.price,
       quantity: 1,
       id: product._id,
+      discount: discount ? discount : 0,
       inStock: true,
       chosenSize: sizeChoose || "",
-      chosenColor: colorChoose || "",
       img: product.img,
     };
     dispatch(addToCart(data));
   };
+
   const handleBuy = (product: any) => {
     handleAddToCart(product);
     router.push("/cart");
@@ -85,7 +99,7 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
 
   return (
     <div className="w-80 h-88 max-w-sm bg-white font-Dosis   border border-gray-300 relative  ">
-      <Link href={`/${_id}`}>
+      <Link href={`/singleProduct/${_id}`}>
         <img
           className="object-contain   w-full h-56 rounded-t-lg bg-gray-50 "
           src={img}
@@ -152,6 +166,26 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
             );
           })}
         </div> */}
+        <div className="flex items-center justify-between mt-1 mb-6">
+          <div className="flex items-center gap-4">
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <p className="w-40 text-gray-400 text-base">Available</p>
+          </div>
+          {discount > 1 && (
+            <p
+              onClick={() => router.push(`/add-products/${_id}`)}
+              className="text-lg relative bottom-8  text-gray-200 line-through font-medium p-1     font-Dosis  cursor-pointer"
+            >
+              <span className="text-sm font-medium text-gray-400 relative bottom-2 mr-0.5  ">
+                $
+              </span>
+              {originalWholePart}
+              <span className="text-base line-through font-medium relative bottom-1 mr-0.5  ">
+                {originalDecimalPart}
+              </span>
+            </p>
+          )}
+        </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => handleAddToCart(product)}
@@ -168,7 +202,7 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
           <div className=" h-8 w-8 rounded-full bg-gray-100 border border-gray-100">
             <MdDeleteOutline
               onClick={() => handleFavorites(_id)}
-              className="  text-3xl w-6 h-6  m-1 text-gray-700   hover:text-red-700  hover:rounded-full "
+              className="  text-3xl w-6 h-6 cursor-pointer  m-1 text-gray-700   hover:text-red-700  hover:rounded-full "
             />
           </div>
           {/* {isFavored && (

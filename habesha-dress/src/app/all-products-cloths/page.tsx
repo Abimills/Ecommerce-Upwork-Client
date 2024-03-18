@@ -15,6 +15,7 @@ import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import Filtering from "../components/FilteringComponent/FilteringComponents";
 import Footer from "../components/Footer/Footer";
+import Notification from "../components/Notification/Notification";
 // interface Props {
 //   category: string[];
 // }
@@ -95,6 +96,7 @@ const AllProducts: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      <Notification />
       {openFilter && (
         <FilterData
           data={data}

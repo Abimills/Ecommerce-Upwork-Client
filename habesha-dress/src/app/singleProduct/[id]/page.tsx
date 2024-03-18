@@ -28,6 +28,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-creative";
 import InspirationCard from "../../components/DiscountCard/InspirationCard";
 import Footer from "../../components/Footer/Footer";
+import Notification from "@/app/components/Notification/Notification";
 // interface DataType {
 //   title: string;
 //   id: string;
@@ -126,13 +127,14 @@ const SingleProduct: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      <Notification />
       <div className="bg-white w-full h-max  py-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
               <div className="h-[560px] rounded-lg  mb-4">
                 <img
-                  className="w-full h-full object-contain bg-indigo-100 rounded-full overflow-hidden "
+                  className="w-full hover:bg-yellow-300 h-full object-contain bg-indigo-100 border border-gray-100 rounded-full overflow-hidden transition-opacity duration-800 "
                   src={data?.img}
                   alt="Product Image"
                 />
@@ -149,7 +151,7 @@ const SingleProduct: React.FC = () => {
                 {isFavored ? (
                   <IoIosHeart
                     onClick={() => handleFavorites(param?.id)}
-                    className="  text-3xl mx-1  text-black  cursor-pointer"
+                    className="  text-3xl mx-1  text-red-600  cursor-pointer"
                   />
                 ) : (
                   <IoIosHeartEmpty

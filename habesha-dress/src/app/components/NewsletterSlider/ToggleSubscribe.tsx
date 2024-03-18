@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../lib/authSlice/authSlice";
 import CartItem from "../CartItem/CartItem";
+import { ToastContainer, toast } from "react-toastify";
+
 // import { data } from "./data";
 import { IoCloseOutline } from "react-icons/io5";
 import { Fragment, useState } from "react";
@@ -31,17 +33,23 @@ const ToggleSubscribe: React.FC = () => {
           name,
         });
         if (res.data.success) {
-          alert("Email added to db  successfully!");
+          toast.success("Email Subscribed!", {
+            autoClose: 5000,
+          });
 
           dispatch(toggleShowNewsletter());
         }
       } else {
-        alert("fill all fields");
+        toast.error("Please Fill All Fields!", {
+          position: "bottom-right",
+        });
       }
     } catch (err: any) {
       console.log(err);
       if (err?.code == "ERR_BAD_REQUEST") {
-        alert("Email already saved to database");
+        toast.error("Email is already Subscribed.", {
+          position: "bottom-right",
+        });
       } else {
         console.log(err);
       }
@@ -82,7 +90,9 @@ const ToggleSubscribe: React.FC = () => {
                   <div className="flex h-full flex-col  bg-white shadow-xl">
                     <div className="flex-1  px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-xl font-medium text-gray-900"></Dialog.Title>
+                        <Dialog.Title className="text-xl font-medium text-gray-900">
+                          Newsletter
+                        </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"

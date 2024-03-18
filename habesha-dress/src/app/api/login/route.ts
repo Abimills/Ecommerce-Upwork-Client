@@ -14,6 +14,7 @@ export async function POST(req: any) {
     if (!user) {
       return NextResponse.json({
         success: false,
+        loginIssue: "email",
         message: "Either  the email or password is incorrect.",
       });
     } else if (user) {
@@ -52,6 +53,7 @@ export async function POST(req: any) {
       } else if (!auth) {
         return NextResponse.json({
           success: false,
+          loginIssue: "password",
           message: "The password is incorrect",
         });
       }

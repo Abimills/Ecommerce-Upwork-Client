@@ -3,15 +3,30 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { saveAs } from "file-saver";
+import { useSelector } from "react-redux";
+import SearchBar from "../components/Navbar/SearchBar";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
+
+import { ToastContainer, toast } from "react-toastify";
 const LoginPage: React.FC = () => {
+  const router = useRouter();
   const [data, setData] = useState<any>({
     name: "",
     email: "",
     gender: "",
     password: "",
   });
-  const [passwordAgain, setPasswordAgain] = useState<any>("");
-  const router = useRouter();
+  const [readTermsVerify, setReadTermsVerify] = useState(false);
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
+
+  const showIcons = {
+    search: true,
+    user: true,
+    wishlist: true,
+    cart: true,
+    navigation: true,
+  };
 
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -22,23 +37,29 @@ const LoginPage: React.FC = () => {
       data.name !== "" &&
       data.email !== "" &&
       data.gender !== "" &&
-      data.password !== "" &&
-      data.passwordAgain !== ""
+      data.password !== ""
     ) {
-      if (data.password === passwordAgain) {
-        const res = await axios.post("http://localhost:3000/api/user", data);
+      const res = await axios.post("http://localhost:3000/api/user", data);
 
-        if (res.data.success) {
-          alert("successfully registered");
-          router.push("/login");
-        } else {
-          alert("could not register successfully");
-        }
+      if (res.data.success) {
+        toast.success("Registration Successful");
+        router.push("/login");
+      } else if (res.data.registerIssue === "email exist") {
+        toast.error("Email already Registered!", {
+          position: "bottom-right",
+        });
       } else {
-        alert("Passwords do not match");
+        toast.error(
+          "Registration Failed ,try again please with new Email and valid password",
+          {
+            position: "bottom-right",
+          }
+        );
       }
     } else {
-      alert("fill all fields");
+      toast.error("Please Fill all Fields", {
+        position: "bottom-right",
+      });
     }
   };
   const handleDownloadTerms = () => {
@@ -46,15 +67,26 @@ const LoginPage: React.FC = () => {
     saveAs(pdfFile, "downloaded_file.pdf");
   };
   return (
-    <div className="w-full   h-max  bg-white p-1">
-      <section className="bg-white mt-16   mb-16 p-4 py-15 rounded-full">
+    <div className="w-full font-Dosis   h-max  bg-white p-1">
+      <div className="w-full   border border-gray-100 border-2 ">
+        {showSearch ? (
+          <SearchBar showIcons={showIcons} />
+        ) : (
+          <Navbar showIcons={showIcons} />
+        )}
+      </div>
+      <ToastContainer />
+      <section className="bg-white my-8 p-4 py-15 rounded-full">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow-xl border border-green-100  md:mt-0 sm:max-w-md xl:p-0  ">
-            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <div className="p-6  w-full space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create and account
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+              <form
+                className=" w-full space-y-4 md:space-y-6"
+                onSubmit={handleSubmit}
+              >
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Name
@@ -88,18 +120,40 @@ const LoginPage: React.FC = () => {
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Gender
                   </label>
-                  <select
+                  {/* <select
                     name="gender"
                     onChange={(e) => handleChange(e)}
                     value={data.gender}
                     required
                     className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                  >
-                    <option value={"man"}>man</option>
-                    <option value={"women"}>women</option>
-                  </select>
+                  > */}
+                  <div className="flex items-center gap-8">
+                    <div className="flex items-center gap-6">
+                      <input
+                        type="radio"
+                        className=" w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500 "
+                        name="gender"
+                        value={"women"}
+                        onChange={(e) => handleChange(e)}
+                      />
+                      <label>Woman</label>
+                    </div>
+                    <div className="flex items-center gap-6">
+                      <input
+                        type="radio"
+                        name="gender"
+                        onChange={(e) => handleChange(e)}
+                        defaultChecked={true}
+                        className=" w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500 "
+                        value={"man"}
+                      />
+                      <label>Man</label>
+                    </div>
+                  </div>
+
+                  {/* </select> */}
                 </div>
-                <div>
+                <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Password
                   </label>
@@ -110,10 +164,16 @@ const LoginPage: React.FC = () => {
                     value={data.password}
                     placeholder="••••••••"
                     required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border mb-1 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
+                  <div className=" px-2 flex items-center justify-between">
+                    <p className="text-xs"> 8 characters</p>
+                    <p className="text-xs"> 1 digit</p>
+                    <p className="text-xs"> 1 capital letter</p>
+                    <p className="text-xs"> 1 punctuation mark</p>
+                  </div>
                 </div>
-                <div>
+                {/* <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Confirm password
                   </label>
@@ -126,14 +186,15 @@ const LoginPage: React.FC = () => {
                     required
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
-                </div>
+                </div> */}
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
                       aria-describedby="terms"
                       type="checkbox"
+                      onChange={() => setReadTermsVerify(!readTermsVerify)}
                       required
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                      className="w-5 h-5 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     />
                   </div>
                   <div className="ml-3 text-sm flex">
@@ -168,6 +229,7 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

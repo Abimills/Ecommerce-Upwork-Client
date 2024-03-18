@@ -13,6 +13,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { setAllProducts, sortDataReducer } from "@/app/lib/cartSlice/dataSlice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
+import { ToastContainer, toast } from "react-toastify";
 
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
@@ -68,6 +69,7 @@ const Products: React.FC = () => {
           setData={setFilteredData}
         />
       )} */}
+      <ToastContainer newestOnTop={true} autoClose={1000} theme="dark" />
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
         <h1 className="font-Dosis font-md text-3xl  mx-4 ">Popular Products</h1>
         <button

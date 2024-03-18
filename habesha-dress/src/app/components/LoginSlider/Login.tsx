@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 // import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,10 @@ import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
 
 const Login: React.FC = () => {
   const [open, setOpen] = useState(true);
+  const [loginIssues, setLoginIssues] = useState({
+    email: "",
+    password: "",
+  });
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<any>("");
   const router = useRouter();
@@ -22,28 +27,35 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoginIssues({ email: "", password: "" });
     if (email !== "" && password !== "") {
       const res = await axios.post("http://localhost:3000/api/login", {
         email,
         password,
       });
       if (res.data.success) {
-        alert("successfully signed In");
-
         dispatch(loginSuccess(res.data.user));
 
         router.push("/user-profile");
-      } else {
-        alert("could not signIn successfully : check your credentials");
+      } else if (!res.data.success) {
+        if (res.data.loginIssue === "email") {
+          setLoginIssues({ ...loginIssues, email: res.data.loginIssue });
+        }
+        if (res.data.loginIssue === "password") {
+          setLoginIssues({ ...loginIssues, password: res.data.loginIssue });
+        }
+        toast.error(" Email or Password Wrong", { position: "bottom-right" });
+        console.log(res.data.loginIssue);
       }
     } else {
-      alert("fill all fields");
+      toast.error("Please Fill all Required fields", {
+        position: "bottom-right",
+      });
     }
   };
   const handleClose = () => {
     dispatch(toggleShowSignIn());
   };
-
   return (
     <Transition.Root show={showSignIn} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleClose}>
@@ -91,9 +103,13 @@ const Login: React.FC = () => {
                         </div>
                       </div>
                       {/* login section */}
+                      <ToastContainer className="" />
                       <section className="w-full h-full flex     flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
-                          <form className="space-y-6" onSubmit={handleSubmit}>
+                          <form
+                            className="space-y-6 mb-6"
+                            onSubmit={handleSubmit}
+                          >
                             <h5 className="text-xl font-medium text-gray-900 dark:text-white">
                               Sign in to our platform
                             </h5>
@@ -105,9 +121,15 @@ const Login: React.FC = () => {
                                 type="email"
                                 name="email"
                                 value={email}
-                                onChange={(e: any) => setEmail(e.target.value)}
-                                className=" border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                placeholder="some123@gmail.com..."
+                                onChange={(e: any) => {
+                                  setLoginIssues({ ...loginIssues, email: "" });
+                                  setEmail(e.target.value);
+                                }}
+                                className={` border border-gray-300  ${
+                                  loginIssues.email == "email" &&
+                                  "border-red-600 border-2"
+                                }  text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
+                                placeholder="email@gmail.com"
                                 required
                               />
                             </div>
@@ -119,11 +141,18 @@ const Login: React.FC = () => {
                                 type="password"
                                 name="password"
                                 value={password}
-                                onChange={(e: any) =>
-                                  setPassword(e.target.value)
-                                }
+                                onChange={(e: any) => {
+                                  setPassword(e.target.value);
+                                  setLoginIssues({
+                                    ...loginIssues,
+                                    password: "",
+                                  });
+                                }}
                                 placeholder="••••••••"
-                                className=" border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                className={` border border-gray-300 ${
+                                  loginIssues.password == "password" &&
+                                  "border-red-600 border-2"
+                                } text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
                                 required
                               />
                             </div>
@@ -138,16 +167,16 @@ const Login: React.FC = () => {
                             >
                               Login to your account
                             </button>
-                            <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                              Not registered?{" "}
-                              <button
-                                onClick={() => router.push("/signup")}
-                                className="text-blue-700 hover:underline"
-                              >
-                                Create account
-                              </button>
-                            </div>
                           </form>
+                          <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                            Not registered?{" "}
+                            <button
+                              onClick={() => router.push("/signup")}
+                              className="text-blue-700 hover:underline"
+                            >
+                              Create account
+                            </button>
+                          </div>
                         </div>
                       </section>
                     </div>

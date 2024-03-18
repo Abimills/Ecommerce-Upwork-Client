@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Define a type for the slice state
-
+// const notify = () => toast("Wow so easy !");
 export interface CartItem {
   id: string;
   title: string;
@@ -50,7 +51,7 @@ const initialState: CartState = {
   showSearch: false,
   showSidebar: false,
   showFilter: false,
-  showNotification: true,
+  showNotification: false,
 };
 
 export const cartSlice = createSlice({
@@ -63,14 +64,21 @@ export const cartSlice = createSlice({
       if (!foundItem) {
         state.favorites.push(action.payload);
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
-        state.showNotification = true;
+        // toast("Added to favorites", {
+        //   position: "bottom-right",
+        //   hideProgressBar: true,
+
+        // });
       }
       if (foundItem) {
         state.favorites = state.favorites.filter(
           (item: any) => item !== action.payload
         );
         localStorage.setItem("favorites", JSON.stringify(state.favorites));
-        state.showNotification = true;
+        // toast("Removed from favorites", {
+        //   hideProgressBar: true,
+        //   position: "bottom-right",
+        // });
       }
     },
 

@@ -85,7 +85,7 @@ const InspirationCard: React.FC<Props> = ({ product }) => {
   };
   return (
     <div className="w-80 h-88 max-w-sm bg-white font-Dosis   rounded-md shadow-lg relative  ">
-      <Link href={`/${_id}`}>
+      <Link href={`/singleProduct/${_id}`}>
         <img
           className="object-contain   w-full h-56 rounded-t-lg bg-gray-50 "
           src={img}

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface User {
   id: string;
   email: string;
@@ -31,6 +32,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       localStorage.removeItem("user");
+      toast("Your are Signed Out!");
     },
     // registerSuccess: (state, action: PayloadAction<User>) => {
     //   state.user = action.payload;
