@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
-
+import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -17,6 +17,7 @@ const LoginPage: React.FC = () => {
     gender: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const [readTermsVerify, setReadTermsVerify] = useState(false);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
 
@@ -39,22 +40,31 @@ const LoginPage: React.FC = () => {
       data.gender !== "" &&
       data.password !== ""
     ) {
-      const res = await axios.post("http://localhost:3000/api/user", data);
+      try {
+        setLoading(true);
+        const res = await axios.post("http://localhost:3000/api/user", data);
 
-      if (res.data.success) {
-        toast.success("Registration Successful");
-        router.push("/login");
-      } else if (res.data.registerIssue === "email exist") {
-        toast.error("Email already Registered!", {
-          position: "bottom-right",
-        });
-      } else {
-        toast.error(
-          "Registration Failed ,try again please with new Email and valid password",
-          {
+        if (res.data.success) {
+          toast.success("Registration Successful");
+          router.push("/login");
+          setLoading(false);
+        } else if (res.data.registerIssue === "email exist") {
+          toast.error("Email already Registered!", {
             position: "bottom-right",
-          }
-        );
+          });
+          setLoading(false);
+        } else {
+          toast.error(
+            "Registration Failed ,try again please with new Email and valid password",
+            {
+              position: "bottom-right",
+            }
+          );
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log({ message: "error while registering user ", error });
       }
     } else {
       toast.error("Please Fill all Fields", {
@@ -67,7 +77,7 @@ const LoginPage: React.FC = () => {
     saveAs(pdfFile, "downloaded_file.pdf");
   };
   return (
-    <div className="w-full font-Dosis   h-max  bg-white p-1">
+    <div className="w-full font-Dosis     bg-white ">
       <div className="w-full   border border-gray-100 border-2 ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -76,7 +86,18 @@ const LoginPage: React.FC = () => {
         )}
       </div>
       <ToastContainer />
-      <section className="bg-white my-8 p-4 py-15 rounded-full">
+      <section className="bg-white  relative my-8 p-4 py-15 rounded-full ">
+        {loading && (
+          <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+            <ReactLoading
+              type={"spinningBubbles"}
+              color={"#2d7e23"}
+              height={64}
+              width={64}
+            />
+          </div>
+        )}
+
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow-xl border border-green-100  md:mt-0 sm:max-w-md xl:p-0  ">
             <div className="p-6  w-full space-y-4 md:space-y-6 sm:p-8">
@@ -211,9 +232,23 @@ const LoginPage: React.FC = () => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-black hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  className="w-full text-white bg-black hover:bg-gray-900 focus:none focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Create an account
+                  {loading ? (
+                    <span className="w-full h-full  flex items-center  justify-center">
+                      <ReactLoading
+                        type={"bubbles"}
+                        color={"#ffffff"}
+                        height={25}
+                        width={75}
+                        className="relative bottom-6"
+                      />
+                    </span>
+                  ) : (
+                    <span className="w-full flex items-center justify-center">
+                      Create an account
+                    </span>
+                  )}{" "}
                 </button>
                 <p className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
                   Already have an account?

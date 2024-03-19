@@ -20,17 +20,12 @@ import InspirationCard from "../DiscountCard/InspirationCard";
 import Footer from "../Footer/Footer";
 import { useSelector } from "react-redux";
 const WelcomeUserProfile: React.FC = () => {
-  const [data, setData] = useState<any>([]);
   const [recommendedData, setRecommendedData] = useState<any>([]);
-
   const user = useSelector((state: any) => state.auth.user);
 
   // const single: any = data.find((product) => product.id === param.id);
   // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
-  const fetchData = async () => {
-    const res = await axios.get(`http://localhost:3000/api/product/`);
-    setData(res.data.cloths);
-  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (user?.recommendedProducts?.length > 0) {
@@ -49,9 +44,7 @@ const WelcomeUserProfile: React.FC = () => {
 
     fetchData();
   }, []);
-  useEffect(() => {
-    fetchData();
-  }, []);
+
   return (
     <div className="w-full flex flex-col  ">
       {/* <div className="flex-1  h-max min-h-32  mt-4 mb-8  p-4 px-8 rounded-lg bg-yellow-100">

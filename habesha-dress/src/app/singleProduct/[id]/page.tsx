@@ -60,12 +60,14 @@ const SingleProduct: React.FC = () => {
   const [colorChoose, setColorChose] = useState(
     data.availableColors ? data.availableColors[0] : ""
   );
-  const addToDbFavorites = async (userId: any, itemId: any) => {
-    const res = await axios.put("http://localhost:3000/api/user", {
-      userId,
-      itemId,
-    });
-  };
+
+  // Todo: donot delete this I might need it!
+  // const addToDbFavorites = async (userId: any, itemId: any) => {
+  //   const res = await axios.put("http://localhost:3000/api/user", {
+  //     userId,
+  //     itemId,
+  //   });
+  // };
 
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));

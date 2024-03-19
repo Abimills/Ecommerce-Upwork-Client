@@ -1,4 +1,5 @@
 "use client";
+import React, { useReducer } from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/lib/hooks";
@@ -7,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ClothProduct from "@/app/api/models/newsletter";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { useRouter, useSearchParams } from "next/navigation";
+import ReactLoading from "react-loading";
+import { TbDeviceDesktopSearch } from "react-icons/tb";
+
 import {
   toggleShowFilter,
   toggleShowSearch,
@@ -23,12 +27,16 @@ const showIcons = {
   cart: true,
   navigation: true,
 };
+interface GenderData {
+  [key: string]: number;
+}
 const Search: React.FC = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [genderData, setGenderData] = useState<any>({});
-
+  const router = useRouter();
   const showSearch = useSelector((state: any) => state.cart.showSearch);
 
   const handleFilterByGender = (gender: string) => {
@@ -42,27 +50,36 @@ const Search: React.FC = () => {
     const q = new URLSearchParams(window.location?.search).get("query");
 
     const searchData = async () => {
-      if (q && q !== "") {
-        setQuery(q);
-        const res = await axios.get(
-          `http://localhost:3000/api/search/?query=${q}`
-        );
-        if (res.data.cloths) {
-          setData(res.data.cloths);
-          setFilteredData(res.data.cloths);
+      try {
+        if (q && q !== "") {
+          setQuery(q);
+          setLoading(true);
+          const res = await axios.get(
+            `http://localhost:3000/api/search/?query=${q}`
+          );
+          if (res.data.cloths) {
+            setData(res.data.cloths);
+            setFilteredData(res.data.cloths);
+            setLoading(false);
+            const allGender: any = [];
+
+            res.data.cloths.map((product: any) =>
+              allGender.push(...product.forWhichGender)
+            );
+
+            const numberOfGender: any = {};
+            allGender.map((gender: any) => {
+              numberOfGender[gender] = (numberOfGender[gender] || 0) + 1;
+            });
+
+            setGenderData(numberOfGender);
+          } else {
+            setLoading(false);
+          }
         }
-        const allGender: any = [];
-
-        res.data.cloths.map((product: any) =>
-          allGender.push(...product.forWhichGender)
-        );
-
-        const numberOfGender: any = {};
-        allGender.map((gender: any) => {
-          numberOfGender[gender] = (numberOfGender[gender] || 0) + 1;
-        });
-
-        setGenderData(numberOfGender);
+      } catch (error) {
+        setLoading(false);
+        console.log({ message: "error while fetching products", error });
       }
     };
 
@@ -93,15 +110,13 @@ const Search: React.FC = () => {
         </p>
         <div className="flex gap-7 items-center mb-6">
           {Object.keys(genderData).length > 0 &&
-            Object.entries(genderData)?.map(([category, count]) => (
+            Object.entries<GenderData>(genderData)?.map(([category, count]) => (
               <button
                 className=" font-medium text-black tracking-wide text-sm hover:underline decoration-2 hover:underline-offset-8"
-                key={category}
+                key={category + count}
                 onClick={() => handleFilterByGender(category)}
               >
-                {category} {"("}
-                {count}
-                {")"}
+                {`${category} ( ${count} )`}
               </button>
             ))}
         </div>
@@ -118,13 +133,37 @@ const Search: React.FC = () => {
           </button>
         </div>
       </div>
-
-      <div className="w-full flex items-center border-t border-gray-200 gap-4 justify-between flex-wrap">
-        {filteredData.length > 1 &&
-          filteredData.map((item: any) => {
-            return <ProductCard key={item._id} product={item} />;
-          })}
-      </div>
+      {loading ? (
+        <div className=" relative  h-full min-h-[300px]  my-8 flex items-center justify-center">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
+      ) : (
+        <div className="w-full flex items-center border-t border-gray-200 gap-8 px-2 py-6 justify-center flex-wrap">
+          {filteredData.length > 0 ? (
+            filteredData.map((item: any) => {
+              return <ProductCard key={item._id} product={item} />;
+            })
+          ) : (
+            <div className=" relative w-full  h-full min-h-[300px]  my-8 flex items-center justify-center">
+              <div className=" w-full flex items-center justify-center flex-col gap-5">
+                <h1 className="text-5xl ">Empty Search Results</h1>
+                <TbDeviceDesktopSearch className="text-4xl" />
+                <button
+                  onClick={() => router.push("/")}
+                  className="bg-black text-white rounded-sm p-1 px-6 border border-gray-400 "
+                >
+                  return to Home
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </main>
   );
 };

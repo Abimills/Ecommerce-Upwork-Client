@@ -16,6 +16,8 @@ import Navbar from "../components/Navbar/Navbar";
 import Filtering from "../components/FilteringComponent/FilteringComponents";
 import Footer from "../components/Footer/Footer";
 import Notification from "../components/Notification/Notification";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 // interface Props {
 //   category: string[];
 // }
@@ -30,6 +32,7 @@ const AllProducts: React.FC = () => {
   // const products = useSelector((state: any) => state.data);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
@@ -41,28 +44,25 @@ const AllProducts: React.FC = () => {
     totalPages ? 96 / totalPages : 8
   );
   const [totalCloths, setTotalCloths] = useState(0);
-  const handlePagination = async (page: any) => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/product/?page=${page}`
-      );
-      setData(res.data.cloths);
-      setFilteredData(res.data.cloths);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/product/");
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:3000/api/product/");
 
-      if (res.data.cloths) {
-        setData(res.data.cloths);
-        setFilteredData(res.data.cloths);
-        setTotalPages(res.data.totalPages);
-        setTotalCloths(res.data.totalCloths);
-        setActivePage(res.data.page);
+        if (res.data.cloths) {
+          setData(res.data.cloths);
+          setFilteredData(res.data.cloths);
+          setTotalPages(res.data.totalPages);
+          setTotalCloths(res.data.totalCloths);
+          setActivePage(res.data.page);
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while fetching product ", error });
       }
     };
     fetchData();
@@ -73,6 +73,7 @@ const AllProducts: React.FC = () => {
       setCurrentPage(newPagination);
       setPaginationNumber(newPagination * paginationNumber);
       try {
+        setLoading(true);
         const incrementCurrentPage = activePage + 1;
         setActivePage(incrementCurrentPage);
         const res = await axios.get(
@@ -81,8 +82,11 @@ const AllProducts: React.FC = () => {
         setData(res.data.cloths);
         setFilteredData(res.data.cloths);
         setActivePage(res.data.page);
+        setLoading(false);
       } catch (error) {
-        console.log(error);
+        setLoading(false);
+
+        console.log({ message: "error while adding pagination", error });
       }
     }
     return;
@@ -96,6 +100,17 @@ const AllProducts: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      <ToastContainer />
+      {loading && (
+        <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
+      )}
       <Notification />
       {openFilter && (
         <FilterData
@@ -115,10 +130,20 @@ const AllProducts: React.FC = () => {
       </div>
 
       <div className="w-full px-32 border-b border-gray-300 flex items-center mt-8 mb-16 gap-16 justify-center flex-wrap">
-        {filteredData.length > 1 &&
+        {filteredData.length > 0 ? (
           filteredData?.map((item: any) => {
             return <ProductCard key={item._id} product={item} />;
-          })}
+          })
+        ) : (
+          <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+            <ReactLoading
+              type={"spinningBubbles"}
+              color={"#2d7e23"}
+              height={64}
+              width={64}
+            />
+          </div>
+        )}
       </div>
       <div className="w-full flex flex-col  items-center justify-center">
         <div className="">
@@ -137,7 +162,21 @@ const AllProducts: React.FC = () => {
           onClick={handleMultiplyPagination}
           className="px-24 py-2  mb-24 text-xs font-medium border border-gray-600 rounded-full text-center"
         >
-          Show more
+          {loading ? (
+            <span className="w-full h-full  flex items-center  justify-center">
+              <ReactLoading
+                type={"bubbles"}
+                color={"#000"}
+                height={25}
+                width={75}
+                className="relative bottom-6"
+              />
+            </span>
+          ) : (
+            <span className="w-full flex items-center justify-center">
+              Show more
+            </span>
+          )}
         </button>
       </div>
       {/* pagination */}

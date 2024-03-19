@@ -1,6 +1,5 @@
 "use client";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 // import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,9 +11,11 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
-
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 const Login: React.FC = () => {
   const [open, setOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [loginIssues, setLoginIssues] = useState({
     email: "",
     password: "",
@@ -29,23 +30,35 @@ const Login: React.FC = () => {
     e.preventDefault();
     setLoginIssues({ email: "", password: "" });
     if (email !== "" && password !== "") {
-      const res = await axios.post("http://localhost:3000/api/login", {
-        email,
-        password,
-      });
-      if (res.data.success) {
-        dispatch(loginSuccess(res.data.user));
+      try {
+        setLoading(true);
+        const res = await axios.post("http://localhost:3000/api/login", {
+          email,
+          password,
+        });
+        if (res.data.success) {
+          dispatch(loginSuccess(res.data.user));
 
-        router.push("/user-profile");
-      } else if (!res.data.success) {
-        if (res.data.loginIssue === "email") {
-          setLoginIssues({ ...loginIssues, email: res.data.loginIssue });
+          router.push("/user-profile");
+          setLoading(false);
+        } else if (!res.data.success) {
+          if (res.data.loginIssue === "email") {
+            setLoginIssues({ ...loginIssues, email: res.data.loginIssue });
+            setLoading(false);
+          }
+          if (res.data.loginIssue === "password") {
+            setLoginIssues({ ...loginIssues, password: res.data.loginIssue });
+            setLoading(false);
+          }
+          toast.error(" Email or Password Wrong", {
+            position: "bottom-right",
+          });
+          setLoading(false);
         }
-        if (res.data.loginIssue === "password") {
-          setLoginIssues({ ...loginIssues, password: res.data.loginIssue });
-        }
-        toast.error(" Email or Password Wrong", { position: "bottom-right" });
-        console.log(res.data.loginIssue);
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while signing in ", error });
       }
     } else {
       toast.error("Please Fill all Required fields", {
@@ -103,7 +116,7 @@ const Login: React.FC = () => {
                         </div>
                       </div>
                       {/* login section */}
-                      <ToastContainer className="" />
+                      <ToastContainer />
                       <section className="w-full h-full flex     flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
                           <form
@@ -163,9 +176,23 @@ const Login: React.FC = () => {
                             </div>
                             <button
                               type="submit"
-                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:none focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                              Login to your account
+                              {loading ? (
+                                <span className="w-full h-full  flex items-center  justify-center">
+                                  <ReactLoading
+                                    type={"bubbles"}
+                                    color={"#ffffff"}
+                                    height={25}
+                                    width={75}
+                                    className="relative bottom-6"
+                                  />
+                                </span>
+                              ) : (
+                                <span className="w-full flex items-center justify-center">
+                                  Login to your account
+                                </span>
+                              )}
                             </button>
                           </form>
                           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">

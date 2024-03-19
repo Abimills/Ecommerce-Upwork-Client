@@ -80,12 +80,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     handleAddToCart(product);
     router.push("/cart");
   };
-  const addToDbFavorites = async (userId: any, itemId: any) => {
-    const res = await axios.put("http://localhost:3000/api/user", {
-      userId,
-      itemId,
-    });
-  };
+
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);

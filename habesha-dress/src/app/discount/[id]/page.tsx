@@ -59,19 +59,11 @@ const SingleProduct: React.FC = () => {
   const [colorChoose, setColorChose] = useState(
     data.availableColors ? data.availableColors[0] : ""
   );
-  const addToDbFavorites = async (userId: any, itemId: any) => {
-    const res = await axios.put("http://localhost:3000/api/user", {
-      userId,
-      itemId,
-    });
-  };
+
   console.log(similarClothes);
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);
-    if (user) {
-      addToDbFavorites(user._id, id);
-    }
   };
   useEffect(() => {
     const fetchData = async () => {

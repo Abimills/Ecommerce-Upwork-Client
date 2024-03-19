@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import SearchBar from "../../components/Navbar/SearchBar";
 import Navbar from "../../components/Navbar/Navbar";
 import { useParams } from "next/navigation";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 interface ProductData {
   title: string;
   description: string;
@@ -38,7 +40,7 @@ const showIcons = {
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const param = useParams<{ id: string }>();
-
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState(param?.id);
 
   const [data, setData] = useState<ProductData>({
@@ -71,12 +73,21 @@ const AddProducts: React.FC = () => {
     const newData = new FormData();
     newData.append("file", file);
     newData.append("upload_preset", "uploads");
-    const imgUploaded = await axios.post(
-      "https://api.cloudinary.com/v1_1/dnokvmwmd/image/upload",
-      newData
-    );
-    const { url } = imgUploaded.data;
-    setData({ ...data, img: url });
+    try {
+      setLoading(true);
+      const imgUploaded = await axios.post(
+        "https://api.cloudinary.com/v1_1/dnokvmwmd/image/upload",
+        newData
+      );
+      const { url } = imgUploaded.data;
+      setData({ ...data, img: url });
+      setLoading(false);
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      setLoading(false);
+
+      console.log({ message: "error while saving image", error });
+    }
   };
 
   const handleSubmit = async (e: any) => {
@@ -86,41 +97,56 @@ const AddProducts: React.FC = () => {
     // if (Object.keys(validatedData).length > 1) {
     //   alert("fill all fields please");
     // } else {
-    const res = await axios.put("http://localhost:3000/api/product", {
-      ...data,
-      id,
-    });
+    try {
+      setLoading(true);
+      const res = await axios.put("http://localhost:3000/api/product", {
+        ...data,
+        id,
+      });
+      setLoading(false);
 
-    alert("product updated in database");
-    // }
+      toast.success("Product updated successfully");
+    } catch (error) {
+      setLoading(false);
+
+      console.log({ message: "error while saving product", error });
+    }
   };
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `http://localhost:3000/api/product/?id=${param?.id}`
-      );
-      const cloth: any = res.data.cloth;
-      setId(cloth?._id);
-      setData({
-        title: cloth?.title,
-        couples: cloth?.couples,
-        description: cloth?.description,
-        img: cloth?.img,
-        price: cloth?.price,
-        discount: cloth?.discount,
-        discountInPercent: cloth?.discountInPercent,
-        stock: cloth?.stock,
-        likes: cloth?.likes,
-        purchasedNo: cloth?.purchasedNo,
-        rating: cloth?.rating,
-        availableSizes: cloth?.availableSizes,
-        clothOccasion: cloth?.clothOccasion,
-        availableColors: cloth?.availableColors,
-        whichGroupCloth: cloth?.whichGroupCloth,
-        boughtWithIds: cloth?.boughtWithIds,
-        category: cloth?.category,
-        forWhichGender: cloth?.forWhichGender,
-      });
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `http://localhost:3000/api/product/?id=${param?.id}`
+        );
+        const cloth: any = res.data.cloth;
+        setId(cloth?._id);
+        setData({
+          title: cloth?.title,
+          couples: cloth?.couples,
+          description: cloth?.description,
+          img: cloth?.img,
+          price: cloth?.price,
+          discount: cloth?.discount,
+          discountInPercent: cloth?.discountInPercent,
+          stock: cloth?.stock,
+          likes: cloth?.likes,
+          purchasedNo: cloth?.purchasedNo,
+          rating: cloth?.rating,
+          availableSizes: cloth?.availableSizes,
+          clothOccasion: cloth?.clothOccasion,
+          availableColors: cloth?.availableColors,
+          whichGroupCloth: cloth?.whichGroupCloth,
+          boughtWithIds: cloth?.boughtWithIds,
+          category: cloth?.category,
+          forWhichGender: cloth?.forWhichGender,
+        });
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while updating product", error });
+      }
     };
     fetchData();
   }, []);
@@ -131,6 +157,17 @@ const AddProducts: React.FC = () => {
         <SearchBar showIcons={showIcons} />
       ) : (
         <Navbar showIcons={showIcons} />
+      )}
+      <ToastContainer />
+      {loading && (
+        <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
       )}
       <section className="max-w-full p-6 mb-10 mx-auto bg-gray-700 rounded-md shadow-md  mt-20">
         <h1 className="text-xl font-bold text-white capitalize dark:text-white">

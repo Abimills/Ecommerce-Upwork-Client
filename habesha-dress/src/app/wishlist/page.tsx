@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { RiArrowGoBackLine } from "react-icons/ri";
-
+import ReactLoading from "react-loading";
 import { useRouter } from "next/navigation";
 import { toggleShowFilter } from "../lib/cartSlice/cartSlice";
 import FilterData from "../components/Filter/Filter";
@@ -22,7 +22,7 @@ const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilteredProducts] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<any>([]);
   const favorites = useSelector((state: any) => state.cart.favorites);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
@@ -55,17 +55,26 @@ const Favorites: React.FC = () => {
     const fetchData = async () => {
       if (favorites?.length > 0 && favorites !== undefined) {
         const selected: any = [];
-        const res = await Promise.all(
-          favorites?.map((id: any) =>
-            axios.get(`http://localhost:3000/api/product/?id=${id}`)
-          )
-        );
-        const wishlistProducts: any = res.map((product) => product.data.cloth);
-        wishlistProducts?.map((item: any) => selected.push(...item.category));
-        console.log(wishlistProducts);
-        setProducts(wishlistProducts);
-        setFilteredProducts(wishlistProducts);
-        setCategories(["All", ...new Set(selected)]);
+        try {
+          setLoading(true);
+          const res = await Promise.all(
+            favorites?.map((id: any) =>
+              axios.get(`http://localhost:3000/api/product/?id=${id}`)
+            )
+          );
+          const wishlistProducts: any = res.map(
+            (product) => product.data.cloth
+          );
+          wishlistProducts?.map((item: any) => selected.push(...item.category));
+          setProducts(wishlistProducts);
+          setFilteredProducts(wishlistProducts);
+          setCategories(["All", ...new Set(selected)]);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+
+          console.log({ message: "error while fetching favorites", error });
+        }
       }
     };
 
@@ -109,7 +118,7 @@ const Favorites: React.FC = () => {
           setData={setFilteredProducts}
         />
       )}
-      <div className="w-full flex items-center mt-16 justify-between  p-4">
+      <div className="w-full flex items-center mt-16 justify-between  p-4 ">
         <p className="mx-4 font-medium text-sm">
           {filterProducts?.length} Article
         </p>
@@ -121,32 +130,44 @@ const Favorites: React.FC = () => {
           Filter & Sort
         </button>
       </div>
-      {/* <div className="w-full  p-2 mb-10"></div> */}
-      {filterProducts?.length > 0 ? (
-        <div className="w-full flex px-24 py-8  border-y border-y-2-gray-400 items-center flex-wrap items-center mb-24 justify-evenly gap-4">
-          {filterProducts?.map((item: any) => {
-            return <WishlistCard product={item} key={item.id} />;
-          })}
+      {loading ? (
+        <div className=" relative   my-8 flex items-center justify-center">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
         </div>
       ) : (
-        <div className="w-full flex  flex-col">
-          {/* empty orders page */}
-          <div className=" w-full flex  mb-16 items-center justify-center flex-col ">
-            <img
-              src="../cart-empty.gif"
-              alt=""
-              className="h-56 w-full object-contain rounded-full mb-8"
-            />
-            <h1 className="font-bold text-2xl tracking-wide mb-8 leading-normal">
-              Your wishlist is empty
-            </h1>
-            <p className="leading-normal text-base font-medium text-gray-500 mb-8">
-              Get started and discover fashion for your whole family.
-            </p>
-            <button className="bg-black w-1/2 text-white py-3 px-9 font-bold rounded-full">
-              Check Products Now!
-            </button>
-          </div>
+        <div className="w-full">
+          {filterProducts?.length > 0 ? (
+            <div className="w-full flex px-2 py-8  border-y border-y-2-gray-400 items-center flex-wrap items-center mb-24 justify-evenly gap-4">
+              {filterProducts?.map((item: any) => {
+                return <WishlistCard product={item} key={item.id} />;
+              })}
+            </div>
+          ) : (
+            <div className="w-full flex  flex-col">
+              {/* empty orders page */}
+              <div className=" w-full flex  mb-16 items-center justify-center flex-col ">
+                <img
+                  src="../cart-empty.gif"
+                  alt=""
+                  className="h-56 w-full object-contain rounded-full mb-8"
+                />
+                <h1 className="font-bold text-2xl tracking-wide mb-8 leading-normal">
+                  Your wishlist is empty
+                </h1>
+                <p className="leading-normal text-base font-medium text-gray-500 mb-8">
+                  Get started and discover fashion for your whole family.
+                </p>
+                <button className="bg-black w-1/2 text-white py-3 px-9 font-bold rounded-full">
+                  Check Products Now!
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
       <Footer />

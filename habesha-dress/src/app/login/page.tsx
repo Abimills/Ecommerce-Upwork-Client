@@ -2,31 +2,43 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import ReactLoading from "react-loading";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../lib/authSlice/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<any>("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (email !== "" && password !== "") {
-      const res = await axios.post("http://localhost:3000/api/login", {
-        email,
-        password,
-      });
-      if (res.data.success) {
-        toast.success("Login Successful");
-
-        dispatch(loginSuccess(res.data.user));
-
-        router.push("http://localhost:3000/user-profile");
-      } else {
-        toast.error("Login Failed ,try again with correct Email and password", {
-          position: "bottom-right",
+      try {
+        setLoading(true);
+        const res = await axios.post("http://localhost:3000/api/login", {
+          email,
+          password,
         });
+        if (res.data.success) {
+          toast.success("Login Successful");
+
+          dispatch(loginSuccess(res.data.user));
+          router.push("/user-profile");
+          setLoading(false);
+        } else {
+          toast.error(
+            "Login Failed ,try again with correct Email and password",
+            {
+              position: "bottom-right",
+            }
+          );
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log({ message: "error while signing in ", error });
       }
     } else {
       toast.error("Please Fill all Fields", {
@@ -77,9 +89,23 @@ const LoginPage: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:none focus:outline-none focus:none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Login to your account
+            {loading ? (
+              <span className="w-full h-full  flex items-center  justify-center">
+                <ReactLoading
+                  type={"bubbles"}
+                  color={"#ffffff"}
+                  height={25}
+                  width={75}
+                  className="relative bottom-6"
+                />
+              </span>
+            ) : (
+              <span className="w-full flex items-center justify-center">
+                Login to your account
+              </span>
+            )}{" "}
           </button>
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}

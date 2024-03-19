@@ -7,6 +7,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 interface ProductData {
   title: string;
   description: string;
@@ -36,7 +38,6 @@ const showIcons = {
 };
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
-
   const [data, setData] = useState<ProductData>({
     title: "",
     couples: "false",
@@ -57,6 +58,7 @@ const AddProducts: React.FC = () => {
     category: [],
     forWhichGender: [],
   });
+  const [loading, setLoading] = useState(false);
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -68,34 +70,60 @@ const AddProducts: React.FC = () => {
     const newData = new FormData();
     newData.append("file", file);
     newData.append("upload_preset", "uploads");
-    const imgUploaded = await axios.post(
-      "https://api.cloudinary.com/v1_1/dnokvmwmd/image/upload",
-      newData
-    );
-    const { url } = imgUploaded.data;
-    setData({ ...data, img: url });
+    try {
+      setLoading(true);
+      const imgUploaded = await axios.post(
+        "https://api.cloudinary.com/v1_1/dnokvmwmd/image/upload",
+        newData
+      );
+      const { url } = imgUploaded.data;
+      setData({ ...data, img: url });
+      setLoading(false);
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      setLoading(false);
+
+      console.log({ message: "error while saving image", error });
+    }
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const validatedData = validateData(data);
-    console.log(validatedData);
-    console.log(data);
+
     if (Object.keys(validatedData).length > 1) {
-      alert("fill all fields please");
+      toast.error("Please fill out the form completely!");
     } else {
-      const res = await axios.post("http://localhost:3000/api/product", data);
-      console.log(res.data);
-      alert("product saved to database");
+      try {
+        setLoading(true);
+        const res = await axios.post("http://localhost:3000/api/product", data);
+        toast.success("Product saved!");
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while saving product", error });
+      }
     }
   };
 
   return (
-    <div className="bg-white w-full ">
+    <div className="bg-white w-full relative ">
       {showSearch ? (
         <SearchBar showIcons={showIcons} />
       ) : (
         <Navbar showIcons={showIcons} />
+      )}
+      <ToastContainer />
+      {loading && (
+        <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
       )}
       <section className="max-w-full p-6 mb-10 mx-auto bg-gray-700 rounded-md shadow-md  mt-20">
         <h1 className="text-xl font-bold text-white capitalize dark:text-white">

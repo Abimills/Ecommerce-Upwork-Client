@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../lib/authSlice/authSlice";
 import CartItem from "../CartItem/CartItem";
-import { ToastContainer, toast } from "react-toastify";
 
 // import { data } from "./data";
 import { IoCloseOutline } from "react-icons/io5";
@@ -16,9 +15,11 @@ import {
   toggleShowNewsletter,
   toggleShowSignIn,
 } from "@/app/lib/cartSlice/cartSlice";
-
+import { ToastContainer, toast } from "react-toastify";
+import ReactLoading from "react-loading";
 const ToggleSubscribe: React.FC = () => {
   const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState<string>("");
   const router = useRouter();
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const ToggleSubscribe: React.FC = () => {
     e.preventDefault();
     try {
       if (email !== "" && name !== "") {
+        setLoading(true);
         const res = await axios.post("http://localhost:3000/api/newsletter", {
           email,
           name,
@@ -38,20 +40,22 @@ const ToggleSubscribe: React.FC = () => {
           });
 
           dispatch(toggleShowNewsletter());
+          setLoading(false);
         }
       } else {
         toast.error("Please Fill All Fields!", {
           position: "bottom-right",
         });
+        setLoading(false);
       }
     } catch (err: any) {
-      console.log(err);
+      setLoading(false);
       if (err?.code == "ERR_BAD_REQUEST") {
         toast.error("Email is already Subscribed.", {
           position: "bottom-right",
         });
       } else {
-        console.log(err);
+        console.log({ message: "error while subscribing ", err });
       }
     }
   };
@@ -147,9 +151,23 @@ const ToggleSubscribe: React.FC = () => {
 
                             <button
                               type="submit"
-                              className="w-full text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              className="w-full text-white bg-gray-800 hover:bg-gray-700 focus:none focus:outline-none font-medium  text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                              Subscribe for News
+                              {loading ? (
+                                <span className="w-full h-full  flex items-center  justify-center">
+                                  <ReactLoading
+                                    type={"bubbles"}
+                                    color={"#ffffff"}
+                                    height={25}
+                                    width={75}
+                                    className="relative bottom-6"
+                                  />
+                                </span>
+                              ) : (
+                                <span className="w-full flex items-center justify-center">
+                                  Subscribe for News
+                                </span>
+                              )}
                             </button>
                           </form>
                         </div>

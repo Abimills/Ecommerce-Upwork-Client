@@ -43,7 +43,7 @@ export async function PUT(req: any) {
             },
             { new: true }
           );
-          console.log(updatedUser);
+         
           const userInfo = {
             _id: updatedUser._id,
             name: updatedUser.name,
@@ -62,6 +62,11 @@ export async function PUT(req: any) {
             success: true,
             message: "successfully updated email",
             user: userInfo,
+          });
+        } else if (!auth) {
+          return NextResponse.json({
+            success: false,
+            message: "Unauthenticated user, login and  try again",
           });
         }
       }

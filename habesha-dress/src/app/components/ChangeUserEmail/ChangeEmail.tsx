@@ -11,13 +11,15 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
   const user = useSelector((state: any) => state.auth.user);
-
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(user?.email || "");
   const [password, setPassword] = useState<any>("");
 
@@ -27,20 +29,29 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (email !== "" && password !== "") {
-      const res = await axios.put("http://localhost:3000/api/update-email", {
-        token: user?.token,
+      try {
+        setLoading(true);
+        const res = await axios.put("http://localhost:3000/api/update-email", {
+          token: user?.token,
 
-        email,
-        password,
-      });
-      if (res.data.success) {
-        alert("successfully updated Email address");
-        dispatch(loginSuccess(res.data.user));
-      } else {
-        alert("could not update email  successfully : check your credentials");
+          email,
+          password,
+        });
+        if (res.data.success) {
+          toast.success("Successfully updated Email!");
+          dispatch(loginSuccess(res.data.user));
+          setLoading(false);
+        } else {
+          toast.error("Sorry can not update Email, try again");
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while updating Email", error });
       }
     } else {
-      alert("fill all fields");
+      toast.error("Please fill all fields");
     }
   };
   const handleClose = () => {
@@ -94,7 +105,8 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
                         </div>
                       </div>
                       {/* login section */}
-                      <section className="w-full h-full flex     flex-col  items-center justify-center">
+                      <ToastContainer />
+                      <section className="w-full h-full flex  font-Dosis    flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
                           <form className="space-y-6" onSubmit={handleSubmit}>
                             <p className="">
@@ -133,9 +145,23 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
 
                             <button
                               type="submit"
-                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:none focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                              Save New Email
+                              {loading ? (
+                                <span className="w-full h-full  flex items-center  justify-center">
+                                  <ReactLoading
+                                    type={"bubbles"}
+                                    color={"#ffffff"}
+                                    height={25}
+                                    width={75}
+                                    className="relative bottom-6"
+                                  />
+                                </span>
+                              ) : (
+                                <span className="w-full flex items-center justify-center">
+                                  Save New Email
+                                </span>
+                              )}
                             </button>
                           </form>
                         </div>

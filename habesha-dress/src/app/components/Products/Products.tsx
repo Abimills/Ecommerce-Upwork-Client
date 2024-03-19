@@ -14,7 +14,6 @@ import { setAllProducts, sortDataReducer } from "@/app/lib/cartSlice/dataSlice";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import { ToastContainer, toast } from "react-toastify";
-
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
@@ -22,10 +21,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
 import { useRouter } from "next/navigation";
+import ReactLoading from "react-loading";
 const Products: React.FC = () => {
   const showFilter = useSelector((state: any) => state.cart.showFilter);
   const [openFilter, setOpenFilter] = useState(false);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [filteredData, setFilteredData] = useState([]);
   const [activePagination, setActivePagination] = useState(1);
@@ -35,40 +36,32 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `http://localhost:3000/api/product/?page=${4}`
-      );
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `http://localhost:3000/api/product/?page=${4}`
+        );
 
-      if (res.data.totalPages) {
-        setTotalPages(res.data.totalPages);
-        setData(res.data.cloths);
-        setFilteredData(res.data.cloths);
-        setTotalCloths(res.data.totalCloths);
+        if (res.data.totalPages) {
+          setTotalPages(res.data.totalPages);
+          setData(res.data.cloths);
+          setFilteredData(res.data.cloths);
+          setTotalCloths(res.data.totalCloths);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while fetching products", error });
       }
     };
     fetchData();
   }, []);
-  const handlePagination = async (page: any) => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/product/?page=${page}`
-      );
-      setData(res.data.cloths);
-      setFilteredData(res.data.cloths);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   return (
-    <main className="w-full  h-full min-h[500px]  flex flex-col">
-      {/* {openFilter && (
-        <FilterData
-          data={data}
-          open={openFilter}
-          setOpen={setOpenFilter}
-          setData={setFilteredData}
-        />
-      )} */}
+    <main className="w-full  h-full min-h[500px] relative  flex flex-col">
       <ToastContainer newestOnTop={true} autoClose={1000} theme="dark" />
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
         <h1 className="font-Dosis font-md text-3xl  mx-4 ">Popular Products</h1>
@@ -80,122 +73,46 @@ const Products: React.FC = () => {
           See All
         </button>
       </div>
+      {loading ? (
+        <div className=" relative   my-8 flex items-center justify-center">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
+      ) : (
+        <div className="w-full flex items-center gap-8 px-2 justify-center  flex-wrap">
+          <Swiper
+            loop={true}
+            // effect={"creative"}
+            autoplay={{ delay: 5000 }}
+            spaceBetween={30}
+            slidesPerView={4}
+            // navigation={true}
+            // pagination={{ clickable: true }}
+            className="w-max h-max flex  cursor-pointer  "
+            // onSlideChange={() => console.log("slide change")}
+            // onSwiper={(swiper) => console.log(swiper)}
+            modules={[Pagination, Navigation, Autoplay, EffectCreative]}
+          >
+            {filteredData.length > 1 &&
+              filteredData
 
-      <div className="w-full flex items-center gap-8 px-2 justify-center  flex-wrap">
-        <Swiper
-          loop={true}
-          // effect={"creative"}
-          autoplay={{ delay: 5000 }}
-          spaceBetween={30}
-          slidesPerView={4}
-          // navigation={true}
-          // pagination={{ clickable: true }}
-          className="w-max h-max flex  cursor-pointer  "
-          // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
-          modules={[Pagination, Navigation, Autoplay, EffectCreative]}
-        >
-          {filteredData.length > 1 &&
-            filteredData
+                ?.filter((cloth: any) => cloth.category?.includes("Popular"))
+                .map((item: any) => {
+                  return (
+                    <SwiperSlide className="cursor-pointer w-max  ">
+                      <ProductCard key={item._id} product={item} />
+                    </SwiperSlide>
+                  );
+                })}
+          </Swiper>
+        </div>
+      )}
 
-              ?.filter((cloth: any) => cloth.category?.includes("Popular"))
-              .map((item: any) => {
-                return (
-                  <SwiperSlide className="cursor-pointer w-max  ">
-                    <ProductCard key={item._id} product={item} />
-                  </SwiperSlide>
-                );
-              })}
-        </Swiper>
-      </div>
-      {/* pagination */}
-      <div className="flex items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
-        {/* <div className="flex flex-1 justify-between sm:hidden">
-          <button className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Previous
-          </button>
-          <button className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Next
-          </button>
-        </div> */}
-        {/* <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm text-gray-700">
-              Showing <span className="font-medium">{activePagination}</span> to{" "}
-              <span className="font-medium">{totalPages}</span> of{" "}
-              <span className="font-medium">{totalCloths}</span> results
-            </p>
-          </div>
-          <div>
-            <nav
-              className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-              aria-label="Pagination"
-            >
-              <button
-                onClick={() => {
-                  if (activePagination > 1) {
-                    setActivePagination(activePagination - 1);
-                    handlePagination(activePagination - 1);
-                  } else {
-                    setActivePagination(totalPages);
-                    handlePagination(totalPages);
-                  }
-                }}
-                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >
-                <span className="sr-only">Previous</span>
-                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
-              <div className="flex ">
-                {Array(totalPages)
-                  ?.fill("")
-                  ?.map((_, index) =>
-                    activePagination === index + 1 ? (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          setActivePagination(index + 1);
-
-                          handlePagination(index + 1);
-                        }}
-                        className="relative bg-indigo-500 inline-flex items-center px-4 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0"
-                      >
-                        {index + 1}
-                      </button>
-                    ) : (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          setActivePagination(index + 1);
-                          handlePagination(index + 1);
-                        }}
-                        className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                      >
-                        {index + 1}
-                      </button>
-                    )
-                  )}
-              </div>
-
-              <button
-                onClick={() => {
-                  if (activePagination < totalPages) {
-                    setActivePagination(activePagination + 1);
-                    handlePagination(activePagination + 1);
-                  } else {
-                    setActivePagination(1);
-                    handlePagination(1);
-                  }
-                }}
-                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >
-                <span className="sr-only">Next</span>
-                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
-            </nav>
-          </div>
-        </div> */}
-      </div>
+      <div className="flex items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6"></div>
     </main>
   );
 };

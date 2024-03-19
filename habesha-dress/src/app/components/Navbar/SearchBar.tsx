@@ -22,6 +22,7 @@ import { RootState } from "@/app/lib/store";
 import { useDispatch } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
+import ReactLoading from "react-loading";
 
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
 import {
@@ -56,13 +57,13 @@ interface Props {
 
 const SearchBar: React.FC<Props> = ({ showIcons }) => {
   const router = useRouter();
-
   const cartItems: any = useAppSelector((state: RootState) => state.cart.items);
   const favorites: any = useAppSelector(
     (state: RootState) => state.cart.favorites
   );
   const user = useAppSelector((state: RootState) => state.auth.user);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [queryEmpty, setQueryEmpty] = useState(false);
   const storedSearches = localStorage.getItem("habeshaSearches");
   const initialSearches = storedSearches ? JSON.parse(storedSearches) : [];
@@ -85,17 +86,25 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
   };
   useEffect(() => {
     const searchData = async () => {
-      if (query !== "" || !query) {
-        setData([]);
-      }
-      if (query && query !== "") {
-        setQueryEmpty(false);
-        const res = await axios.get(
-          `http://localhost:3000/api/search/?query=${query}`
-        );
-        if (res.data.cloths) {
-          setData(res.data.cloths);
+      try {
+        if (query !== "" || !query) {
+          setData([]);
         }
+        if (query && query !== "") {
+          setQueryEmpty(false);
+          setLoading(true);
+          const res = await axios.get(
+            `http://localhost:3000/api/search/?query=${query}`
+          );
+          if (res.data.cloths) {
+            setData(res.data.cloths);
+            setLoading(false);
+          }
+        }
+      } catch (error) {
+        setLoading(false);
+
+        console.log({ message: "error while searching products", error });
       }
     };
     searchData();
@@ -106,12 +115,6 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
     }
     if (!query || query == "") {
       setQueryEmpty(true);
-
-      // const timeOut = setTimeout(() => {
-      //   setQueryEmpty(false);
-      // }, 2000);
-      // clearTimeout(timeOut);
-      // alert("Please enter a search term");
     } else if (query) {
       dispatch(toggleShowSearch());
       router.push(`/search?query=${query ? query : suggestion}`);
@@ -148,7 +151,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
     setSearches([]);
   };
   return (
-    <main className=" overflow-x-hidden  min-h-screen z-10 bg-opacity-50  fixed top-0  bg-gray-700   w-full  ">
+    <main className="  overflow-x-hidden  min-h-screen z-30 bg-opacity-50  fixed top-0  bg-gray-700   w-full  ">
       <div className="flex overflow-y-hidden overflow-x-hidden opacity-100 border-b border-gray-400  font-Dosis text-base flex-col h-max   bg-alice-blue  w-full items-center ">
         <nav className="flex font-Dosis text-base h-max   min-h-24  w-full items-center justify-between  ">
           {showIcons.navigation && (
@@ -301,6 +304,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               </button>
             )}
           </div>
+
           <div className="w-full h-full flex flex-col px-6 ">
             {data.length > 0 && (
               <h1 className="text-xl font-semibold mb-8">
@@ -308,25 +312,36 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               </h1>
             )}
             <div className="w-full flex overflow-x-hidden items-center gap-4  ">
-              <Swiper
-                // loop={true}
-                // effect={"creative"}
-                autoplay={{ delay: 5000 }}
-                spaceBetween={1}
-                slidesPerView={3}
-                navigation={true}
-                className=" w-88  h-max  cursor-pointer  "
-                modules={[Pagination, Navigation, Autoplay, EffectCreative]}
-              >
-                {data.length > 0 &&
-                  data?.slice(0, 16)?.map((item: any) => {
-                    return (
-                      <SwiperSlide className="  w-80 cursor-pointer   ">
-                        <SearchCard key={item._id} product={item} />
-                      </SwiperSlide>
-                    );
-                  })}
-              </Swiper>
+              {loading ? (
+                <div className=" relative w-full    my-8 mt-24 flex items-center justify-center">
+                  <ReactLoading
+                    type={"spinningBubbles"}
+                    color={"#2d7e23"}
+                    height={64}
+                    width={64}
+                  />
+                </div>
+              ) : (
+                <Swiper
+                  // loop={true}
+                  // effect={"creative"}
+                  autoplay={{ delay: 5000 }}
+                  spaceBetween={1}
+                  slidesPerView={3}
+                  navigation={true}
+                  className=" w-88  h-max  cursor-pointer  "
+                  modules={[Pagination, Navigation, Autoplay, EffectCreative]}
+                >
+                  {data.length > 0 &&
+                    data?.slice(0, 16)?.map((item: any) => {
+                      return (
+                        <SwiperSlide className="  w-80 cursor-pointer   ">
+                          <SearchCard key={item._id} product={item} />
+                        </SwiperSlide>
+                      );
+                    })}
+                </Swiper>
+              )}
             </div>
           </div>
         </div>

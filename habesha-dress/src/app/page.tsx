@@ -44,17 +44,7 @@ export default function Home() {
     navigation: true,
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/product/");
-
-      if (res.data.cloths) {
-        dispatch(setAllProducts(res.data.cloths));
-        dispatch(sortDataReducer(res.data.cloths));
-      }
-    };
-    fetchData();
-  }, []);
+ 
 
   return (
     <main className="flex font-Dosis  relative min-h-screen flex-col bg-alice-blue  items-center ">
