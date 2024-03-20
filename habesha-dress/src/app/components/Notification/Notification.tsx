@@ -10,7 +10,7 @@ const Notification = () => {
   const showNotification: boolean = useSelector(
     (state: any) => state.cart.showNotification
   );
-  //  dispatch(setAllProducts(res.data.cloths));
+  //  dispatch(setAllProducts(res.data.cloths));s
   const handleNotification = (value: boolean) => {
     dispatch(toggleShowNotification(value));
   };
@@ -23,7 +23,7 @@ const Notification = () => {
     }
   }, [showNotification]);
   return (
-    <div className="w-max font-Dosis font-semibold mt-4 mr-4    h-max fixed top-0 right-0 z-10 transition-opacity duration-300">
+    <div className="w-max font-Dosis font-semibold mt-4 mr-4    h-max absolute top-0 right-0 z-10 transition-opacity duration-300">
       {showNotification && (
         <div className="w-max h-max bg-black p-2 text-white rounded-lg px-4 transition-opacity duration-300">
           <div className=" flex items-center  justify-between gap-4 mb-4">

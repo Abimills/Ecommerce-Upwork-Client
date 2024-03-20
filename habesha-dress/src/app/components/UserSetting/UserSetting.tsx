@@ -27,7 +27,8 @@ import Navbar from "../Navbar/Navbar";
 import UserBasicInfo from "../UserBasicInfo/UserBasicInfo";
 import ChangeEmail from "../ChangeUserEmail/ChangeEmail";
 import ChangePassword from "../ChangeUserPassword/ChangePassword";
-
+import ChangePasswordComponent from "../ChangeUserPassword/ChangePassword";
+import { ToastContainer, toast } from "react-toastify";
 const UserSetting: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [openEmail, setOpenEmail] = useState(false);
@@ -37,11 +38,12 @@ const UserSetting: React.FC = () => {
 
   return (
     <div className="w-full  ">
+      {/* <ToastContainer /> */}
       {/* empty orders page */}
       {/* {showUserBasicInfo && <Login />} */}
       <UserBasicInfo open={open} setOpen={setOpen} />
       <ChangeEmail open={openEmail} setOpen={setOpenEmail} />
-      <ChangePassword open={openPassword} setOpen={setOpenPassword} />
+      <ChangePasswordComponent open={openPassword} setOpen={setOpenPassword} />
       <div className=" w-full flex   flex-col p-6">
         <h1 className="my-8 text-2xl font-bold "> Your data</h1>
         <div className="w-full  flex justify-between items-start my-4 border-b border-gray-300">
@@ -50,8 +52,15 @@ const UserSetting: React.FC = () => {
             <div className="">
               <p className="mb-3">{user?.gender}</p>
               <p className="mb-3 font-medium">{user?.name}</p>
-              <p className="mb-3 text-gray-500">Date of birth not saved</p>
-              <p className="mb-3 text-gray-500">Phone number not saved</p>
+              <p className="mb-3 text-gray-500">
+                {user?.dateOfBirth
+                  ? user?.dateOfBirth
+                  : "Date of birth not saved"}{" "}
+              </p>
+              <p className="mb-3 text-gray-500">
+                {" "}
+                {user?.phone ? user.phone : " Phone number not saved"}
+              </p>
               <p className="mb-3 text-gray-500">{user?.location}</p>
             </div>
           </div>

@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       validate: [validationEmail, "Please enter a valid email"],
     },
+    role: {
+      type: String,
+      required: [true, "role of the user"],
+      default: "user",
+    },
 
     gender: {
       type: String,

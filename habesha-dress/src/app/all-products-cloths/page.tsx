@@ -26,7 +26,7 @@ const showIcons = {
   user: true,
   wishlist: true,
   cart: true,
-  navigation: true,
+          navigation: true,
 };
 const AllProducts: React.FC = () => {
   // const products = useSelector((state: any) => state.data);
@@ -92,7 +92,7 @@ const AllProducts: React.FC = () => {
     return;
   };
   return (
-    <main className="w-full  h-max bg-white flex flex-col ">
+    <main className="w-full  font-Dosis h-max bg-white flex flex-col  ">
       <div className="w-full   border border-gray-100 mb-8 border-2 ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -129,7 +129,7 @@ const AllProducts: React.FC = () => {
         />
       </div>
 
-      <div className="w-full px-32 border-b border-gray-300 flex items-center mt-8 mb-16 gap-16 justify-center flex-wrap">
+      <div className="w-full px-32 border-b border-gray-300  flex items-center mt-8 mb-16 gap-16 justify-center flex-wrap">
         {filteredData.length > 0 ? (
           filteredData?.map((item: any) => {
             return <ProductCard key={item._id} product={item} />;
@@ -152,7 +152,7 @@ const AllProducts: React.FC = () => {
             <span className="">{totalCloths}</span> results
           </p>
         </div>
-        <div className="mb-8 w-96 h-0.5 bg-red-200 rounded-full">
+        <div className="mb-8 w-96 h-0.5 bg-gray-200 rounded-full">
           <div
             className={`w-${paginationNumber} h-0.5 bg-black rounded-full`}
           ></div>

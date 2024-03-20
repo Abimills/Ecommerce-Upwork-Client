@@ -20,7 +20,7 @@ import Login from "./components/LoginSlider/Login";
 import SidebarNavigation from "./components/SidebarNavigation/SidebarNavigation";
 import Navbar from "./components/Navbar/Navbar";
 import SearchBar from "./components/Navbar/SearchBar";
-import FilterData from "./components/Filter/Filter";
+
 import ToggleSubscribe from "./components/NewsletterSlider/ToggleSubscribe";
 import { setAllProducts, sortDataReducer } from "./lib/cartSlice/dataSlice";
 import Notification from "./components/Notification/Notification";
@@ -57,7 +57,7 @@ export default function Home() {
       </div>
       {showSidebar && <SidebarNavigation />}
       {showNewsletter && <ToggleSubscribe />}
-      <Notification />
+    
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}

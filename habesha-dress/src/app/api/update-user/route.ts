@@ -34,29 +34,16 @@ export async function PUT(req: any) {
         });
       }
       if (updatedUser) {
-        const userGender = updatedUser.gender === "man" ? "Men" : "Women";
-        const recommendedItems = await ClothProduct.aggregate([
-          { $match: { forWhichGender: userGender } },
-          { $sample: { size: 10 } },
-        ]);
         const userInfo = {
-          _id: updatedUser._id,
           name: updatedUser.name,
-          email: updatedUser.email,
           phone: updatedUser.phone,
           gender: updatedUser.gender,
           dateOfBirth: updatedUser.dateOfBirth,
-          orders: updatedUser.orders,
-          message: updatedUser.message,
-          newsletter: updatedUser.message,
-          wishlist: updatedUser.favReviews,
-          recommendedProducts: recommendedItems,
-          token: token,
         };
         return NextResponse.json({
           success: true,
           message: "successfully updated user",
-          user: userInfo,
+          data: userInfo,
         });
       }
     } else {

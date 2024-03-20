@@ -17,7 +17,7 @@ import WishlistCard from "../components/WishlistCard/WishlistCard";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
-import Notification from "../components/Notification/Notification";
+
 const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
   const [filterProducts, setFilteredProducts] = useState([]);
@@ -81,8 +81,13 @@ const Favorites: React.FC = () => {
     fetchData();
   }, [favorites]);
   return (
-    <main className="w-full min-h-screen  flex flex-col bg-white ">
-      <Notification />
+    <main className="w-full min-h-screen  font-Dosis flex flex-col bg-white ">
+      <ToastContainer
+        newestOnTop={true}
+        autoClose={1000}
+        theme="dark"
+        position={"bottom-right"}
+      />
       <div className="w-full flex items-center   border border-gray-100 border-2 ">
         <div className=" w-max flex items-center gap-4 p-0.5 ">
           <RiArrowGoBackLine
@@ -141,7 +146,7 @@ const Favorites: React.FC = () => {
         </div>
       ) : (
         <div className="w-full">
-          {filterProducts?.length > 0 ? (
+          {favorites?.length > 0 ? (
             <div className="w-full flex px-2 py-8  border-y border-y-2-gray-400 items-center flex-wrap items-center mb-24 justify-evenly gap-4">
               {filterProducts?.map((item: any) => {
                 return <WishlistCard product={item} key={item.id} />;

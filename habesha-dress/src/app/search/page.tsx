@@ -20,6 +20,7 @@ import { useParams } from "next/navigation";
 import SearchBar from "@/app/components/Navbar/SearchBar";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Notification from "../components/Notification/Notification";
+import FilterData from "../components/Filter/Filter";
 const showIcons = {
   search: false,
   user: true,
@@ -34,6 +35,7 @@ const Search: React.FC = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [openFilter, setOpenFilter] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [genderData, setGenderData] = useState<any>({});
   const router = useRouter();
@@ -99,6 +101,14 @@ const Search: React.FC = () => {
         <Navbar showIcons={showIcons} />
       )}
       <Notification />
+      {openFilter && (
+        <FilterData
+          data={data}
+          open={openFilter}
+          setOpen={setOpenFilter}
+          setData={setFilteredData}
+        />
+      )}
       {/* {showFilter && <FilterData />} */}
       <div className="w-full    flex flex-col  items-center justify-center ">
         <h1 className="font-Dosis font-md text-3xl  mx-4 mb-5 font-semibold ">
@@ -125,7 +135,7 @@ const Search: React.FC = () => {
             {filteredData?.length} Article
           </p>
           <button
-            onClick={handleOpenFilter}
+            onClick={() => setOpenFilter(true)}
             className=" text-sm hover:text-green-500 mx-4 flex items-center gap-2 font-semibold"
           >
             <RiMenuSearchLine className="text-xl" />

@@ -39,7 +39,8 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
         });
         if (res.data.success) {
           toast.success("Successfully updated Email!");
-          dispatch(loginSuccess(res.data.user));
+          const updatedUser = { ...user, email: res.data.email };
+          dispatch(loginSuccess(updatedUser));
           setLoading(false);
         } else {
           toast.error("Sorry can not update Email, try again");
@@ -47,7 +48,6 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
         }
       } catch (error) {
         setLoading(false);
-
         console.log({ message: "error while updating Email", error });
       }
     } else {
@@ -105,9 +105,9 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
                         </div>
                       </div>
                       {/* login section */}
-                      <ToastContainer />
                       <section className="w-full h-full flex  font-Dosis    flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
+                         
                           <form className="space-y-6" onSubmit={handleSubmit}>
                             <p className="">
                               Please enter your new email address and confirm

@@ -6,7 +6,7 @@ import CartProduct from "../components/CartProduct/CartProduct";
 import Footer from "../components/Footer/Footer";
 import { useAppSelector } from "../lib/hooks";
 import { RiArrowGoBackLine } from "react-icons/ri";
-
+import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import SearchBar from "../components/Navbar/SearchBar";
@@ -41,6 +41,13 @@ const Cart: React.FC = () => {
   };
   return (
     <main className="w-full font-Dosis  min-h-screen p-2 bg-white">
+      <ToastContainer
+        newestOnTop={true}
+        position={"bottom-right"}
+        autoClose={1000}
+        hideProgressBar={false}
+        theme="dark"
+      />
       <div className=" mb-8 flex items-center">
         <div className=" w-max flex items-center gap-4 p-0.5 ">
           <RiArrowGoBackLine

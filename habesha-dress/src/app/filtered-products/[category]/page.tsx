@@ -10,15 +10,12 @@ import ProductCard from "@/app/components/ProductCard/ProductCard";
 import { useParams, useRouter } from "next/navigation";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
 import Footer from "@/app/components/Footer/Footer";
+import ReactLoading from "react-loading";
 
-// interface Props {
-//   category: string[];
-// }
 const AllProducts: React.FC = () => {
-  // const products = useSelector((state: any) => state.data);
   const param = useParams<{ category: string }>();
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   const dispatch = useDispatch();
@@ -28,26 +25,46 @@ const AllProducts: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:3000/api/product/");
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:3000/api/product/");
 
-      if (res.data.cloths) {
-        let allCloths = res.data.cloths;
-        allCloths = allCloths.filter(
-          (cloth: any) =>
-            cloth.category.includes(param?.category) ||
-            cloth.forWhichGender.includes(param?.category) ||
-            cloth.clothOccasion.includes(param?.category) ||
-            cloth.whichGroupCloth.includes(param?.category)
-        );
+        if (res.data.cloths) {
+          let allCloths = res.data.cloths;
+          allCloths = allCloths.filter(
+            (cloth: any) =>
+              cloth.category.includes(param?.category) ||
+              cloth.forWhichGender.includes(param?.category) ||
+              cloth.clothOccasion.includes(param?.category) ||
+              cloth.whichGroupCloth.includes(param?.category)
+          );
 
-        setData(allCloths);
+          setData(allCloths);
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log({
+          message: "error while fetching category products",
+          error,
+        });
       }
     };
     fetchData();
   }, []);
 
   return (
-    <main className="w-full h-max bg-white  h-full flex flex-col">
+    <main className="w-full relative h-max bg-white  h-full flex flex-col">
+      {loading && (
+        <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
+      )}
       <div className="w-full flex items-center justify-between py-8  mb-8">
         <div className=" w-max flex items-center gap-10 ">
           {/* <IoMdArrowBack className="text-2xl text-gray-600  cursor-pointer" /> */}
@@ -75,7 +92,6 @@ const AllProducts: React.FC = () => {
           </button>
         </div>
       </div>
-      
 
       <div className="w-full flex items-center gap-4 justify-between flex-wrap p-4">
         {data.length > 1 &&

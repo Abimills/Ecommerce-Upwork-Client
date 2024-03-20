@@ -11,13 +11,15 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const UserBasicInfo: React.FC<Props> = ({ open, setOpen }) => {
   const user = useSelector((state: any) => state.auth.user);
-
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     name: user?.name || "",
     gender: user?.gender || "",
@@ -32,19 +34,34 @@ const UserBasicInfo: React.FC<Props> = ({ open, setOpen }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (data.name !== "") {
-      const res = await axios.put("http://localhost:3000/api/update-user", {
-        token: user?.token,
+      try {
+        setLoading(true);
+        const res = await axios.put("http://localhost:3000/api/update-user", {
+          token: user?.token,
 
-        data,
-      });
-      if (res.data.success) {
-        alert("successfully signed In");
-        dispatch(loginSuccess(res.data.user));
-      } else {
-        alert("could not signIn successfully : check your credentials");
+          data,
+        });
+        if (res.data.success) {
+          toast.success("Updated Detail");
+          const newUser = {
+            ...user,
+            name: res.data.data.name,
+            phone: res.data.data.phone,
+            gender: res.data.data.gender,
+            dateOfBirth: res.data.data.dateOfBirth,
+          };
+          dispatch(loginSuccess(newUser));
+          setLoading(false);
+        } else {
+          toast.error("Failed To Update Details");
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log({ message: "error while updating user detail", error });
       }
     } else {
-      alert("fill all fields");
+      toast.error("Please fill at least name");
     }
   };
   const handleClose = () => {
@@ -160,9 +177,23 @@ const UserBasicInfo: React.FC<Props> = ({ open, setOpen }) => {
 
                             <button
                               type="submit"
-                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:none focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                              Save New Details
+                              {loading ? (
+                                <span className="w-full h-full  flex items-center  justify-center">
+                                  <ReactLoading
+                                    type={"bubbles"}
+                                    color={"#ffffff"}
+                                    height={25}
+                                    width={75}
+                                    className="relative bottom-6"
+                                  />
+                                </span>
+                              ) : (
+                                <span className="w-full flex items-center justify-center">
+                                  Save New Detail
+                                </span>
+                              )}
                             </button>
                           </form>
                         </div>

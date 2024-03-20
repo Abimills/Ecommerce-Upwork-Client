@@ -11,13 +11,15 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
 interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const ChangePassword: React.FC<Props> = ({ open, setOpen }) => {
+const ChangePasswordComponent: React.FC<Props> = ({ open, setOpen }) => {
   const user = useSelector((state: any) => state.auth.user);
-
+  const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
@@ -27,22 +29,36 @@ const ChangePassword: React.FC<Props> = ({ open, setOpen }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (currentPassword !== "" && newPassword !== "") {
-      const res = await axios.put("http://localhost:3000/api/update-password", {
-        token: user?.token,
+      try {
+        setLoading(true);
+        const res = await axios.put(
+          "http://localhost:3000/api/update-password",
+          {
+            token: user?.token,
 
-        currentPassword,
-        newPassword,
-      });
-      if (res.data.success) {
-        alert("successfully updated password ");
-        dispatch(loginSuccess(res.data.user));
-      } else {
-        alert(
-          "could not update password  successfully : check your credentials"
+            currentPassword,
+            newPassword,
+          }
         );
+        if (res.data.success) {
+          toast.success("Password Updated!");
+
+          setLoading(false);
+        } else {
+          alert(
+            "could not update password  successfully : check your credentials"
+          );
+          toast.error("Error Updating Password!, Please Try Again Later.");
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        toast.error("Error Updating Password!, Please Try Again Later.");
+        console.log({ message: "error while updating Password", error });
       }
     } else {
       alert("fill all fields");
+      toast.error("Please fill all fields ");
     }
   };
   const handleClose = () => {
@@ -96,6 +112,7 @@ const ChangePassword: React.FC<Props> = ({ open, setOpen }) => {
                         </div>
                       </div>
                       {/* login section */}
+                    
                       <section className="w-full h-full flex     flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
                           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -135,12 +152,25 @@ const ChangePassword: React.FC<Props> = ({ open, setOpen }) => {
                                 className=" border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                               />
                             </div>
-
                             <button
                               type="submit"
-                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              className="w-full text-white bg-gray-700 hover:bg-gray-800 focus:none focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                              Save New Password
+                              {loading ? (
+                                <span className="w-full h-full  flex items-center  justify-center">
+                                  <ReactLoading
+                                    type={"bubbles"}
+                                    color={"#ffffff"}
+                                    height={25}
+                                    width={75}
+                                    className="relative bottom-6"
+                                  />
+                                </span>
+                              ) : (
+                                <span className="w-full flex items-center justify-center">
+                                  Save New Password
+                                </span>
+                              )}
                             </button>
                           </form>
                         </div>
@@ -157,4 +187,4 @@ const ChangePassword: React.FC<Props> = ({ open, setOpen }) => {
   );
 };
 
-export default ChangePassword;
+export default ChangePasswordComponent;

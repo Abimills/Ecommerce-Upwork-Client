@@ -49,7 +49,7 @@ const Discount: React.FC = () => {
           spaceBetween={30}
           slidesPerView={4}
           // navigation={true}
-          // pagination={{ clickable: true }}
+          pagination={{ clickable: true }}
           className="w-max h-max flex  cursor-pointer  "
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}

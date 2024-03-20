@@ -19,26 +19,40 @@ import ProductCard from "../ProductCard/ProductCard";
 import InspirationCard from "../DiscountCard/InspirationCard";
 import Footer from "../Footer/Footer";
 import { useSelector } from "react-redux";
+import ReactLoading from "react-loading";
+
 const WelcomeUserProfile: React.FC = () => {
   const [recommendedData, setRecommendedData] = useState<any>([]);
   const user = useSelector((state: any) => state.auth.user);
-
+  const [loading, setLoading] = useState(false);
   // const single: any = data.find((product) => product.id === param.id);
   // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
 
   useEffect(() => {
     const fetchData = async () => {
       if (user?.recommendedProducts?.length > 0) {
-        const selected: any = [];
-        const res = await Promise.all(
-          user?.recommendedProducts?.map((id: any) =>
-            axios.get(`http://localhost:3000/api/product/?id=${id}`)
-          )
-        );
-        const wishlistProducts: any = res.map((product) => product.data.cloth);
-        wishlistProducts?.map((item: any) => selected.push(...item.category));
+        try {
+          setLoading(true);
+          const selected: any = [];
+          const res = await Promise.all(
+            user?.recommendedProducts?.map((id: any) =>
+              axios.get(`http://localhost:3000/api/product/?id=${id._id}`)
+            )
+          );
+          const wishlistProducts: any = res.map(
+            (product) => product.data.cloth
+          );
+          wishlistProducts?.map((item: any) => selected.push(...item.category));
 
-        setRecommendedData(wishlistProducts);
+          setRecommendedData(wishlistProducts);
+          setLoading(false);
+        } catch (error) {
+          setLoading(false);
+          console.log({
+            message: "error while fetching ids in welcome page",
+            error,
+          });
+        }
       }
     };
 
@@ -46,15 +60,17 @@ const WelcomeUserProfile: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col  ">
-      {/* <div className="flex-1  h-max min-h-32  mt-4 mb-8  p-4 px-8 rounded-lg bg-yellow-100">
-        <h1 className="font-semibold mb-6">Welcome to your profile!</h1>
-        <p className="text-base text-gray-600 mb-3">
-          You will find your Member ID next to your name after you have logged
-          in to C&A for you.
-        </p>
-        <p className="text-base text-gray-600 mb-3">Have fun shopping!</p>
-      </div> */}
+    <div className="w-full flex flex-col  relative  ">
+      {loading && (
+        <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
+      )}
       <h1 className="text-2xl font-semibold mb-3 p-10">Discover now</h1>
       <main className="flex  w-full p-10 shadow-lg items-center justify-between">
         <Swiper

@@ -28,11 +28,6 @@ export async function PUT(req: any) {
         });
       }
       if (user) {
-        const userGender = user?.gender === "man" ? "Men" : "Women";
-        const recommendedItems = await ClothProduct.aggregate([
-          { $match: { forWhichGender: userGender } },
-          { $sample: { size: 10 } },
-        ]);
         const auth: any = await bcrypt.compare(currentPassword, user.password);
         if (auth) {
           const password = await encryptPassword(newPassword);
@@ -46,24 +41,9 @@ export async function PUT(req: any) {
             { new: true }
           );
 
-          const userInfo = {
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            phone: updatedUser.phone,
-            gender: updatedUser.gender,
-            dateOfBirth: updatedUser.dateOfBirth,
-            orders: updatedUser.orders,
-            message: updatedUser.message,
-            newsletter: updatedUser.message,
-            wishlist: updatedUser.favReviews,
-            recommendedProducts: recommendedItems,
-            token: token,
-          };
           return NextResponse.json({
             success: true,
-            message: "successfully updated email",
-            user: userInfo,
+            message: "successfully updated password",
           });
         }
       }

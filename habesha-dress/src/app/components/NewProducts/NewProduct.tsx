@@ -1,19 +1,20 @@
 "use client";
 import axios from "axios";
 import ProductCard from "../ProductCard/ProductCard";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "@/app/lib/hooks";
 import { RootState } from "@reduxjs/toolkit/query";
 import { useDispatch, useSelector } from "react-redux";
 import ClothProduct from "@/app/api/models/newsletter";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
-import FilterData from "../Filter/Filter";
+
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import ReactLoading from "react-loading";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
+import { ToastContainer, toast } from "react-toastify";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
@@ -36,6 +37,7 @@ const NewProduct: React.FC = () => {
   const handleOpenFilter = (e: any) => {
     dispatch(toggleShowFilter());
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,14 +79,12 @@ const NewProduct: React.FC = () => {
   // };
   return (
     <main className="w-full flex flex-col mt-16 items-center justify-start">
-      {openFilter && (
-        <FilterData
-          data={data}
-          open={openFilter}
-          setOpen={setOpenFilter}
-          setData={setFilteredData}
-        />
-      )}
+      {/* <ToastContainer
+        newestOnTop={true}
+        autoClose={1000}
+        theme="dark"
+        position={"bottom-right"}
+      /> */}
 
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
         <h1 className="w-max text-left font-semibold font-Dosis text-3xl">
@@ -116,10 +116,32 @@ const NewProduct: React.FC = () => {
             spaceBetween={30}
             slidesPerView={4}
             navigation={true}
-            // pagination={{ clickable: true }}
+            pagination={{ clickable: true }}
             className="w-max h-max flex  cursor-pointer  "
             // onSlideChange={() => console.log("slide change")}
-            // onSwiper={(swiper) => console.log(swiper)}
+            onSlideChange={(swiper) => {
+              swiper.navigation.nextEl.className = ` ${
+                swiper.isEnd ? "hidden" : "swiper-button-next bg-white"
+              } 
+              
+              `;
+
+              swiper.navigation.prevEl.className = `${
+                swiper.isBeginning ? "" : "swiper-button-prev bg-white"
+              } `;
+              if (swiper.isEnd) {
+                router.push("/all-products-cloths");
+              }
+            }}
+            onSwiper={(swiper) => {
+              swiper.navigation.prevEl.className = `${
+                swiper.realIndex == 0 ? "" : ""
+              }`;
+              // console.log(swiper.isEnd);
+              // swiper.navigation.nextEl.className = ` ${
+              //   swiper.isEnd ? "" : "swiper-button-next"
+              // }`;
+            }}
             modules={[Pagination, Navigation, Autoplay, EffectCreative]}
           >
             {filteredData

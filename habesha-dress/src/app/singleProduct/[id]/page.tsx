@@ -29,6 +29,9 @@ import "swiper/css/effect-creative";
 import InspirationCard from "../../components/DiscountCard/InspirationCard";
 import Footer from "../../components/Footer/Footer";
 import Notification from "@/app/components/Notification/Notification";
+import ReactLoading from "react-loading";
+import { ToastContainer, toast } from "react-toastify";
+
 // interface DataType {
 //   title: string;
 //   id: string;
@@ -46,6 +49,7 @@ const SingleProduct: React.FC = () => {
   const favorites = useSelector((state: any) => state.cart.favorites);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const param = useParams<{ id: string }>();
   const [data, setData] = useState<any>([]);
   const [similarClothes, setSimilarClothes] = useState<any>([]);
@@ -72,18 +76,25 @@ const SingleProduct: React.FC = () => {
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);
-    if (user) {
-      addToDbFavorites(user._id, id);
-    }
   };
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `http://localhost:3000/api/product/?id=${param.id}`
-      );
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `http://localhost:3000/api/product/?id=${param.id}`
+        );
 
-      setData(res.data.cloth);
-      setSimilarClothes(res.data.similarClothes);
+        setData(res.data.cloth);
+        setSimilarClothes(res.data.similarClothes);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log({
+          message: "error while fetching single product",
+          error,
+        });
+      }
     };
     fetchData();
   }, []);
@@ -121,7 +132,7 @@ const SingleProduct: React.FC = () => {
   const [originalWholePart, originalDecimalPart] =
     originalPriceString.split(".");
   return (
-    <div className="bg-white w-full h-full font-Dosis font-semibold">
+    <div className="bg-white relative w-full h-full font-Dosis font-semibold">
       <div className=" mb-8 border border-gray-200 border-2">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -129,8 +140,24 @@ const SingleProduct: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
-      <Notification />
-      <div className="bg-white w-full h-max  py-4">
+      {loading && (
+        <div className="fixed z-20 bg-gray-100  opacity-85 flex items-center justify-center top-0 w-full h-screen">
+          <ReactLoading
+            type={"spinningBubbles"}
+            color={"#2d7e23"}
+            height={64}
+            width={64}
+          />
+        </div>
+      )}
+
+      <ToastContainer
+        newestOnTop={true}
+        autoClose={1000}
+        theme="dark"
+        position={"bottom-right"}
+      />
+      <div className="bg-white w-full h-max mb-16  py-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
@@ -144,8 +171,8 @@ const SingleProduct: React.FC = () => {
             </div>
             <div className=" w-full md:flex-1  px-4 mr-6">
               <div className=" w-full flex items-start justify-between mb-6 ">
-                <h2 className="text-3xl font-Dosis font-semibold text-gray-800  ">
-                  <span className="mb-4">{data?.title}</span> <br />
+                <h2 className="text-3xl max-w-80 font-Dosis font-semibold text-gray-800  ">
+                  <span className="mb-4 ">{data?.title}</span> <br />
                   <span className="font-medium text-base text-gray-400">
                     #{data?.forWhichGender}
                   </span>
@@ -264,34 +291,40 @@ const SingleProduct: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <h1 className="mt-16  font-Dosis font-semibold text-4xl px-2 mb-4">
-        Similar Products
-      </h1>
-      <main className="flex  w-full p-5 shadow-lg items-center justify-between">
-        <Swiper
-          loop={true}
-          // effect={"creative"}
-          autoplay={{ delay: 5000 }}
-          spaceBetween={30}
-          slidesPerView={4}
-          // navigation={true}
-          // pagination={{ clickable: true }}
-          className="w-max h-max flex  cursor-pointer  "
-          // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
-          modules={[Pagination, Navigation, Autoplay, EffectCreative]}
-        >
-          {similarClothes?.map((product: any) => {
-            return (
-              <SwiperSlide className="cursor-pointer w-max  " key={product._id}>
-                <InspirationCard product={product} />
-              </SwiperSlide>
-            );
-          })}
-          {/* <LiaAngleDoubleRightSolid className="text-lg text-gray-400" /> */}
-        </Swiper>
-      </main>
+      {similarClothes?.length > 1 && (
+        <div className="w-full">
+          <h1 className="mt-16  font-Dosis font-semibold text-4xl px-2 mb-4">
+            Similar Products
+          </h1>
+          <main className="flex  w-full p-5 shadow-lg items-center justify-between">
+            <Swiper
+              loop={true}
+              // effect={"creative"}
+              autoplay={{ delay: 5000 }}
+              spaceBetween={30}
+              slidesPerView={4}
+              // navigation={true}
+              // pagination={{ clickable: true }}
+              className="w-max h-max flex  cursor-pointer  "
+              // onSlideChange={() => console.log("slide change")}
+              // onSwiper={(swiper) => console.log(swiper)}
+              modules={[Pagination, Navigation, Autoplay, EffectCreative]}
+            >
+              {similarClothes?.map((product: any) => {
+                return (
+                  <SwiperSlide
+                    className="cursor-pointer w-max min-w-2/3  "
+                    key={product._id}
+                  >
+                    <InspirationCard product={product} />
+                  </SwiperSlide>
+                );
+              })}
+              {/* <LiaAngleDoubleRightSolid className="text-lg text-gray-400" /> */}
+            </Swiper>
+          </main>
+        </div>
+      )}
       <Footer />
     </div>
   );

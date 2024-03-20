@@ -15,6 +15,7 @@ import { TbBasketPlus } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoBagAddSharp } from "react-icons/io5";
 import { IoBagAdd } from "react-icons/io5";
+import Notification from "../Notification/Notification";
 interface Product {
   _id: string;
   title: string;
@@ -103,6 +104,14 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           />
         </div>
       )}
+      {user?.role === "admin" && user.email === "ninu373@gmail.com" && (
+        <button
+          onClick={() => router.push(`/add-products/${_id}`)}
+          className="absolute m-1 text-white rounded-lg hover:rounded-sm  top-0 left-0 bg-teal-400 border border-teal-400 py-1 px-5"
+        >
+          Edit product
+        </button>
+      )}
       <img
         onClick={() => router.push(`/singleProduct/${_id}`)}
         className="object-contain text-left   w-full h-64  rounded-t-lg bg-white  "
@@ -137,10 +146,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               </ul>
             </div>
           </div>
-          <p
-            onClick={() => router.push(`/add-products/${_id}`)}
-            className="text-2xl  text-gray-800 leading-10 font-bold   font-Dosis cursor-pointer"
-          >
+          <p className="text-2xl  text-gray-800 leading-10 font-bold   font-Dosis cursor-pointer">
             <span className="text-sm font-medium text-gray-800 font-Dosis  relative bottom-2 mr-0.5  ">
               $
             </span>
@@ -156,10 +162,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             <p className="w-40 text-gray-400 text-base">Available</p>
           </div>
           {discount > 1 && (
-            <p
-              onClick={() => router.push(`/add-products/${_id}`)}
-              className="text-xl  text-gray-200 line-through font-medium p-1     font-Dosis  cursor-pointer"
-            >
+            <p className="text-xl  text-gray-200 line-through font-medium p-1     font-Dosis  cursor-pointer">
               <span className="text-sm font-medium text-gray-400 relative bottom-2 mr-0.5  ">
                 $
               </span>

@@ -112,7 +112,7 @@ export const cartSlice = createSlice({
         itemExist.quantity = action.payload.quantity;
         localStorage.setItem("cart", JSON.stringify(state.items));
       } else if (!itemExist) {
-        alert("item does not exist, thus you can not add quantity");
+        toast.error("item does not exist, thus you can not add quantity");
       }
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
@@ -123,12 +123,12 @@ export const cartSlice = createSlice({
       if (!foundItem) {
         state.items.push(action.payload);
         localStorage.setItem("cart", JSON.stringify(state.items));
-        state.showNotification = true;
+        toast.success("Added Item to cart!");
       }
       if (foundItem) {
         foundItem.quantity += 1;
         localStorage.setItem("cart", JSON.stringify(state.items));
-        state.showNotification = true;
+        toast.success("Quantity added to Item!");
       }
     },
     removeFromCart: (state, action: PayloadAction<any>) => {
@@ -136,10 +136,10 @@ export const cartSlice = createSlice({
       if (foundItem) {
         state.items = state.items.filter((item) => item.id !== action.payload);
         localStorage.setItem("cart", JSON.stringify(state.items));
-        state.showNotification = true;
+        toast("Removed from cart!");
       }
       if (!foundItem) {
-        alert("No such product exists in the cart");
+        toast.error("No such product exists in the cart");
       }
     },
   },

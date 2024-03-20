@@ -46,6 +46,7 @@ export async function POST(req: any) {
         location,
         favReviews,
         itemsBought,
+        role: "user",
       });
       return NextResponse.json(
         { success: true, message: "created a new user", newUser },

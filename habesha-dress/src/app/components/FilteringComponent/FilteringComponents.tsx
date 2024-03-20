@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { MdOutlineClose } from "react-icons/md";
 import { FcFilledFilter } from "react-icons/fc";
+import { MdFilterListAlt } from "react-icons/md";
 
 const sortProducts = [
   {
@@ -217,14 +218,14 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
       //   openSize && setOpenSize(false);
       //   openOccasion && setOpenOccasion(false);
       // }}
-      className="w-full bg-white h-max p-16 z-4"
+      className="w-full bg-white h-max p-16 px-40 z-4"
     >
-      <div className="w-full p-8 h-max border-b border-gray-300">
-        <div className="w-full h-max flex items-center justify-center gap-16 px-32">
+      <div className="w-full p-8 h-max border-b border-gray-300 px-16 shadow-sm">
+        <div className="w-full h-max flex items-center justify-center gap-16  ">
           <div className="relative w-max">
             <div
               onClick={() => setOpenSort(!openSort)}
-              className=" cursor-pointer  w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-full flex items-center justify-center"
+              className=" cursor-pointer  w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center"
             >
               <h1 className="font-medium text-sm">Sort</h1>
               {openSort ? (
@@ -256,7 +257,7 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
             )}
           </div>
           <div className="relative w-max  ">
-            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4 px-4 py-4 rounded-full flex items-center justify-center">
+            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4 px-4 py-4 rounded-sm flex items-center justify-center">
               <h1 className="font-medium text-sm">Size</h1>
               {openSize ? (
                 <MdKeyboardArrowUp
@@ -296,7 +297,7 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
             <div className="w-full h-full absolute"></div>
           </div>
           <div className="relative w-max">
-            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-full flex items-center justify-center">
+            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center">
               <h1 className="font-medium text-sm">Gender & Age</h1>
               {openGender ? (
                 <MdKeyboardArrowUp
@@ -334,7 +335,7 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
             )}
           </div>
           <div className="relative w-max">
-            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-full flex items-center justify-center">
+            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center">
               <h1 className="font-medium text-sm">Occasions</h1>
               {openOccasion ? (
                 <MdKeyboardArrowUp
@@ -381,7 +382,7 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
             className="w-max cursor-pointer h-2 border border-indigo-300 bg-indigo-100 gap-4 p-1  px-4 py-4 rounded-full flex items-center justify-center"
           >
             <h1 className="font-medium text-sm">All Filters</h1>
-            <FcFilledFilter className="text-xl text-gray-500 border border-gray-200 " />
+            <MdFilterListAlt className="text-xl text-gray-500 border border-gray-200 " />
           </div>
         </div>
         <div className=" w-full h-full flex items-center"></div>

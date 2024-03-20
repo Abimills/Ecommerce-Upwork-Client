@@ -31,6 +31,7 @@ export async function PUT(req: any) {
         const recommendedItems = await ClothProduct.aggregate([
           { $match: { forWhichGender: userGender } },
           { $sample: { size: 10 } },
+          { $project: { _id: 1 } },
         ]);
         const auth: any = await bcrypt.compare(password, user.password);
         if (auth) {
@@ -43,25 +44,17 @@ export async function PUT(req: any) {
             },
             { new: true }
           );
-         
+
           const userInfo = {
-            _id: updatedUser._id,
-            name: updatedUser.name,
             email: updatedUser.email,
-            phone: updatedUser.phone,
-            gender: updatedUser.gender,
-            dateOfBirth: updatedUser.dateOfBirth,
-            orders: updatedUser.orders,
-            message: updatedUser.message,
-            newsletter: updatedUser.message,
-            wishlist: updatedUser.favReviews,
-            recommendedProducts: recommendedItems,
+
             token: token,
           };
           return NextResponse.json({
             success: true,
             message: "successfully updated email",
-            user: userInfo,
+            email,
+            token,
           });
         } else if (!auth) {
           return NextResponse.json({

@@ -28,8 +28,9 @@ export async function POST(req: any) {
         const recommendedItems = await ClothProduct.aggregate([
           { $match: { forWhichGender: userGender } },
           { $sample: { size: 10 } },
+          { $project: { _id: 1 } },
         ]);
-        const sendIds = recommendedItems.map((item: any) => item._id);
+        // const sendIds = recommendedItems.map((item: any) => item._id);
 
         const userInfo = {
           _id: user._id,
@@ -42,9 +43,11 @@ export async function POST(req: any) {
           message: user.message,
           newsletter: user.message,
           wishlist: user.favReviews,
-          recommendedProducts: sendIds,
+          role: user?.role,
+          recommendedProducts: recommendedItems,
           token: token,
         };
+
         return NextResponse.json({
           success: true,
           message: "user logged in",
