@@ -62,51 +62,59 @@ const stripe: any = new Stripe(stripeSecretKey, {
 });
 
 export async function POST(req: any, res: any) {
-  // if (req.method !== "POST") {
-  //   res.setHeader("Allow", "POST");
-  //   res.status(405).end("Method Not Allowed");
-  //   return;
-  // }
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    res.status(405).end("Method Not Allowed");
+    return;
+  }
 
   try {
-    // const { items, successUrl, cancelUrl } = req.body;
-    const items: any = [
-      {
-        id: 1,
-        name: "item one",
-        price: 23,
-        quantity: 1,
-      },
-      {
-        id: 2,
-        name: "item one",
-        price: 23,
-        quantity: 1,
-      },
-      {
-        id: 3,
-        name: "item one",
-        price: 23,
-        quantity: 1,
-      },
-    ];
+    const { products, successUrl, cancelUrl } = await req.json();
+    // const items: any = [
+    //   {
+    //     id: 1,
+    //     name: "item one",
+    //     price: 23,
+    //     image:
+    //       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
+    //     quantity: 1,
+    //   },
+    //   {
+    //     id: 2,
+    //     name: "item one",
+    //     price: 23,
+    //     image:
+    //       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
+    //     quantity: 1,
+    //   },
+    //   {
+    //     id: 3,
+    //     name: "item one",
+    //     price: 23,
+    //     image:
+    //       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
+    //     quantity: 1,
+    //   },
+    // ];
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: items.map((item: any) => ({
+      payment_method_types: [],
+
+      line_items: products.map((item: any) => ({
         price_data: {
-          currency: "usd",
+          currency: "eur",
           product_data: {
-            name: item.name,
+            name: item.title,
+            images: [item.img],
           },
           unit_amount: item.price * 100,
         },
         quantity: item.quantity,
       })),
       mode: "payment",
-      success_url: "https://your-website.com/success",
-      cancel_url: "https://your-website.com/failed",
+      success_url: successUrl,
+      cancel_url: cancelUrl,
     });
- 
+
     return NextResponse.json(
       {
         success: true,
@@ -124,9 +132,9 @@ export async function POST(req: any, res: any) {
       {
         success: false,
 
-        message: "checkout intiated",
+        message: "checkout initiated",
       },
-      { status: 404 }
+      { status: 500 }
     );
   }
 }

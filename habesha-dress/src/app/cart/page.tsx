@@ -12,8 +12,11 @@ import { useState } from "react";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+
 const Cart: React.FC = () => {
   const cartItems: any = useAppSelector((state: any) => state.cart.items);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   // const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
@@ -39,6 +42,31 @@ const Cart: React.FC = () => {
     cart: true,
     navigation: false,
   };
+  const handleCheckout = async () => {
+    const products = cartItems.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      img: item.img,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    console.log(products);
+    try {
+      const res = await axios.post("/api/checkout_sessions", {
+        successUrl: "http://localhost:3000/",
+        cancelUrl: "http://localhost:3000/wishlist",
+        products,
+      });
+      if (res.data.success) {
+        window.location.href = res.data.url;
+      } else {
+        console.log(res.data);
+      }
+    } catch (error) {
+      console.log({ message: "error in payment", error });
+    }
+  };
   return (
     <main className="w-full font-Dosis  min-h-screen p-2 bg-white">
       <ToastContainer
@@ -48,6 +76,7 @@ const Cart: React.FC = () => {
         hideProgressBar={false}
         theme="dark"
       />
+
       <div className=" mb-8 flex items-center">
         <div className=" w-max flex items-center gap-4 p-0.5 ">
           <RiArrowGoBackLine
@@ -97,7 +126,10 @@ const Cart: React.FC = () => {
                   </p>
                 </div>
 
-                <button className=" w-1/3 my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white">
+                <button
+                  onClick={handleCheckout}
+                  className=" w-1/3 my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white"
+                >
                   Checkout
                 </button>
               </div>
@@ -152,7 +184,10 @@ const Cart: React.FC = () => {
             </p>
             <p className="my-4 font-semibold">${total}</p>
           </div>
-          <button className=" w-full my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white">
+          <button
+            onClick={handleCheckout}
+            className=" w-full my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white"
+          >
             Checkout
           </button>
         </div>
