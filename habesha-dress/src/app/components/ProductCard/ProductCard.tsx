@@ -119,7 +119,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         alt="product image"
       />
 
-      <div className="px-5 py-3 w-full h-max pb-5 bg-white ">
+      <div className="px-5 py-3 w-full h-max pb-1 bg-white ">
         <h5 className="text-base font-medium capitalize tracking-tight text-gray-600 ">
           {title?.slice(0, 15)}..
         </h5>
@@ -156,7 +156,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             </span>
           </p>
         </div>
-        <div className="flex items-center justify-between mt-1 mb-6">
+        <div className="flex items-center justify-between mt-1 ">
           <div className="flex items-center gap-4">
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
             <p className="w-40 text-gray-400 text-base">Available</p>
@@ -174,7 +174,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           )}
         </div>
 
-        <div className="flex items-center gap-4 justify-between">
+        {/* <div className="flex items-center gap-4 justify-between">
           <button
             onClick={() => handleAddToCart(product)}
             className="text-white font-roboto bg-gray-700 p-3  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-full text-sm  text-center "
@@ -187,7 +187,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           >
             Buy now
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

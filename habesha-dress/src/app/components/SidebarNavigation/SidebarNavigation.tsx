@@ -47,7 +47,7 @@ const SidebarNavigation: React.FC = () => {
   };
   const handleRecommendForYou = () => {
     if (user || user?.email) {
-      router.push("all-products-cloths");
+      // router.push("/all-products-cloths");
     } else if (!user) {
       dispatch(toggleShowSidebar());
       dispatch(toggleShowSignIn());
