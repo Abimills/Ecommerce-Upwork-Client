@@ -27,12 +27,16 @@ export interface CartState {
 }
 
 const loadUserFavoritesFromLocalStorage = (): any => {
+  // try {
   const favJson: any = localStorage.getItem("favorites");
   if (favJson) {
     return JSON.parse(favJson);
   } else {
     return [];
   }
+  // } catch (error) {
+  //   console.log(error);
+  // }
 };
 const loadUserCartFromLocalStorage = (): any => {
   const cartJson: any = localStorage.getItem("cart");

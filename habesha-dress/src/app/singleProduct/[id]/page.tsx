@@ -104,7 +104,8 @@ const SingleProduct: React.FC = () => {
       price: product.price,
       quantity: 1,
       id: product._id,
-      discount: product.discount ? product.discount : 0,
+      discountedPrice: product?.discountedPrice,
+      discount: product.discount,
       inStock: true,
       chosenSize: sizeChoose || "",
       img: product.img,
@@ -123,9 +124,8 @@ const SingleProduct: React.FC = () => {
     cart: true,
     navigation: true,
   };
-  const priceString = data?.discount
-    ? (data?.price - data?.discount).toFixed(2)
-    : parseFloat(data?.price).toFixed(2);
+  const priceString = parseFloat(data?.discountedPrice)?.toFixed(2);
+
   const [wholePart, decimalPart] = priceString.split(".");
   const originalPriceString = parseFloat(data.price).toFixed(2);
 

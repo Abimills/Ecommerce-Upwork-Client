@@ -179,12 +179,12 @@ const WishlistCard: React.FC<Props> = ({ product }) => {
           )}
         </div>
         <div className="flex items-center gap-4">
-          <button
+          {/* <button
             onClick={() => handleAddToCart(product)}
             className="text-white font-Dosis bg-gray-700 p-3  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-full text-sm  text-center "
           >
             <IoBagAddSharp className="text-lg" />
-          </button>
+          </button> */}
           {/* <div className=" h-8 w-8 rounded-full bg-gray-100 border border-gray-100">
                <MdDeleteOutline
                  onClick={() => handleFavorites(_id)}

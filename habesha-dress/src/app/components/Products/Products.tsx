@@ -43,6 +43,7 @@ const Products: React.FC = () => {
         );
 
         if (res.data.totalPages) {
+          console.log(res.data);
           setTotalPages(res.data.totalPages);
           setData(res.data.cloths);
           setFilteredData(res.data.cloths);
@@ -109,7 +110,7 @@ const Products: React.FC = () => {
                 swiper.isBeginning ? "" : "swiper-button-prev bg-white"
               } `;
               if (swiper.isEnd) {
-                router.push("/all-products-cloths");
+                // router.push("/all-products-cloths");
               }
             }}
             onSwiper={(swiper) => {

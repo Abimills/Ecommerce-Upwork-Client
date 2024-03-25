@@ -11,7 +11,7 @@ const clothProductSchema = new Schema(
     price: { type: Number, required: [true, "Price is required"] },
     rating: { type: Number, required: [true, "Rating is required"] },
     discount: { type: Number, default: 0 },
-    discountInPercent: { type: Number, default: 0 },
+    discountedPrice: { type: Number, default: 0 },
     whichGroupCloth: {
       type: Array,
 
@@ -50,6 +50,12 @@ const clothProductSchema = new Schema(
     timestamps: true,
   }
 );
+
+// Pre-save hook to calculate discounted price
+clothProductSchema.pre("save", function (next) {
+  this.discountedPrice = this.price - this.discount;
+  next();
+});
 
 const ClothProduct =
   mongoose.models.ClothProduct ||

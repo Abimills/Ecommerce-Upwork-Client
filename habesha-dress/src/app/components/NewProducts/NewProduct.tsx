@@ -130,7 +130,7 @@ const NewProduct: React.FC = () => {
                 swiper.isBeginning ? "" : "swiper-button-prev bg-white"
               } `;
               if (swiper.isEnd) {
-                router.push("/all-products-cloths");
+                // router.push("/all-products-cloths");
               }
             }}
             onSwiper={(swiper) => {

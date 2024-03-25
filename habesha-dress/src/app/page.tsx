@@ -44,8 +44,6 @@ export default function Home() {
     navigation: true,
   };
 
- 
-
   return (
     <main className="flex font-Dosis  relative min-h-screen flex-col bg-alice-blue  items-center ">
       <div className="w-full    ">
@@ -57,7 +55,7 @@ export default function Home() {
       </div>
       {showSidebar && <SidebarNavigation />}
       {showNewsletter && <ToggleSubscribe />}
-    
+
       <Landing />
       {isCartOpen && <Cart setIsOpen={setIsCartOpen} isOpen={isCartOpen} />}
       {showSignIn && <Login />}

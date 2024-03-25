@@ -53,6 +53,7 @@
 //   }
 // }
 
+import calculateShipping from "@/app/util/calculateShiping";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -70,46 +71,34 @@ export async function POST(req: any, res: any) {
 
   try {
     const { products, successUrl, cancelUrl } = await req.json();
-    // const items: any = [
-    //   {
-    //     id: 1,
-    //     name: "item one",
-    //     price: 23,
-    //     image:
-    //       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
-    //     quantity: 1,
-    //   },
-    //   {
-    //     id: 2,
-    //     name: "item one",
-    //     price: 23,
-    //     image:
-    //       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
-    //     quantity: 1,
-    //   },
-    //   {
-    //     id: 3,
-    //     name: "item one",
-    //     price: 23,
-    //     image:
-    //       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
-    //     quantity: 1,
-    //   },
-    // ];
+    const shippingCost = calculateShipping(products?.length);
+    const shippingOption = {
+      shipping_rate_data: {
+        type: "fixed_amount",
+        fixed_amount: {
+          amount: shippingCost * 100,
+          currency: "eur",
+        },
+        display_name: "DHL Express Shipping",
+      },
+    };
     const session = await stripe.checkout.sessions.create({
       payment_method_types: [],
+      shipping_options: [shippingOption],
 
-      line_items: products.map((item: any) => ({
-        price_data: {
-          currency: "eur",
-          product_data: {
-            name: item.title,
-            images: [item.img],
+      line_items: products.map((item: any) => {
+        return {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: item.title,
+              images: [item.img],
+            },
+            unit_amount: item.price * 100,
           },
-          unit_amount: item.price * 100,
-        },
-        quantity: item.quantity,
-      })),
+          quantity: item.quantity,
+        };
+      }),
       mode: "payment",
       success_url: successUrl,
       cancel_url: cancelUrl,

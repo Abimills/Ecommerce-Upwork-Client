@@ -11,19 +11,13 @@ interface AuthState {
   // Add other relevant state properties
 }
 const initialState: any = {
-  user: null,
+  user: {},
 };
 
-const loadUserFromLocalStorage = (): AuthState => {
-  const userJson: any = localStorage.getItem("user");
-  if (userJson) {
-    return { user: JSON.parse(userJson) };
-  }
-  return initialState;
-};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: loadUserFromLocalStorage(),
+  initialState,
   reducers: {
     loginSuccess: (state, action: PayloadAction<User>) => {
       state.user = action.payload;

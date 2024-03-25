@@ -41,8 +41,8 @@ const CartProduct: React.FC<Props> = ({ product }) => {
     chosenSize,
   } = product;
   const shortTitle = title.slice(0, 20);
-  const discountedPrice = (price * quantity - discount * quantity).toFixed(2);
-  console.log(discountedPrice);
+  const discountedPrice = (product?.discountedPrice * quantity).toFixed(2);
+
   const [discountedPart, decimalDiscountedPart] = discountedPrice.split(".");
   const handleRemoveFromCart = (id: any) => {
     dispatch(removeFromCart(id));
@@ -55,9 +55,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
     (parseFloat(discount) / parseFloat(price)) *
     100
   ).toFixed(0);
-  const priceString = discount
-    ? (price * quantity).toFixed(2)
-    : (price * quantity).toFixed(2);
+  const priceString = (price * quantity).toFixed(2);
   const [wholePart, decimalPart] = priceString.split(".");
   return (
     <section className="w-full flex items-start font-Dosis border-b-2  border-b border-gray-200 p-8">

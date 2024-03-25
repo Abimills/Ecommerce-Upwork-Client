@@ -27,6 +27,7 @@ interface Product {
   availableSizes: string[];
   availableColors: string[];
   purchasedNo: number;
+  discountedPrice: number;
   type: string;
   typeOfClothes: string;
 }
@@ -42,6 +43,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     rating,
     availableSizes,
     discount,
+    discountedPrice,
     availableColors,
   } = product;
   const favorites = useSelector((state: any) => state.cart.favorites);
@@ -55,9 +57,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   const [colorChoose, setColorChose] = useState(
     availableColors ? availableColors[0] : ""
   );
-  const priceString = discount
-    ? (price - discount).toFixed(2)
-    : price.toFixed(2);
+
+  const priceString = discountedPrice?.toFixed(2);
+
   const [wholePart, decimalPart] = priceString.split(".");
   const originalPriceString = price.toFixed(2);
 
@@ -70,7 +72,8 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       price: product.price,
       quantity: 1,
       id: product._id,
-      discount: discount ? discount : 0,
+      discountedPrice,
+      discount: discount,
       inStock: true,
       chosenSize: sizeChoose || "",
       img: product.img,

@@ -15,25 +15,29 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const Cart: React.FC = () => {
-  const cartItems: any = useAppSelector((state: any) => state.cart.items);
+  const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   // const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
-  const subTotal: number = cartItems
-    .reduce(
-      (total: number, current: any) =>
-        total + parseFloat(current.price) * parseFloat(current.quantity),
-      0
-    )
-    .toFixed(2);
-  const subTotalDiscount: number = cartItems
-    .reduce(
-      (total: number, current: any) =>
-        total + parseFloat(current.discount) * parseFloat(current.quantity),
-      0
-    )
-    .toFixed(2);
+  const subTotal: number =
+    cartItems.length > 0 &&
+    cartItems
+      ?.reduce(
+        (total: number, current: any) =>
+          total + parseFloat(current.price) * parseFloat(current.quantity),
+        0
+      )
+      .toFixed(2);
+  const subTotalDiscount: number =
+    cartItems.length > 0 &&
+    cartItems
+      ?.reduce(
+        (total: number, current: any) =>
+          total + parseFloat(current.discount) * parseFloat(current.quantity),
+        0
+      )
+      .toFixed(2);
   const total = (subTotal - subTotalDiscount).toFixed(2);
   const showIcons = {
     search: true,
@@ -43,19 +47,22 @@ const Cart: React.FC = () => {
     navigation: false,
   };
   const handleCheckout = async () => {
-    const products = cartItems.map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      img: item.img,
-      price: item.price,
-      quantity: item.quantity,
-    }));
+    const products = cartItems.map((item: any) => {
+      const finalPrice = item.discountedPrice.toFixed(0);
 
-    console.log(products);
+      return {
+        id: item.id,
+        title: item.title,
+        img: item.img,
+        price: finalPrice,
+        quantity: item.quantity,
+      };
+    });
+
     try {
-      const res = await axios.post("/api/checkout_sessions", {
+      const res = await axios.post("/api/stripe/checkout_sessions", {
         successUrl: "http://localhost:3000/",
-        cancelUrl: "http://localhost:3000/wishlist",
+        cancelUrl: "http://localhost:3000/cart",
         products,
       });
       if (res.data.success) {
