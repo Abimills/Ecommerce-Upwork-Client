@@ -119,7 +119,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
             <option value="9">9</option>
             <option value="10">10</option>
           </select>
-          <p className="text-2xl w-40 mt-6 text-gray-900 font-bold   font-Dosis cursor-pointer">
+          <p className="text-2xl w-40 mt-6 text-gray-900 font-bold   font-Dosis">
             <span className="text-sm font-medium text-black relative font-Dosis bottom-2 mr-0.5  ">
               $
             </span>
@@ -129,7 +129,7 @@ const CartProduct: React.FC<Props> = ({ product }) => {
             </span>
           </p>
           {discount > 0 && (
-            <p className="text-xl w-40  text-gray-200 font-medium line-through   font-Dosis cursor-pointer">
+            <p className="text-xl w-40  text-gray-200 font-medium line-through   font-Dosis ">
               <span className="text-sm font-medium font-Dosis text-gray-400 relative bottom-2 mr-0.5  ">
                 $
               </span>

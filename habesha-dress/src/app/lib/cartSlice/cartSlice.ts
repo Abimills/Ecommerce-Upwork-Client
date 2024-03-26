@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { loadUserFavoritesFromLocalStorage } from "@/app/util/loadUser";
+import { loadUserCartFromLocalStorage } from "@/app/util/loadCart";
 // Define a type for the slice state
 // const notify = () => toast("Wow so easy !");
 export interface CartItem {
@@ -26,30 +28,10 @@ export interface CartState {
   showNotification: boolean;
 }
 
-const loadUserFavoritesFromLocalStorage = (): any => {
-  // try {
-  const favJson: any = localStorage.getItem("favorites");
-  if (favJson) {
-    return JSON.parse(favJson);
-  } else {
-    return [];
-  }
-  // } catch (error) {
-  //   console.log(error);
-  // }
-};
-const loadUserCartFromLocalStorage = (): any => {
-  const cartJson: any = localStorage.getItem("cart");
-  if (cartJson) {
-    return JSON.parse(cartJson);
-  } else {
-    return [];
-  }
-};
 // Define the initial state using that type
 const initialState: CartState = {
-  items: loadUserCartFromLocalStorage(),
-  favorites: loadUserFavoritesFromLocalStorage(),
+  items: loadUserCartFromLocalStorage() || [],
+  favorites: loadUserFavoritesFromLocalStorage() || [],
   showSignIn: false,
   showNewsletter: false,
   showSearch: false,

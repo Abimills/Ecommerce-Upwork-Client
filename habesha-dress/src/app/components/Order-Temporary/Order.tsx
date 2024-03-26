@@ -1,15 +1,12 @@
 import React from "react";
 import { FcApproval } from "react-icons/fc";
 
-interface Props {
-  item: any;
-}
-const OrderCard: React.FC<Props> = ({ item }) => {
+const OrderCard: React.FC = () => {
   return (
     <div className="w-full h-max flex items-start p-16 border border-green-300">
       <div className="">
         <img
-          src={item.img}
+          src="hab24.png"
           alt=""
           className=" object-contain  h-56 w-56 flex items-start  rounded-lg mb-4 bg-gray-200 "
         />
@@ -23,17 +20,14 @@ const OrderCard: React.FC<Props> = ({ item }) => {
       <div className=" w-full flex items-start flex-col ml-6">
         <span className="w-full flex items-center   gap-16 my-3">
           <h2 className=" text-xl   text-gray-700 font-medium w-1/4 ">
-            {item.title?.slice(0, 20)}...
+            title goes here
           </h2>
-          <h2 className="text-xl text-black font-semibold ">
-            ${item.discountedPrice?.toFixed(2)}
-          </h2>
+          
+          <h2 className="text-xl text-black font-semibold ">${290.0}</h2>
         </span>
         <span className="w-full flex items-center   gap-16 my-3 mb-6">
           <h2 className=" text-lg text-gray-700 font-base w-1/4 ">Quantity</h2>
-          <h2 className="text-lg text-black font-semibold ml-3 ">
-            x{item.quantity}
-          </h2>
+          <h2 className="text-lg text-black font-semibold ml-3 ">x{1}</h2>
         </span>
 
         <div className="flex w-full  gap-8 items-center">

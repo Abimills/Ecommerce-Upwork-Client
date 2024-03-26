@@ -61,7 +61,7 @@ const Cart: React.FC = () => {
 
     try {
       const res = await axios.post("/api/stripe/checkout_sessions", {
-        successUrl: "http://localhost:3000/",
+        successUrl: "http://localhost:3000/successful-order",
         cancelUrl: "http://localhost:3000/cart",
         products,
       });

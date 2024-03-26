@@ -109,11 +109,11 @@ export async function POST(req: any, res: any) {
         success: true,
         url: session.url,
 
-        message: "checkout intiated",
+        message: "checkout initiated",
       },
       { status: 200 }
     );
-    // res.status(200).json({ url: session.url });
+   
   } catch (err) {
     console.error(err);
 
@@ -121,7 +121,7 @@ export async function POST(req: any, res: any) {
       {
         success: false,
 
-        message: "checkout initiated",
+        message: "checkout issues",
       },
       { status: 500 }
     );
