@@ -11,12 +11,12 @@ const OrderCard: React.FC<Props> = ({ item }) => {
         <img
           src={item.img}
           alt=""
-          className=" object-contain  h-56 w-56 flex items-start  rounded-lg mb-4 bg-gray-200 "
+          className=" object-contain  h-56 w-56 flex items-start  rounded-lg mb-4 bg-teal-10 "
         />
         <div className="w-full flex-1 h-max  items-center justify-between">
-          <p className="w-max flex items-center gap-6">
+          <p className="w-max flex items-center gap-2">
             <FcApproval className="text-green-400 text-2xl " />{" "}
-            <span className="text-gray-400">Delivered on July 21,2024</span>
+            <span className="text-gray-400">Order has been approved</span>
           </p>
         </div>
       </div>

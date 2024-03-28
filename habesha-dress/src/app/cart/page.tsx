@@ -66,6 +66,11 @@ const Cart: React.FC = () => {
         products,
       });
       if (res.data.success) {
+        localStorage.setItem("payId", JSON.stringify(res.data.id));
+        const items =
+          JSON.parse(localStorage.getItem("itemsBought") as string) || [];
+        items.unshift(res.data.id);
+        localStorage.setItem("itemsBought", JSON.stringify(items));
         window.location.href = res.data.url;
       } else {
         console.log(res.data);

@@ -43,20 +43,7 @@ export async function POST(req: any, res: NextApiResponse) {
     const customerName = session?.customer_details?.name;
     const paymentStatus = session?.payment_status;
     const wholeOrderObject = [session];
-    console.log({
-      orderNumber,
-      subtotalOrderAmount,
-      totalOrderAmount,
-      shippingAmount,
-      currency,
-      dateOfOrder,
-      customerAddress,
-      customerEmail,
-      customerPhone,
-      customerName,
-      paymentStatus,
-      wholeOrderObject,
-    });
+
     const res = await axios.post("http://localhost:3000/api/order", {
       orderNumber,
       subtotalOrderAmount,

@@ -22,7 +22,7 @@ import {
   toggleShowSidebar,
   toggleShowSignIn,
 } from "@/app/lib/cartSlice/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 interface ShowTypes {
   search: Boolean;
@@ -42,7 +42,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
   const favorites: any = useAppSelector(
     (state: RootState) => state.cart.favorites
   );
-  const user: any = useAppSelector((state: RootState) => state.auth.user);
+  const user: any = useSelector((state: RootState) => state.auth.user);
 
   const handleCloseSearch = () => {
     dispatch(toggleShowSearch());

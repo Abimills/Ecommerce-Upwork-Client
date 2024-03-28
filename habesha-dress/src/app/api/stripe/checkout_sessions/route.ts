@@ -108,12 +108,12 @@ export async function POST(req: any, res: any) {
       {
         success: true,
         url: session.url,
+        id: session.id,
 
         message: "checkout initiated",
       },
       { status: 200 }
     );
-   
   } catch (err) {
     console.error(err);
 

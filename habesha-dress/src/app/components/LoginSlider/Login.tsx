@@ -32,7 +32,7 @@ const Login: React.FC = () => {
     if (email !== "" && password !== "") {
       try {
         setLoading(true);
-        const res = await axios.post("http://localhost:3000/api/login", {
+        const res = await axios.post("/api/login", {
           email,
           password,
         });

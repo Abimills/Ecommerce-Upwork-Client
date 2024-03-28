@@ -6,14 +6,22 @@ interface User {
   email: string;
   // Add other user properties
 }
+const loadUser = (): any => {
+  // try {
+  const userJson: any = localStorage.getItem("user");
+  if (userJson) {
+    return JSON.parse(userJson);
+  } else {
+    return {};
+  }
+};
 interface AuthState {
   user: User | null;
   // Add other relevant state properties
 }
 const initialState: any = {
-  user: {},
+  user: loadUser,
 };
-
 
 const authSlice = createSlice({
   name: "auth",

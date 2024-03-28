@@ -21,10 +21,13 @@ import { useSelector } from "react-redux";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useAppSelector } from "../lib/hooks";
+import { useParams } from "next/navigation";
 const OrderUserProfile: React.FC = () => {
   const ids = JSON.parse(localStorage.getItem("itemsBought") as string);
-  const [orders, setOrders] = useState<any>([]);
+
+  const [orders, setOrders] = useState([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
   const showIcons = {
     search: true,
     user: true,
@@ -33,13 +36,13 @@ const OrderUserProfile: React.FC = () => {
     navigation: true,
   };
   const fetchOrder = async () => {
-    const orderNo = ids[0];
-    if (orderNo) {
-      const res: any = await axios.get(`api/order/?orderNumber=${orderNo}`);
-      console.log(res.data.success);
-      if (res.data.success) {
-        setOrders(res.data.order);
-      }
+    if (ids) {
+      const res = await Promise.all(
+        ids?.map((id: any) => axios.get(`api/order/?orderNumber=${id}`))
+      );
+      const allOrders: any = res.map((product) => product.data.order);
+      console.log(allOrders);
+      setOrders(allOrders);
     }
   };
   useEffect(() => {
@@ -47,7 +50,7 @@ const OrderUserProfile: React.FC = () => {
 
     fetchOrder();
   }, []);
-  console.log(orders);
+  console.log(orders?.length);
   return (
     <div className="w-full flex relative font-Dosis bg-alice-blue  flex-col  ">
       <div className="w-full bg-white  sticky top-0">
@@ -57,7 +60,7 @@ const OrderUserProfile: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
-      {!orders ? (
+      {orders?.length < 1 ? (
         <div className=" w-full flex  mb-16 items-center justify-center flex-col p-10 ">
           <img
             src="../cart-empty.gif"
@@ -76,44 +79,49 @@ const OrderUserProfile: React.FC = () => {
         </div>
       ) : (
         <div className="w-full h-max ">
-          <div className="w-full h-max p-16">
-            <h1 className="font-semibold font-poppins text-4xl mb-4 ">
-              Order history
-            </h1>
-            <p className=" text-lg text-green-300  mb-8">
-              Check the status of recent orders, manage returns, and discover
-              similar products.
-            </p>
-            <div className="w-full h-max flex rounded-t-lg  p-8 border border-green-300 items-center justify-between">
-              <span className="">
-                <p className="">Order number</p>
-                <p className="text-gray-400">
-                  {orders?.orderNumber?.slice(0, 20)}......
-                </p>
-              </span>
-              <span className="">
-                <p className="">Date placed</p>
-                <p className="text-gray-400">{orders?.createdAt}</p>
-              </span>
-              <span className="">
-                <p className="">Shipping amount</p>
-                <p className=" text-xl font-bold text-green-500">
-                  ${(orders?.shippingAmount / 100)?.toFixed(2)}
-                </p>
-              </span>
-              <span className="">
-                <p className="">Total amount</p>
-                <p className=" text-xl font-bold text-green-500">
-                  ${(orders?.totalOrderAmount / 100)?.toFixed(2)}
-                </p>
-              </span>
-            </div>
-            <div className="">
-              {orders?.orderedProducts?.map((item: any) => {
-                return <OrderCard item={item} key={item.id} />;
-              })}
-            </div>
-          </div>
+          <h1 className="font-semibold font-poppins text-4xl mt-8 mb-4 px-16 ">
+            Order history
+          </h1>
+          <p className=" text-lg text-gray-600   px-16">
+            Check the status of recent orders, manage returns, and discover
+            similar products.
+          </p>
+          {orders.map((order: any) => {
+            return (
+              <div className="w-full h-max pb-16 px-16 my-8">
+                <div className="w-full h-max flex rounded-t-lg  p-8 border border-green-300 items-center justify-between">
+                  <span className="">
+                    <p className="">Order number</p>
+                    <p className="text-gray-400">
+                      {" "}
+                      {order?.orderNumber?.slice(0, 20)}......
+                    </p>
+                  </span>
+                  <span className="">
+                    <p className="">Date placed</p>
+                    <p className="text-gray-400">{order?.createdAt}</p>
+                  </span>
+                  <span className="">
+                    <p className="">Shipping amount</p>
+                    <p className=" text-xl font-bold text-green-500">
+                      ${(order?.shippingAmount / 100)?.toFixed(2)}
+                    </p>
+                  </span>
+                  <span className="">
+                    <p className="">Total amount</p>
+                    <p className=" text-xl font-bold text-green-500">
+                      ${(order?.totalOrderAmount / 100)?.toFixed(2)}
+                    </p>
+                  </span>
+                </div>
+                <div className="">
+                  {order?.orderedProducts?.map((item: any) => {
+                    return <OrderCard item={item} key={item.id} />;
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
       <Footer />

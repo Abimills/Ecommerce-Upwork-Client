@@ -86,6 +86,11 @@ export async function PUT(req: any) {
           message: "A problem updating user",
         });
       }
+      return NextResponse.json({
+        success: true,
+        message: "user data updated",
+        updatedUser,
+      });
     }
   } catch (error) {
     console.log({

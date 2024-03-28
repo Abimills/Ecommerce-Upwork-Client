@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
   const [data, setData] = useState<any>({
     name: "",
     email: "",
-    gender: "",
+    gender: "Man",
     password: "",
   });
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ const LoginPage: React.FC = () => {
     ) {
       try {
         setLoading(true);
-        const res = await axios.post("http://localhost:3000/api/user", data);
+        const res = await axios.post("/api/user", data);
 
         if (res.data.success) {
           toast.success("Registration Successful");
