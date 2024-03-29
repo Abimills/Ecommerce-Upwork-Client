@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { loginSuccess } from "../lib/authSlice/authSlice";
+import { emptyCart } from "../lib/cartSlice/cartSlice";
 const SuccessfulPayment = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   // const user = useAppSelector((state: any) => state.auth.user);
@@ -47,6 +48,9 @@ const SuccessfulPayment = () => {
   };
   const handleOrder = async () => {
     const id: any = JSON.parse(localStorage.getItem("payId") as string);
+    const customerDetail: any = JSON.parse(
+      localStorage.getItem("customerDetail") as string
+    );
 
     let data: any = {};
     if (user?._id) {
@@ -54,11 +58,13 @@ const SuccessfulPayment = () => {
         orderedProducts: cartItems,
         customerId: user?._id,
         orderProductsQuantity: cartItems?.length,
+        customerAddress: customerDetail,
       };
     } else {
       data = {
         orderedProducts: cartItems,
         orderProductsQuantity: cartItems?.length,
+        customerAddress: customerDetail,
       };
     }
     const payload = { id, data };
@@ -67,6 +73,7 @@ const SuccessfulPayment = () => {
     if (res.data.success) {
       toast.success("successfully ordered your product");
       localStorage.removeItem("cart");
+      dispatch(emptyCart());
       localStorage.removeItem("payId");
     }
   };

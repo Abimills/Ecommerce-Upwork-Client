@@ -72,32 +72,34 @@ export async function PUT(req: any) {
   const found = await ClothsOrder.findOne({
     orderNumber: payload.id,
   });
-
-  const order = await ClothsOrder.findByIdAndUpdate(
-    found._id,
-    {
-      $set: {
-        ...payload.data,
+  console.log(found);
+  if (found) {
+    const order = await ClothsOrder.findByIdAndUpdate(
+      found._id,
+      {
+        $set: {
+          ...payload.data,
+        },
       },
-    },
-    { new: true }
-  );
+      { new: true }
+    );
 
-  if (!order) {
+    if (!order) {
+      return NextResponse.json(
+        { message: "Order not found", status: 404 },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { message: "Order not found", status: 404 },
-      { status: 404 }
+      {
+        success: true,
+        message: "Order updated",
+        order,
+      },
+      { status: 200 }
     );
   }
-
-  return NextResponse.json(
-    {
-      success: true,
-      message: "Order updated",
-      order,
-    },
-    { status: 200 }
-  );
 }
 export async function DELETE(req: any) {
   const id: string = req.nextUrl.searchParams.get("id");

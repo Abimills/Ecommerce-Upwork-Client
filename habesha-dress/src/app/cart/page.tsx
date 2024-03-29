@@ -46,39 +46,39 @@ const Cart: React.FC = () => {
     cart: true,
     navigation: false,
   };
-  const handleCheckout = async () => {
-    const products = cartItems.map((item: any) => {
-      const finalPrice = item.discountedPrice.toFixed(0);
+  // const handleCheckout = async () => {
+  //   const products = cartItems.map((item: any) => {
+  //     const finalPrice = item.discountedPrice.toFixed(0);
 
-      return {
-        id: item.id,
-        title: item.title,
-        img: item.img,
-        price: finalPrice,
-        quantity: item.quantity,
-      };
-    });
+  //     return {
+  //       id: item.id,
+  //       title: item.title,
+  //       img: item.img,
+  //       price: finalPrice,
+  //       quantity: item.quantity,
+  //     };
+  //   });
 
-    try {
-      const res = await axios.post("/api/stripe/checkout_sessions", {
-        successUrl: "http://localhost:3000/successful-order",
-        cancelUrl: "http://localhost:3000/cart",
-        products,
-      });
-      if (res.data.success) {
-        localStorage.setItem("payId", JSON.stringify(res.data.id));
-        const items =
-          JSON.parse(localStorage.getItem("itemsBought") as string) || [];
-        items.unshift(res.data.id);
-        localStorage.setItem("itemsBought", JSON.stringify(items));
-        window.location.href = res.data.url;
-      } else {
-        console.log(res.data);
-      }
-    } catch (error) {
-      console.log({ message: "error in payment", error });
-    }
-  };
+  //   try {
+  //     const res = await axios.post("/api/stripe/checkout_sessions", {
+  //       successUrl: "http://localhost:3000/successful-order",
+  //       cancelUrl: "http://localhost:3000/cart",
+  //       products,
+  //     });
+  //     if (res.data.success) {
+  //       localStorage.setItem("payId", JSON.stringify(res.data.id));
+  //       const items =
+  //         JSON.parse(localStorage.getItem("itemsBought") as string) || [];
+  //       items.unshift(res.data.id);
+  //       localStorage.setItem("itemsBought", JSON.stringify(items));
+  //       window.location.href = res.data.url;
+  //     } else {
+  //       console.log(res.data);
+  //     }
+  //   } catch (error) {
+  //     console.log({ message: "error in payment", error });
+  //   }
+  // };
   return (
     <main className="w-full font-Dosis  min-h-screen p-2 bg-white">
       <ToastContainer
@@ -139,7 +139,7 @@ const Cart: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={handleCheckout}
+                  onClick={() => router.push("/checkout")}
                   className=" w-1/3 my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white"
                 >
                   Checkout
@@ -197,7 +197,7 @@ const Cart: React.FC = () => {
             <p className="my-4 font-semibold">${total}</p>
           </div>
           <button
-            onClick={handleCheckout}
+            onClick={() => router.push("/checkout")}
             className=" w-full my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white"
           >
             Checkout

@@ -138,6 +138,9 @@ export const cartSlice = createSlice({
         toast.success("Quantity added to Item!");
       }
     },
+    emptyCart: (state) => {
+      state.items = [];
+    },
     removeFromCart: (state, action: PayloadAction<any>) => {
       const foundItem = state.items.find((item) => item.id === action.payload);
       if (foundItem) {
@@ -160,6 +163,7 @@ export const {
   toggleShowFilter,
   setCartQuantity,
   addToCart,
+  emptyCart,
   toggleShowNewsletter,
   toggleShowNotification,
   removeFromCart,
