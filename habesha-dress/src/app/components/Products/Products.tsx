@@ -31,6 +31,7 @@ const Products: React.FC = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [activePagination, setActivePagination] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(3);
   const [totalCloths, setTotalCloths] = useState(0);
   const dispatch = useDispatch();
 
@@ -61,6 +62,30 @@ const Products: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Update slidesPerView based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 630) {
+        setSlidesPerView(1); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 630 && window.innerWidth < 800) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 800 && window.innerWidth < 1000) {
+        setSlidesPerView(3); // Set to 1 slide per view on small screens
+      } else {
+        setSlidesPerView(4); // Set to 3 slides per view on larger screens
+      }
+    };
+
+    // Call handleResize when the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize once to set the initial slidesPerView value
+    handleResize();
+
+    // Remove event listener when component unmounts
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <main className="w-full  h-full min-h[500px] relative  flex flex-col">
       <ToastContainer
@@ -70,10 +95,12 @@ const Products: React.FC = () => {
         position={"bottom-right"}
       />
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
-        <h1 className="font-Dosis font-md text-3xl  mx-4 ">Popular Products</h1>
+        <h1 className="font-Dosis font-md text-2xl sm:text-3xl ml-1   sm:mx-4 ">
+          Popular Products
+        </h1>
         <button
           onClick={() => router.push("/all-products-cloths")}
-          className="hover:text-indigo-300 hover:bg-white text-sm px-4 py-1 border border-indigo-300 bg-indigo-300 text-white rounded-full mx-4 flex items-center gap-2 font-medium"
+          className="hover:text-indigo-300 hover:bg-white text-sm px-4 py-1 border border-indigo-300 bg-indigo-300 text-white rounded-full sm:mx-4 mr-2 flex items-center gap-2 font-medium"
         >
           <RiMenuSearchLine className="text-xl" />
           See All
@@ -95,10 +122,10 @@ const Products: React.FC = () => {
             // effect={"creative"}
             autoplay={{ delay: 5000 }}
             spaceBetween={30}
-            slidesPerView={4}
+            slidesPerView={slidesPerView}
             navigation={true}
             pagination={{ clickable: true }}
-            className="w-max h-max flex  cursor-pointer  "
+            className="w-max h-max flex   cursor-pointer  "
             // onSlideChange={() => console.log("slide change")}
             onSlideChange={(swiper) => {
               swiper.navigation.nextEl.className = ` ${
@@ -130,8 +157,12 @@ const Products: React.FC = () => {
                 ?.filter((cloth: any) => cloth.category?.includes("Popular"))
                 .map((item: any) => {
                   return (
-                    <SwiperSlide className="cursor-pointer w-max  ">
-                      <ProductCard key={item._id} product={item} />
+                    <SwiperSlide className="cursor-pointer   ">
+                      <div className="w-full h-full flex justify-center items-center">
+                        <div className="">
+                          <ProductCard key={item._id} product={item} />
+                        </div>
+                      </div>
                     </SwiperSlide>
                   );
                 })}

@@ -16,6 +16,8 @@ import axios from "axios";
 const Discount: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [slidesPerView, setSlidesPerView] = useState(3);
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -29,6 +31,29 @@ const Discount: React.FC = () => {
   };
   useEffect(() => {
     fetchData();
+  }, []);
+  useEffect(() => {
+    // Update slidesPerView based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 520) {
+        setSlidesPerView(1); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 521 && window.innerWidth < 720) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 720 && window.innerWidth < 1000) {
+        setSlidesPerView(3); // Set to 1 slide per view on small screens
+      } else {
+        setSlidesPerView(4); // Set to 3 slides per view on larger screens
+      }
+    };
+
+    // Call handleResize when the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize once to set the initial slidesPerView value
+    handleResize();
+
+    // Remove event listener when component unmounts
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
     <main className="flex w-full p-5 font-Dosis   shadow-sm items-center justify-between">
@@ -47,18 +72,22 @@ const Discount: React.FC = () => {
           // effect={"creative"}
           autoplay={{ delay: 5000 }}
           spaceBetween={30}
-          slidesPerView={4}
+          slidesPerView={slidesPerView}
           // navigation={true}
           pagination={{ clickable: true }}
-          className="w-max h-max flex  cursor-pointer  "
+          className="w-max h-max flex items-center justify-center cursor-pointer  "
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
           {data?.slice(0, 6)?.map((item: any) => {
             return (
-              <SwiperSlide className="cursor-pointer w-max  ">
-                <DiscountCard item={item} key={item._id} />
+              <SwiperSlide className="cursor-pointer  ">
+                <div className="w-full h-full flex justify-center items-center">
+                  <div className="">
+                    <DiscountCard item={item} key={item._id} />
+                  </div>
+                </div>
               </SwiperSlide>
             );
           })}

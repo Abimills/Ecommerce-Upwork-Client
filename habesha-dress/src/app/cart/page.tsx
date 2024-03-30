@@ -40,7 +40,7 @@ const Cart: React.FC = () => {
       .toFixed(2);
   const total = (subTotal - subTotalDiscount).toFixed(2);
   const showIcons = {
-    search: true,
+    search: false,
     user: true,
     wishlist: true,
     cart: true,
@@ -89,13 +89,13 @@ const Cart: React.FC = () => {
         theme="dark"
       />
 
-      <div className=" mb-8 flex items-center">
+      <div className=" mb-8 flex items-center ">
         <div className=" w-max flex items-center gap-4 p-0.5 ">
           <RiArrowGoBackLine
             onClick={() => router.back()}
             className="ml-6 font-medium hover:text-green-700  cursor-pointer"
           />
-          <h1 className=" text-xl font-medium  text-gray-600 tracking-tight font-base text-gray-700 cursor-pointer">
+          <h1 className=" hidden sm:inline text-xl font-medium  text-gray-600 tracking-tight font-base text-gray-700 cursor-pointer">
             <span
               className="hover:underline text-gray-700 mx-1"
               onClick={() => router.push("/")}
@@ -113,10 +113,10 @@ const Cart: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
-      <div className="w-full flex mb-24 font-Dosis  justify-between min-h-screen p-5 gap-8 bg-white">
+      <div className="w-full flex-col   lg:flex-row flex mb-24 font-Dosis  justify-between min-h-screen p-5 gap-8 bg-white">
         {/* left side cart */}
         {cartItems?.length > 0 ? (
-          <div className="w-2/3 ">
+          <div className=" w-full md:w-2/3 ">
             {/* <h1 className=" text-4xl  px-2 leading-7 font-poppins w-full  r mb-5 flex justify-start gap-2  text-gray-600   font-semibold ">
               <FaShoppingBag className=" text-2xl" />
               <span className="">Cart </span>
@@ -127,7 +127,7 @@ const Cart: React.FC = () => {
               ))}
             </div>
             {cartItems.length > 1 && (
-              <div className="w-full font-Dosis flex items-center border-b-2 bg-gray-50 px-4 py-1 border-b-gray-400 justify-between ">
+              <div className="hidden xl:block w-full font-Dosis flex items-center border-b-2 bg-gray-50 px-4 py-1 border-b-gray-400 justify-between ">
                 <div className="flex items-center">
                   <p className="text-base font-semibold text-xl text-gray-600 my-4 ">
                     Total <span>{`(${cartItems?.length}) items`}</span>:
@@ -148,7 +148,7 @@ const Cart: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="w-2/3 flex mt-8  flex-col">
+          <div className=" w-full md:w-2/3 flex mt-8  flex-col">
             {/* empty orders page */}
             <div className=" w-full flex  font-Dosis  items-center justify-center flex-col ">
               <img
@@ -169,7 +169,7 @@ const Cart: React.FC = () => {
           </div>
         )}
         {/* right side cart  */}
-        <div className="w-1/3 bg-gray-100 font-Dosis text-base mt-8  p-8 h-max rounded-lg shadow-lg">
+        <div className=" w-full lg:w-1/3 bg-indigo-100  font-Dosis text-base mt-8  p-8 h-max rounded-lg shadow-lg">
           <h1 className="text-xl font-medium mb-7 ">Order summary</h1>
           <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">Subtotal</p>

@@ -68,7 +68,7 @@ const SidebarNavigation: React.FC = () => {
   };
   return (
     <div className="w-full h-full relative ">
-      <div className="fixed top-0 left-0 z-40 w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
+      <div className="fixed top-0 left-0 z-40 w-full md:w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
         <h5 className="text-xl mb-8 font-semibold text-gray-800 uppercase dark:text-gray-400">
           HabeshaD
         </h5>

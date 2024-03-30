@@ -24,9 +24,9 @@ const Footer = () => {
   };
 
   return (
-    <section className="w-full flex items-center text-white font-base  flex-col  bg-gray-700 ">
-      <div className=" w-full flex items-center   justify-between  p-8 text-sm  leading-5 border-y border-y-gray-300">
-        <div className="">
+    <section className="w-full flex items-center text-white font-base  flex-col  bg-black ">
+      <div className=" w-full flex items-center gap-4  justify-between  p-8 text-sm  leading-5 border-y border-y-gray-300">
+        <div className="hidden sm:inline">
           <h1 className=" mb-3">Company Info</h1>
           <h3
             onClick={() => handleNavigation("")}
@@ -133,7 +133,7 @@ const Footer = () => {
           </p>
         </div>
       </div>
-      <div className="w-full flex  items-center justify-around mt-4 mb-4">
+      <div className="w-full flex flex-wrap  items-center justify-around mt-4 mb-4">
         <img className=" h-32 object-contain" src="../payment.jpg" alt="" />
         <p className="text-sm">&copy; 2024 Noami. All rights reserved.</p>
       </div>

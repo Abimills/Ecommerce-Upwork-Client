@@ -94,7 +94,7 @@ const Favorites: React.FC = () => {
             onClick={() => router.back()}
             className="ml-6 font-medium hover:text-green-700  cursor-pointer"
           />
-          <h1 className=" text-xl font-medium  text-gray-600 tracking-tight font-base text-gray-700 cursor-pointer">
+          <h1 className=" hidden sm:inline text-xl font-medium  text-gray-600 tracking-tight font-base text-gray-700 cursor-pointer">
             <span
               className="hover:underline text-gray-700 mx-1"
               onClick={() => router.push("/")}
@@ -103,7 +103,7 @@ const Favorites: React.FC = () => {
             </span>
             {"/"}
 
-            <span className=" hover:underline text-gray-700  mx-1">
+            <span className="  hover:underline text-gray-700  mx-1">
               Favorites
             </span>
           </h1>

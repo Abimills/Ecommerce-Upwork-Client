@@ -1,5 +1,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
+import { MdDiscount } from "react-icons/md";
+
 interface Item {
   img: string;
   title: string;
@@ -15,7 +17,8 @@ const DiscountCard: React.FC<Props> = ({ item }) => {
   return (
     <div
       onClick={() => router.push(`/singleProduct/${_id}`)}
-      className="flex font-Dosis  h-48 rounded-lg  items-center gap-5 "
+      className="flex font-Dosis  h-48 rounded-lg  items-center justify-center
+       gap-5 "
     >
       <img
         className="w-24 h-24 object-contain rounded-full hover:bg-yellow-300 bg-indigo-100"
@@ -23,12 +26,13 @@ const DiscountCard: React.FC<Props> = ({ item }) => {
         alt={title}
       />
       <div className=" flex  flex-col justify-start w-full hover:shadow-sm p-1">
-        <h3 className="text-xl font-Dosis font-semibold text-gray-600 mb-4">
-          {title.slice(0, 15)}...
+        <h3 className="text-lg shadow-sm p-4   font-semibold text-green-400 mb-4">
+          <MdDiscount className="hover:text-black" />
+          <span className="hover:text-black">{`${discountInPercent.toFixed(
+            0
+          )}% discount`}</span>
         </h3>
-        <p className=" text-sm text-green-400">
-          {`${discountInPercent.toFixed(0)}% discount`}
-        </p>
+        {/* <p className=" text-sm text-green-400"></p> */}
       </div>
     </div>
   );

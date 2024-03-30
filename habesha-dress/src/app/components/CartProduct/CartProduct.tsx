@@ -59,33 +59,29 @@ const CartProduct: React.FC<Props> = ({ product }) => {
   const [wholePart, decimalPart] = priceString.split(".");
   return (
     <section className="w-full flex items-start font-Dosis border-b-2  border-b border-gray-200 p-8">
-      <div className="w-full flex items-start justify-between">
+      <div className="w-full flex items-start flex-wrap justify-center">
         <img
-          className="w-2/4 h-64 bg-white object-contain border rounded-sm border-gray-300 "
+          className="w-full lg:w-2/4 h-64 bg-white object-contain border rounded-sm border-gray-300 "
           src={img}
           alt={title}
         />
-        <div className="w-full ml-2">
-          <div className=" w-full text-base text-lg font-base text-gray-500 font-Dosis">
+        <div className="w-full flex items-center ml-2">
+          <div className=" w-full flex items-center  text-base text-lg font-base text-gray-500 font-Dosis">
             <h2 className=" text-xl mb-7 text-base font-medium text-gray-700 uppercase">
               {shortTitle}...
             </h2>
-            <div className="flex w-full  items-center   gap-x-10 mt-9">
-              <div className="flex items-center gap-4">
+            <div className="w-full flex items-center">
+              <div className="flex w-full  items-center   gap-x-10 mt-9">
+                {/* <div className="flex items-center gap-4"> */}
                 <div className="w-3 h-3 rounded-full bg-green-400"></div>
                 <p className="w-40 text-gray-400 text-base">Available</p>
               </div>
-              {/* <span className=" text-2xl text-gray-300">|</span> */}
-              <p className="">{chosenSize} </p>
-            </div>
-            {/* <p className="mb-24 text-lg  font-semibold text-gray-700">
-              ${price}
-            </p> */}
-            <div className="flex w-full  items-center   gap-x-10 mt-9 mb-16">
-              {/* <span className=" text-2xl text-gray-300">|</span> */}
-              <p className="text-base text-green-400 ">
-                {discount > 0 && ` - ${discountPercentage}% off`}
-              </p>
+              <div className="flex w-full  items-center   gap-x-10 mt-9 mb-16">
+                {/* <span className=" text-2xl text-gray-300">|</span> */}
+                <p className="text-base text-green-400 ">
+                  {discount > 0 && ` - ${discountPercentage}% off`}
+                </p>
+              </div>
             </div>
           </div>
           <div className="text-base flex items-center w-full  gap-10 text-lg font-base text-gray-500 font-Dosis">

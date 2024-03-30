@@ -27,7 +27,7 @@ const NewProduct: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
-
+  const [slidesPerView, setSlidesPerView] = useState(3);
   const [activePagination, setActivePagination] = useState(1);
   const [openFilter, setOpenFilter] = useState<boolean>(false);
 
@@ -65,18 +65,30 @@ const NewProduct: React.FC = () => {
     };
     fetchData();
   }, []);
-  // const handlePagination = async (page: any) => {
-  //   try {
-  //     const res = await axios.get(
-  //       `http://localhost:3000/api/product/?page=${page}`
-  //     );
-  //     console.log(res.data);
-  //     setData(res.data.cloths);
-  //     setFilteredData(res.data.cloths);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
+  useEffect(() => {
+    // Update slidesPerView based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 630) {
+        setSlidesPerView(1); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 630 && window.innerWidth < 800) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 800 && window.innerWidth < 1000) {
+        setSlidesPerView(3); // Set to 1 slide per view on small screens
+      } else {
+        setSlidesPerView(4); // Set to 3 slides per view on larger screens
+      }
+    };
+
+    // Call handleResize when the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize once to set the initial slidesPerView value
+    handleResize();
+
+    // Remove event listener when component unmounts
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <main className="w-full flex flex-col mt-16 items-center justify-start">
       {/* <ToastContainer
@@ -87,14 +99,14 @@ const NewProduct: React.FC = () => {
       /> */}
 
       <div className="w-full mb-16 mt-32  flex items-center justify-between ">
-        <h1 className="w-max text-left font-semibold font-Dosis text-3xl">
+        <h1 className="font-Dosis font-md text-2xl sm:text-3xl ml-1  mr-0.5  sm:mx-4 ">
           New & Recommended Products
         </h1>
         <button
           onClick={() => router.push("/all-products-cloths")}
-          className=" w-max hover:text-indigo-300 hover:bg-white text-sm px-4 py-1 border border-indigo-300 bg-indigo-300 text-white rounded-full mx-4 flex items-center gap-2 font-medium"
+          className="hover:text-indigo-300 hover:bg-white text-xs sm:text-sm px-4 py-1 border border-indigo-300 bg-indigo-300 text-white rounded-full sm:mx-4 mr-2 flex items-center gap-2 font-medium"
         >
-          <RiMenuSearchLine className="text-xl" />
+          <RiMenuSearchLine className="hidden sm:inline sm:text-xl" />
           See All
         </button>
       </div>
@@ -114,7 +126,7 @@ const NewProduct: React.FC = () => {
             // effect={"creative"}
             autoplay={{ delay: 5000 }}
             spaceBetween={30}
-            slidesPerView={4}
+            slidesPerView={slidesPerView}
             navigation={true}
             pagination={{ clickable: true }}
             className="w-max h-max flex  cursor-pointer  "
@@ -152,8 +164,12 @@ const NewProduct: React.FC = () => {
               )
               .map((product: any) => {
                 return (
-                  <SwiperSlide className="cursor-pointer w-max  ">
-                    <ProductCard key={product._id} product={product} />
+                  <SwiperSlide className="cursor-pointer ">
+                    <div className="w-full h-full flex justify-center items-center">
+                      <div className="">
+                        <ProductCard key={product._id} product={product} />
+                      </div>
+                    </div>
                   </SwiperSlide>
                 );
               })}

@@ -3,8 +3,8 @@ import { PiCaretCircleRightLight } from "react-icons/pi";
 
 const ForHer: React.FC = () => {
   return (
-    <main className="w-full flex items-center mt-16 gap-10">
-      <div className="flex  bg-alice-blue justify-start w-1/2 ">
+    <main className="w-full flex-col md:flex-row flex items-center mt-16 gap-10">
+      <div className="flex  bg-alice-blue justify-start w-full md:w-1/2 ">
         <div className="w-full flex flex-col gap-2 p-3">
           <h1 className="text-3xl tracking-wider font-semibold mb-2 mt-4 ">
             Men Group Order for Friends or Wedding Ceremony
@@ -34,13 +34,13 @@ const ForHer: React.FC = () => {
         </div>
         <div>
           <img
-            className="w-full h-96 object-contain"
+            className="w-40 h-96 object-contain"
             src="../men-32.png"
             alt=""
           />
         </div>
       </div>
-      <div className="flex  bg-indigo-100 justify-start w-1/2 ">
+      <div className="flex  bg-indigo-100 justify-start w-full md:w-1/2 ">
         <div className="w-full flex flex-col gap-2 p-3">
           <h1 className="text-3xl tracking-wider font-semibold mb-2 mt-4 ">
             Women Group Order for Friends or Wedding Ceremony
@@ -72,7 +72,7 @@ const ForHer: React.FC = () => {
         </div>
         <div>
           <img
-            className="w-full h-96 object-contain"
+            className="w-40 h-96 object-contain"
             src=" ../women44.png"
             alt=""
           />

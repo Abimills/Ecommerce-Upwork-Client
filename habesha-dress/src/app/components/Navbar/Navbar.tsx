@@ -59,16 +59,17 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
   };
 
   return (
-    <div className="flex   font-poppins text-base  flex-col h-max    w-full items-center ">
+    <div className="flex   font-poppins text-base  flex-col h-max bg-white md:bg-transparent w-full items-center ">
       <nav className="flex font-poppins text-base h-max min-h-16  w-full items-center justify-between  ">
         {showIcons.navigation && (
-          <div className="flex items-center w-max mr-3 gap-5 h-16   justify-center ">
+          <div className="flex items-center w-max sm:mr-3 gap-5 h-16   justify-center ">
             <GiHamburgerMenu
-              className="text-2xl  ml-3 mt-1 mr-6 cursor-pointer"
+              className="text-2xl ml-1  sm:ml-3 mt-1 sm:mr-6 cursor-pointer"
               onClick={handleClose}
             />
             <h1
-              className="font-semibold text-2xl cursor-pointer font-Dosis"
+              className="font-semibold text-2xl md:block
+               hidden cursor-pointer font-Dosis"
               onClick={() => router.push("/")}
             >
               HabeshaD
@@ -87,7 +88,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
             {showIcons.search && (
               <div
                 onClick={handleCloseSearch}
-                className="h-8  cursor-pointer w-8 flex items-center justify-center"
+                className="h-7 w-7  sm:h-8 sm:w-8 cursor-pointer w-8 flex items-center justify-center"
               >
                 <TfiSearch className="text-2xl w-full text-gray-800 cursor-pointer p-1     h-full " />
               </div>
@@ -95,7 +96,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
             {showIcons.user && (
               <div
                 onClick={handleLogin}
-                className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
+                className="h-7 w-7 sm:h-8 sm:w-8 cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
               >
                 <HiOutlineUser className="text-3xl w-full h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer " />
                 {user?.email && (
@@ -108,9 +109,9 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
             {showIcons.wishlist && (
               <div
                 onClick={() => router.push("/wishlist")}
-                className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center"
+                className=" h-7 w-7  sm:h-8 sm:w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center"
               >
-                <FaRegHeart className="text-2xl  h-full text-gray-600    cursor-pointer  " />
+                <FaRegHeart className="text-lg sm:text-2xl  h-full text-gray-600    cursor-pointer  " />
 
                 {favorites?.length > 0 && (
                   <div className="h-max w-max bg-alice-blue p-0.5 rounded-full absolute bottom-0.5 right-0.5">
@@ -120,7 +121,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
               </div>
             )}
             {showIcons.cart && (
-              <div className="mr-4 w-max h-full  flex items-center">
+              <div className="sm:mr-4 w-max h-full relative  flex items-center">
                 <div
                   onClick={() => router.push("/cart")}
                   className="h-8 w-8 relative w-8  cursor-pointer rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center "
@@ -135,7 +136,7 @@ const Navbar: React.FC<Props> = ({ showIcons }) => {
                 <span
                   className={` ${
                     cartItems?.length > 0 ? "bg-red-700" : "bg-gray-800"
-                  }  text-sm text-white px-2 cursor-pointer font-poppins rounded-full `}
+                  }  absolute left-0  sm:relative text-xs sm:text-sm text-white px-1 cursor-pointer font-poppins rounded-full `}
                 >
                   {cartItems?.length || 0}
                 </span>

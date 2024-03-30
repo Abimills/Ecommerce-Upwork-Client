@@ -57,6 +57,8 @@ interface Props {
 
 const SearchBar: React.FC<Props> = ({ showIcons }) => {
   const router = useRouter();
+  const [slidesPerView, setSlidesPerView] = useState(3); // Default number of slides per view
+
   const cartItems: any = useAppSelector((state: RootState) => state.cart.items);
   const favorites: any = useAppSelector(
     (state: RootState) => state.cart.favorites
@@ -150,18 +152,40 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
     localStorage.removeItem("habeshaSearches");
     setSearches([]);
   };
+
+  useEffect(() => {
+    // Update slidesPerView based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 720) {
+        setSlidesPerView(1); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 720 && window.innerWidth < 1000) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else {
+        setSlidesPerView(3); // Set to 3 slides per view on larger screens
+      }
+    };
+
+    // Call handleResize when the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize once to set the initial slidesPerView value
+    handleResize();
+
+    // Remove event listener when component unmounts
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
-    <main className="  overflow-x-hidden  min-h-screen z-30 bg-opacity-50  fixed top-0  bg-gray-700   w-full  ">
-      <div className="flex overflow-y-hidden overflow-x-hidden opacity-100 border-b border-gray-400  font-Dosis text-base flex-col h-max   bg-alice-blue  w-full items-center ">
+    <main className="  overflow-x-hidden  h-max z-30 bg-opacity-50  sticky top-0  bg-white   w-full  ">
+      <div className="flex  overflow-x-hidden opacity-100 border-b border-gray-400  font-Dosis text-base flex-col h-max   bg-white  w-full items-center ">
         <nav className="flex font-Dosis text-base h-max   min-h-24  w-full items-center justify-between  ">
           {showIcons.navigation && (
-            <div className="flex align-items w-max mr-3 gap-5   justify-start ">
+            <div className="flex align-items w-max mr-3 gap-5 hidden md:block   justify-start ">
               <GiHamburgerMenu
                 className="text-2xl  ml-3 mt-1 mr-6 cursor-pointer"
                 onClick={handleClose}
               />
               <h1
-                className="font-semibold text-2xl cursor-pointer font-Dosis"
+                className="font-semibold hidden  text-2xl cursor-pointer font-Dosis"
                 onClick={() => router.push("/")}
               >
                 HabeshaD
@@ -193,7 +217,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               {showIcons.search && (
                 <div
                   onClick={handleCloseSearch}
-                  className="h-8 w-8  cursor-pointer relative   flex items-center justify-center"
+                  className="h-8 w-8   cursor-pointer relative   flex items-center justify-center sm:mr-4"
                 >
                   <IoCloseSharp className="text-4xl text-gray-800 cursor-pointer    h-full " />
                 </div>
@@ -201,7 +225,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               {showIcons.user && (
                 <div
                   onClick={handleLogin}
-                  className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
+                  className="h-8 w-8 hidden   cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center"
                 >
                   <HiOutlineUser className="text-3xl  h-full text-gray-600 rounded-full bg-indigo-100 p-0.5 border border-gray-100 cursor-pointer " />
                   {user?.email && (
@@ -214,7 +238,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
               {showIcons.wishlist && (
                 <div
                   onClick={() => router.push("/wishlist")}
-                  className="h-8 w-8  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center"
+                  className="h-8 w-8  hidden  cursor-pointer relative rounded-full bg-indigo-100 border border-gray-100 w-8 flex items-center justify-center mr-2"
                 >
                   <FaRegHeart className="text-2xl  h-full text-gray-600    cursor-pointer  " />
 
@@ -226,7 +250,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                 </div>
               )}
               {showIcons.cart && (
-                <div className="mr-4 w-max h-full  flex items-center">
+                <div className="mr-4 w-max relative h-full hidden   flex items-center">
                   <div
                     onClick={() => router.push("/cart")}
                     className="h-8 w-8 relative w-8  cursor-pointer rounded-full bg-indigo-100 border border-gray-100 flex items-center justify-center "
@@ -238,7 +262,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                       </div>
                     )}
                   </div>
-                  <span className=" bg-green-500 text-sm text-white px-2 cursor-pointer font-poppins rounded-full ">
+                  <span className=" bg-green-500 absolute top-0 left-0 text-sm text-white px-2 cursor-pointer font-poppins rounded-full ">
                     {cartItems.length || 0}
                   </span>
                 </div>
@@ -246,7 +270,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
             </ul>
           </div>
         </nav>
-        <div className="w-full min-h-full mt-8 mb-8 gap-6 flex items-start  pl-56">
+        <div className="w-full min-h-full mt-8 mb-8 gap-6 flex-col md:flex-row flex items-start p-1 md:pl-56">
           <div className=" bg-gray-100 bg-opacity-25 flex flex-col justify-center   w-max h-max  transition-opacity">
             <h1 className="font-base font-Dosis text-xl w-max mb-8">
               {searches?.length > 0 ? "Latest searches" : " Search suggestions"}
@@ -311,7 +335,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                 Matches your search:{" "}
               </h1>
             )}
-            <div className="w-full flex overflow-x-hidden items-center gap-4  ">
+            <div className="w-full  flex overflow-x-hidden items-center gap-4  ">
               {loading ? (
                 <div className=" relative w-full    my-8 mt-24 flex items-center justify-center">
                   <ReactLoading
@@ -323,20 +347,24 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                 </div>
               ) : (
                 <Swiper
-                  // loop={true}
+                  loop={true}
                   // effect={"creative"}
                   autoplay={{ delay: 5000 }}
                   spaceBetween={1}
-                  slidesPerView={3}
+                  slidesPerView={slidesPerView}
                   navigation={true}
-                  className=" w-88  h-max  cursor-pointer  "
+                  className=" w-88  h-max flex items-center justify-center  cursor-pointer  "
                   modules={[Pagination, Navigation, Autoplay, EffectCreative]}
                 >
                   {data.length > 0 &&
                     data?.slice(0, 16)?.map((item: any) => {
                       return (
-                        <SwiperSlide className="  w-80 cursor-pointer   ">
-                          <SearchCard key={item._id} product={item} />
+                        <SwiperSlide className=" cursor-pointer   ">
+                          <div className="w-full h-full flex justify-center items-center">
+                            <div className="">
+                              <SearchCard key={item._id} product={item} />
+                            </div>
+                          </div>
                         </SwiperSlide>
                       );
                     })}

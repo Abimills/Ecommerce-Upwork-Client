@@ -87,12 +87,12 @@ const SearchCard: React.FC<Props> = ({ product }) => {
       </Link>
 
       <div className="px-5 pb-5">
-        <h5 className="text-sm  uppercase tracking-tight text-gray-900 mb-2 ">
+        <h5 className="text-xs   uppercase tracking-tight text-gray-900 mb-2 ">
           {title}
         </h5>
         <p
           onClick={() => router.push(`/add-products/${_id}`)}
-          className="text-2xl  text-gray-900 font-semibold relative p-1 mr-4 font-Dosis cursor-pointer"
+          className="text-lg   text-gray-900 font-semibold relative p-1 mr-4 font-Dosis cursor-pointer"
         >
           <span className=" p-0">$</span>
           {price}
