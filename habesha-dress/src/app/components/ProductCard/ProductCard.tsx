@@ -91,7 +91,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   return (
-    <div className="w-80 h-[460px] max-w-sm bg-white rounded-md border border-gray-200 relative mb-8 ">
+    <div className="w-72  sm:w-80 h-[400px]  bg-white rounded-md border border-gray-200 relative mb-8 ">
       {!isFavored ? (
         <div className="absolute m-1 rounded-full cursor-pointer hover:bg-white hover:border hover:border-gray-200 right-0 w-8 h-8  display-flex items-center justify-center bg-white">
           <IoIosHeartEmpty

@@ -6,12 +6,12 @@ interface Props {
 }
 const OrderCard: React.FC<Props> = ({ item }) => {
   return (
-    <div className="w-full h-max flex items-start p-16 border border-green-300">
-      <div className="">
+    <div className="w-full h-max flex flex-col sm:flex-row items-start px-4 py-16 sm:p-16 border border-green-300">
+      <div className="w-max">
         <img
           src={item.img}
           alt=""
-          className=" object-contain  h-56 w-56 flex items-start  rounded-lg mb-4 bg-teal-10 "
+          className=" object-contain  h-56 w-full sm:w-56 flex items-start  rounded-lg mb-4 bg-teal-10 "
         />
         <div className="w-full flex-1 h-max  items-center justify-between">
           <p className="w-max flex items-center gap-2">

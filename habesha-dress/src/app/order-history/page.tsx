@@ -26,10 +26,10 @@ const OrderUserProfile: React.FC = () => {
   const [orders, setOrders] = useState<any>([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showIcons = {
-    search: true,
+    search: false,
     user: true,
     wishlist: true,
-    cart: true,
+    cart: false,
     navigation: true,
   };
   const fetchOrder = async () => {
@@ -76,7 +76,7 @@ const OrderUserProfile: React.FC = () => {
         </div>
       ) : (
         <div className="w-full h-max ">
-          <div className="w-full h-max p-16">
+          <div className="w-full h-max px-4 py-16  sm:p-16">
             <h1 className="font-semibold font-poppins text-4xl mb-4 ">
               Order history
             </h1>
@@ -85,13 +85,13 @@ const OrderUserProfile: React.FC = () => {
               similar products.
             </p>
             <div className="w-full h-max flex rounded-t-lg  p-8 border border-green-300 items-center justify-between">
-              <span className="">
+              <span className="hidden sm:inline">
                 <p className="">Order number</p>
                 <p className="text-gray-400">
                   {orders?.orderNumber?.slice(0, 20)}......
                 </p>
               </span>
-              <span className="">
+              <span className=" hidden sm:inline">
                 <p className="">Date placed</p>
                 <p className="text-gray-400">{orders?.createdAt}</p>
               </span>

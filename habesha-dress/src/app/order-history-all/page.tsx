@@ -29,10 +29,10 @@ const OrderUserProfile: React.FC = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
   const showIcons = {
-    search: true,
+    search: false,
     user: true,
     wishlist: true,
-    cart: true,
+    cart: false,
     navigation: true,
   };
   const fetchOrder = async () => {
@@ -79,25 +79,25 @@ const OrderUserProfile: React.FC = () => {
         </div>
       ) : (
         <div className="w-full h-max ">
-          <h1 className="font-semibold font-poppins text-4xl mt-8 mb-4 px-16 ">
+          <h1 className="font-semibold font-poppins text-4xl mt-8 mb-4 px-4 py-4 sm:px-16 ">
             Order history
           </h1>
-          <p className=" text-lg text-gray-600   px-16">
+          <p className=" text-lg text-gray-600   px-4 py-4 sm:px-16">
             Check the status of recent orders, manage returns, and discover
             similar products.
           </p>
           {orders.map((order: any) => {
             return (
-              <div className="w-full h-max pb-16 px-16 my-8">
+              <div className="w-full h-max pb-16 px-4  sm:px-16 my-8">
                 <div className="w-full h-max flex rounded-t-lg  p-8 border border-green-300 items-center justify-between">
-                  <span className="">
+                  <span className="hidden sm:inline">
                     <p className="">Order number</p>
                     <p className="text-gray-400">
                       {" "}
                       {order?.orderNumber?.slice(0, 20)}......
                     </p>
                   </span>
-                  <span className="">
+                  <span className="hidden sm:inline">
                     <p className="">Date placed</p>
                     <p className="text-gray-400">{order?.createdAt}</p>
                   </span>

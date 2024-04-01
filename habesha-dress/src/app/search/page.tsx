@@ -21,6 +21,7 @@ import SearchBar from "@/app/components/Navbar/SearchBar";
 import Navbar from "@/app/components/Navbar/Navbar";
 import Notification from "../components/Notification/Notification";
 import FilterData from "../components/Filter/Filter";
+import Footer from "../components/Footer/Footer";
 const showIcons = {
   search: false,
   user: true,
@@ -153,7 +154,7 @@ const Search: React.FC = () => {
           />
         </div>
       ) : (
-        <div className="w-full flex items-center border-t border-gray-200 gap-8 px-2 py-6 justify-center flex-wrap">
+        <div className="w-full flex items-center border-t border-gray-200 gap-8 px-16 sm:px-2 py-6 justify-center flex-wrap">
           {filteredData.length > 0 ? (
             filteredData.map((item: any) => {
               return <ProductCard key={item._id} product={item} />;
@@ -174,6 +175,7 @@ const Search: React.FC = () => {
           )}
         </div>
       )}
+      <Footer />
     </main>
   );
 };

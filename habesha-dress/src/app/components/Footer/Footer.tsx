@@ -64,7 +64,7 @@ const Footer = () => {
             Cookie Notice
           </p>
         </div>
-        <div className="">
+        <div className="hidden sm:inline">
           <h1 className="text-center mt-5 mb-3 pt-5"> Recommended</h1>
 
           <p

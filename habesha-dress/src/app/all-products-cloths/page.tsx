@@ -23,10 +23,10 @@ import { ToastContainer, toast } from "react-toastify";
 // }
 const showIcons = {
   search: true,
-  user: true,
+  user: false,
   wishlist: true,
   cart: true,
-          navigation: true,
+  navigation: true,
 };
 const AllProducts: React.FC = () => {
   // const products = useSelector((state: any) => state.data);
@@ -120,65 +120,69 @@ const AllProducts: React.FC = () => {
           setData={setFilteredData}
         />
       )}
-      <div className="">
-        <Filtering
-          data={data}
-          setData={setFilteredData}
-          open={openFilter}
-          setOpen={setOpenFilter}
-        />
-      </div>
-
-      <div className="w-full px-32 border-b border-gray-300  flex items-center mt-8 mb-16 gap-16 justify-center flex-wrap">
-        {filteredData.length > 0 ? (
-          filteredData?.map((item: any) => {
-            return <ProductCard key={item._id} product={item} />;
-          })
-        ) : (
-          <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
-            <ReactLoading
-              type={"spinningBubbles"}
-              color={"#2d7e23"}
-              height={64}
-              width={64}
-            />
-          </div>
-        )}
-      </div>
-      <div className="w-full flex flex-col  items-center justify-center">
-        <div className="">
-          <p className=" text-sm mb-4 text-gray-400">
-            showing <span className="">{filteredData?.length}</span> out of{" "}
-            <span className="">{totalCloths}</span> results
-          </p>
-        </div>
-        <div className="mb-8 w-96 h-0.5 bg-gray-200 rounded-full">
-          <div
-            className={`w-${paginationNumber} h-0.5 bg-black rounded-full`}
-          ></div>
+      <div className="w-full flex items-start flex-col sm:flex-row  ">
+        <div className=" w-full sm:w-max ">
+          <Filtering
+            data={data}
+            setData={setFilteredData}
+            open={openFilter}
+            setOpen={setOpenFilter}
+          />
         </div>
 
-        <button
-          onClick={handleMultiplyPagination}
-          className="px-24 py-2  mb-24 text-xs font-medium border border-gray-600 rounded-full text-center"
-        >
-          {loading ? (
-            <span className="w-full h-full  flex items-center  justify-center">
-              <ReactLoading
-                type={"bubbles"}
-                color={"#000"}
-                height={25}
-                width={75}
-                className="relative bottom-6"
-              />
-            </span>
+        <div className="w-full  flex items-center mt-8 mb-16 gap-16 justify-center flex-wrap">
+          {filteredData.length > 0 ? (
+            filteredData?.map((item: any) => {
+              return <ProductCard key={item._id} product={item} />;
+            })
           ) : (
-            <span className="w-full flex items-center justify-center">
-              Show more
-            </span>
+            <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
+              <ReactLoading
+                type={"spinningBubbles"}
+                color={"#2d7e23"}
+                height={64}
+                width={64}
+              />
+            </div>
           )}
-        </button>
+
+          <div className="w-full flex flex-col   justify-center">
+            <div className="">
+              <p className=" text-sm mb-4 text-gray-400">
+                showing <span className="">{filteredData?.length}</span> out of{" "}
+                <span className="">{totalCloths}</span> results
+              </p>
+            </div>
+            <div className="mb-8 w-full sm:w-96 h-0.5 bg-gray-200 rounded-full">
+              <div
+                className={`w-${paginationNumber} h-0.5 bg-black rounded-full`}
+              ></div>
+            </div>
+
+            <button
+              onClick={handleMultiplyPagination}
+              className="w-72 px-24 py-2  mb-24 text-xs font-medium border border-gray-600 rounded-full text-center"
+            >
+              {loading ? (
+                <span className="w-full h-full  flex items-center  justify-center">
+                  <ReactLoading
+                    type={"bubbles"}
+                    color={"#000"}
+                    height={25}
+                    width={75}
+                    className="relative bottom-6"
+                  />
+                </span>
+              ) : (
+                <span className="w-full flex items-center justify-center">
+                  Show more &#8594;
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
+
       {/* pagination */}
       {/* <div className="flex items-center justify-between border-t border-gray-200 bg-alice-blue  mt-8 px-4 py-3 sm:px-6">
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">

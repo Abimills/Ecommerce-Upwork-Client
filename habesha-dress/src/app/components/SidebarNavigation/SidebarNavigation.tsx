@@ -137,7 +137,7 @@ const SidebarNavigation: React.FC = () => {
                 </span> */}
               </button>
             </li>
-            <li>
+            {/* <li>
               <a
                 href="#"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -156,7 +156,7 @@ const SidebarNavigation: React.FC = () => {
                   0
                 </span>
               </a>
-            </li>
+            </li> */}
             <li>
               <button
                 onClick={handleNewsletter}
@@ -168,7 +168,7 @@ const SidebarNavigation: React.FC = () => {
                 <span className=" ms-3 whitespace-nowrap">Newsletter</span>
               </button>
             </li>
-            <li>
+            {/* <li>
               <button
                 onClick={handleRecommendForYou}
                 type="button"
@@ -180,7 +180,7 @@ const SidebarNavigation: React.FC = () => {
                   Recommended for you
                 </span>
               </button>
-            </li>
+            </li> */}
             <li>
               <button
                 onClick={() => router.push("/contact")}

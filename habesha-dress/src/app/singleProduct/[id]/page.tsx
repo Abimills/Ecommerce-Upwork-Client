@@ -31,6 +31,7 @@ import Footer from "../../components/Footer/Footer";
 import Notification from "@/app/components/Notification/Notification";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
+import ProductCard from "@/app/components/ProductCard/ProductCard";
 
 // interface DataType {
 //   title: string;
@@ -48,6 +49,7 @@ import { ToastContainer, toast } from "react-toastify";
 const SingleProduct: React.FC = () => {
   const favorites = useSelector((state: any) => state.cart.favorites);
   const dispatch = useAppDispatch();
+  const [slidesPerView, setSlidesPerView] = useState(3);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const param = useParams<{ id: string }>();
@@ -119,7 +121,7 @@ const SingleProduct: React.FC = () => {
   };
   const showIcons = {
     search: true,
-    user: true,
+    user: false,
     wishlist: true,
     cart: true,
     navigation: true,
@@ -131,6 +133,29 @@ const SingleProduct: React.FC = () => {
 
   const [originalWholePart, originalDecimalPart] =
     originalPriceString.split(".");
+  useEffect(() => {
+    // Update slidesPerView based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 630) {
+        setSlidesPerView(1); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 630 && window.innerWidth < 800) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 800 && window.innerWidth < 1000) {
+        setSlidesPerView(3); // Set to 1 slide per view on small screens
+      } else {
+        setSlidesPerView(4); // Set to 3 slides per view on larger screens
+      }
+    };
+
+    // Call handleResize when the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize once to set the initial slidesPerView value
+    handleResize();
+
+    // Remove event listener when component unmounts
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div className="bg-white relative w-full h-full font-Dosis font-semibold">
       <div className=" mb-8 border border-gray-200 border-2">
@@ -163,7 +188,7 @@ const SingleProduct: React.FC = () => {
             <div className="md:flex-1 px-4">
               <div className="h-[560px] rounded-lg  mb-4">
                 <img
-                  className="w-full hover:bg-yellow-300 h-full object-contain bg-indigo-100 border border-gray-100 rounded-full overflow-hidden transition-opacity duration-800 "
+                  className="w-full hover:bg-yellow-300 h-full object-contain bg-indigo-100 border border-gray-100 rounded-lg overflow-hidden transition-opacity duration-800 "
                   src={data?.img}
                   alt="Product Image"
                 />
@@ -211,12 +236,12 @@ const SingleProduct: React.FC = () => {
                 </p>
               </div>
 
-              <div className="w-full flex items-center justify-between mb-8 mt-4 ">
-                <div className=" w-full flex items-center gap-4">
+              <div className="w-full flex flex-wrap  items-center justify-between mb-8 mt-4 ">
+                <div className="  w-full flex items-center gap-4">
                   <div className="w-3 h-3 rounded-full bg-green-400"></div>
                   <p className="w-40 text-gray-300">Available</p>
                 </div>
-                <ul className="my-1 flex gap-1 mb-4">
+                <ul className="w-max my-1 flex gap-1 mb-4">
                   {Array(data?.rating)
                     .fill("")
                     .map((_, index) => (
@@ -235,7 +260,7 @@ const SingleProduct: React.FC = () => {
                 </ul>
               </div>
               <div className="mb-12 w-full flex items-center  justify-between">
-                <h1 className="font-bold text-gray-700 dark:text-gray-300">
+                {/* <h1 className="font-bold text-gray-700 dark:text-gray-300">
                   Size:
                 </h1>
 
@@ -257,25 +282,33 @@ const SingleProduct: React.FC = () => {
                       </button>
                     );
                   })}
-                </div>
-                <div className="w-1/2 px-2">
+                </div> */}
+                <div className="w-full flex justify-end px-2">
                   <button
                     onClick={() => handleBuy(data)}
-                    className="w-full flex items-center justify-center gap-3 bg-gray-700 text-white  py-2 px-4 rounded-full font-bold "
+                    className="w-full sm:w-1/2 flex items-center justify-center gap-3 bg-red-300 text-white  py-2 px-4 rounded-full font-bold "
                   >
-                    Your body size
+                    &#8594; Your body size
                     <GiBodyHeight className="text-white tex-2xl" />
                   </button>
                 </div>
               </div>
               <div className="flex w-full -mx-2 mb-4">
-                <div className="w-full px-2">
+                <div className="w-2/3 sm:w-1/2 flex px-2">
                   <button
                     onClick={() => handleAddToCart(data)}
-                    className="w-full flex items-center gap-6 justify-center bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700"
+                    className=" text-sm sm:text-base w-full flex items-center gap-6 justify-center bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-lg  font-bold hover:bg-white hover:text-black border-2 border-gray-700  "
                   >
                     Add to Cart
-                    <GiShoppingBag className="text-white" />
+                    <GiShoppingBag className="  text-white" />
+                  </button>
+                </div>
+                <div className="w-1/3 sm:w-1/2 px-2">
+                  <button
+                    onClick={() => handleBuy(data)}
+                    className="text-sm sm:text-base w-full flex items-center justify-center  hover:text-white hover:bg-gray-800  gap-3 bg-white text-black border-2 border-gray-700  py-2 px-4 rounded-lg  font-bold "
+                  >
+                    Buy now
                   </button>
                 </div>
               </div>
@@ -298,14 +331,25 @@ const SingleProduct: React.FC = () => {
           </h1>
           <main className="flex  w-full p-5 shadow-lg items-center justify-between">
             <Swiper
-              loop={true}
+              // loop={true}
               // effect={"creative"}
               autoplay={{ delay: 5000 }}
               spaceBetween={30}
-              slidesPerView={4}
-              // navigation={true}
-              // pagination={{ clickable: true }}
-              className="w-max h-max flex  cursor-pointer  "
+              slidesPerView={slidesPerView}
+              navigation={true}
+              pagination={{ clickable: true }}
+              className="w-max h-max flex   cursor-pointer  "
+              // onSlideChange={() => console.log("slide change")}
+              onSlideChange={(swiper) => {
+                swiper.navigation.nextEl.className = ` ${
+                  swiper.isEnd ? "hidden" : "swiper-button-next bg-white"
+                } 
+              
+              `;
+                swiper.navigation.prevEl.className = `${
+                  swiper.isBeginning ? "" : "swiper-button-prev bg-white"
+                } `;
+              }}
               // onSlideChange={() => console.log("slide change")}
               // onSwiper={(swiper) => console.log(swiper)}
               modules={[Pagination, Navigation, Autoplay, EffectCreative]}
@@ -316,7 +360,11 @@ const SingleProduct: React.FC = () => {
                     className="cursor-pointer w-max min-w-2/3  "
                     key={product._id}
                   >
-                    <InspirationCard product={product} />
+                    <div className="w-full h-full flex justify-center items-center">
+                      <div className="">
+                        <ProductCard key={product._id} product={product} />
+                      </div>
+                    </div>
                   </SwiperSlide>
                 );
               })}

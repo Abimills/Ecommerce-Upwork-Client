@@ -9,17 +9,17 @@ import { MdFilterListAlt } from "react-icons/md";
 const sortProducts = [
   {
     id: 1,
-    value: "Price(low to high)",
+    value: "cheapest to expensive",
     checked: true,
     typeFilter: "ascending",
   },
   {
     id: 2,
-    value: "Price(high to low)",
+    value: "expensive to cheapest",
     checked: false,
     typeFilter: "descending",
   },
-  { id: 4, value: "Newest", checked: false, typeFilter: "time" },
+  { id: 4, value: "latest", checked: false, typeFilter: "time" },
   { id: 5, value: "Best Rating", checked: false, typeFilter: "rating" },
 ];
 const genderFilter = [
@@ -218,214 +218,49 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
       //   openSize && setOpenSize(false);
       //   openOccasion && setOpenOccasion(false);
       // }}
-      className="w-full bg-white h-max p-16 px-40 z-4"
+      className="w-full  h-max p-6 z-4"
     >
-      <div className="w-full p-8 h-max border-b border-gray-300 px-16 shadow-sm">
-        <div className="w-full h-max flex items-center justify-center gap-16  ">
-          <div className="relative w-max">
-            <div
-              onClick={() => setOpenSort(!openSort)}
-              className=" cursor-pointer  w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center"
-            >
-              <h1 className="font-medium text-sm">Sort</h1>
-              {openSort ? (
-                <MdKeyboardArrowUp className="text-3xl text-gray-500 border border-gray-200 " />
-              ) : (
-                <MdKeyboardArrowDown className="text-3xl text-gray-500 border border-gray-200 " />
-              )}
-            </div>
-            {openSort && (
-              <div className=" fixed z-10 bg-white w-96 h-max my-6 p-8 shadow-lg border border-gray-200   rounded-lg ">
-                {sortProducts.map((sort: any) => {
-                  return (
-                    <div
-                      key={sort.id}
-                      className=" w-full h-max flex items-center my-8 justify-between"
-                    >
-                      <label className="">{sort.value}</label>
-                      <input
-                        type="radio"
-                        onClick={() => handleSort(sort.typeFilter)}
-                        defaultChecked={sort.checked}
-                        name="sort"
-                        className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
-                      />
-                    </div>
-                  );
-                })}
+      <div className="w-full  h-max ">
+        <div className="w-full h-max flex flex-col  gap-6  ">
+          <div className="w-full sm:w-64 h-max flex flex-wrap  items-center gap-6 ">
+            {sizes?.map((size: any, id: number) => {
+              return (
+                <div
+                  key={id + size}
+                  onClick={() => handleSizes(size)}
+                  className=" cursor-pointer hover:line-through w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4  px-3 py-3 rounded-full flex items-center justify-center"
+                >
+                  <MdOutlineClose className="text-base text-gray-500  " />
+                  <h1 className="font-medium text-sm ">{size}</h1>
+                </div>
+              );
+            })}
+            {occasion?.map((singleOccasion: any, id: number) => {
+              return (
+                <div
+                  key={id + singleOccasion}
+                  onClick={() => handleOccasions(singleOccasion)}
+                  className=" cursor-pointer hover:line-through w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 p-1 px-3 py-3 rounded-full flex items-center justify-center"
+                >
+                  <MdOutlineClose className="text-base  text-gray-500  " />
+                  <h1 className="font-medium text-sm ">{singleOccasion}</h1>
+                </div>
+              );
+            })}
+            {gender && (
+              <div
+                onClick={() => {
+                  setData(data);
+                  setGender("");
+                }}
+                className=" cursor-pointer hover:line-through w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 px-3 py-3 rounded-full flex items-center justify-center"
+              >
+                <MdOutlineClose className="text-3xl text-gray-500  " />
+                <h1 className="font-medium text-sm ">{gender}</h1>
               </div>
             )}
-          </div>
-          <div className="relative w-max  ">
-            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4 px-4 py-4 rounded-sm flex items-center justify-center">
-              <h1 className="font-medium text-sm">Size</h1>
-              {openSize ? (
-                <MdKeyboardArrowUp
-                  onClick={() => setOpenSize(!openSize)}
-                  className="text-3xl text-gray-500 border border-gray-200 "
-                />
-              ) : (
-                <MdKeyboardArrowDown
-                  onClick={() => setOpenSize(!openSize)}
-                  className="text-3xl text-gray-500 border border-gray-200 "
-                />
-              )}
-            </div>
-            {openSize && (
-              <div className=" fixed z-10 bg-white overflow-y-scroll  w-96 h-max my-6 p-8 shadow-lg border border-gray-200   rounded-lg ">
-                {sizeFilter.map((size: any) => {
-                  return (
-                    <div
-                      key={size.id}
-                      className=" w-full h-max flex items-center my-8 justify-between"
-                    >
-                      <label className="">{size.value}</label>
-                      <input
-                        type="checkbox"
-                        onClick={() => handleSizes(size.value)}
-                        checked={sizes.find(
-                          (sizeExist) => sizeExist == size.value
-                        )}
-                        name="size"
-                        className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            <div className="w-full h-full absolute"></div>
-          </div>
-          <div className="relative w-max">
-            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center">
-              <h1 className="font-medium text-sm">Gender & Age</h1>
-              {openGender ? (
-                <MdKeyboardArrowUp
-                  onClick={() => setOpenGender(!openGender)}
-                  className="text-3xl text-gray-500 border border-gray-200 "
-                />
-              ) : (
-                <MdKeyboardArrowDown
-                  onClick={() => setOpenGender(!openGender)}
-                  className="text-3xl text-gray-500 border border-gray-200 "
-                />
-              )}
-            </div>
-            {openGender && (
-              <div className=" fixed z-10 bg-white  w-96 h-max my-6 p-8 shadow-lg border border-gray-200   rounded-lg ">
-                {genderFilter.map((filter: any) => {
-                  return (
-                    <div
-                      onClick={() => handleGenderFilter(filter.value)}
-                      key={filter.id}
-                      className=" w-full h-max flex items-center my-8 justify-between"
-                    >
-                      <label className="">{filter.value}</label>
-                      <input
-                        type="radio"
-                        onChange={() => setGender(filter.value)}
-                        checked={gender == filter.value}
-                        name="gender"
-                        className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-          <div className="relative w-max">
-            <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center">
-              <h1 className="font-medium text-sm">Occasions</h1>
-              {openOccasion ? (
-                <MdKeyboardArrowUp
-                  onClick={() => setOpenOccasion(!openOccasion)}
-                  className="text-3xl text-gray-500 border border-gray-200 "
-                />
-              ) : (
-                <MdKeyboardArrowDown
-                  onClick={() => setOpenOccasion(!openOccasion)}
-                  className="text-3xl text-gray-500 border border-gray-200 "
-                />
-              )}
-            </div>
-            {openOccasion && (
-              <div className=" fixed z-10 bg-white  w-96 h-max my-6 p-8 shadow-lg border border-gray-200   rounded-lg ">
-                {OccasionsFilter.map((filter: any) => {
-                  return (
-                    <div
-                      key={filter.id}
-                      onClick={() => handleOccasions(filter.value)}
-                      className=" w-full h-max flex items-center my-8 justify-between"
-                    >
-                      <label className="">{filter.value}</label>
-                      <input
-                        type="checkbox"
-                        onChange={() => handleOccasions(filter.value)}
-                        checked={
-                          occasion.find((occ: any) => occ == filter.value)
-                            ? true
-                            : false
-                        }
-                        name="occasion"
-                        className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
 
-          <div
-            onClick={() => setOpen(!open)}
-            className="w-max cursor-pointer h-2 border border-indigo-300 bg-indigo-100 gap-4 p-1  px-4 py-4 rounded-full flex items-center justify-center"
-          >
-            <h1 className="font-medium text-sm">All Filters</h1>
-            <MdFilterListAlt className="text-xl text-gray-500 border border-gray-200 " />
-          </div>
-        </div>
-        <div className=" w-full h-full flex items-center"></div>
-      </div>
-      <div className="w-full h-max flex items-center gap-6 my-6">
-        {sizes?.map((size: any, id: number) => {
-          return (
-            <div
-              key={id + size}
-              onClick={() => handleSizes(size)}
-              className=" cursor-pointer hover:line-through w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 p-1 px-6 py-6 rounded-full flex items-center justify-center"
-            >
-              <MdOutlineClose className="text-3xl text-gray-500  " />
-              <h1 className="font-medium text-sm ">{size}</h1>
-            </div>
-          );
-        })}
-        {occasion?.map((singleOccasion: any, id: number) => {
-          return (
-            <div
-              key={id + singleOccasion}
-              onClick={() => handleOccasions(singleOccasion)}
-              className=" cursor-pointer hover:line-through w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 p-1 px-6 py-6 rounded-full flex items-center justify-center"
-            >
-              <MdOutlineClose className="text-3xl text-gray-500  " />
-              <h1 className="font-medium text-sm ">{singleOccasion}</h1>
-            </div>
-          );
-        })}
-        {gender && (
-          <div
-            onClick={() => {
-              setData(data);
-              setGender("");
-            }}
-            className=" cursor-pointer hover:line-through w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 p-1 px-6 py-6 rounded-full flex items-center justify-center"
-          >
-            <MdOutlineClose className="text-3xl text-gray-500  " />
-            <h1 className="font-medium text-sm ">{gender}</h1>
-          </div>
-        )}
-
-        {/* <div className=" w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 p-1 px-6 py-6 rounded-full flex items-center justify-center">
+            {/* <div className=" w-max h-2 border border-indigo-300 hover:bg-red-100 gap-4 p-1 px-6 py-6 rounded-full flex items-center justify-center">
           <MdOutlineClose
             onClick={() => setOpenSize(!openSize)}
             className="text-3xl text-gray-500  "
@@ -439,6 +274,175 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
           />
           <h1 className="font-medium text-sm ">women</h1>
         </div> */}
+          </div>
+          <div className="relative w-full">
+            <h1 className="font-semibold text-lg">Filter Gender/Age</h1>
+            {/* <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center">
+              <h1 className="font-medium text-sm">Gender & Age</h1>
+              {openGender ? (
+                <MdKeyboardArrowUp
+                  onClick={() => setOpenGender(!openGender)}
+                  className="text-3xl text-gray-500 border border-gray-200 "
+                />
+              ) : (
+                <MdKeyboardArrowDown
+                  onClick={() => setOpenGender(!openGender)}
+                  className="text-3xl text-gray-500 border border-gray-200 "
+                />
+              )}
+            </div> */}
+            {/* {openGender && ( */}
+            <div className="bg-white w-full  sm:w-64 h-max  p-4 my-6 border-b border-gray-300 ">
+              {genderFilter.map((filter: any) => {
+                return (
+                  <div
+                    onClick={() => handleGenderFilter(filter.value)}
+                    key={filter.id}
+                    className=" w-full h-max flex items-center my-2 gap-4"
+                  >
+                    <input
+                      type="radio"
+                      onChange={() => setGender(filter.value)}
+                      checked={gender == filter.value}
+                      name="gender"
+                      className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
+                    />
+                    <label className="">{filter.value}</label>
+                  </div>
+                );
+              })}
+            </div>
+            {/* // )} */}
+          </div>
+          <div className=" hidden sm:inline relative w-max">
+            <h1 className="font-semibold text-lg">Filter Occasion</h1>
+            {/* <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center">
+              <h1 className="font-medium text-sm">Occasions</h1>
+              {openOccasion ? (
+                <MdKeyboardArrowUp
+                  onClick={() => setOpenOccasion(!openOccasion)}
+                  className="text-3xl text-gray-500 border border-gray-200 "
+                />
+              ) : (
+                <MdKeyboardArrowDown
+                  onClick={() => setOpenOccasion(!openOccasion)}
+                  className="text-3xl text-gray-500 border border-gray-200 "
+                />
+              )}
+            </div> */}
+            {/* {openOccasion && ( */}
+            <div className="  bg-white  w-64 h-max  p-4 border-b border-b-gray-300 ">
+              {OccasionsFilter.map((filter: any) => {
+                return (
+                  <div
+                    key={filter.id}
+                    onClick={() => handleOccasions(filter.value)}
+                    className=" w-full h-max flex items-center my-8 gap-4"
+                  >
+                    <input
+                      type="checkbox"
+                      onChange={() => handleOccasions(filter.value)}
+                      checked={
+                        occasion.find((occ: any) => occ == filter.value)
+                          ? true
+                          : false
+                      }
+                      name="occasion"
+                      className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
+                    />
+                    <label className="">{filter.value}</label>
+                  </div>
+                );
+              })}
+            </div>
+            {/* // )} */}
+          </div>
+          <div className=" hidden sm:inline relative w-max">
+            <h1 className="font-semibold text-lg">Sort by</h1>
+            {/* <div
+              onClick={() => setOpenSort(!openSort)}
+              className=" cursor-pointer  w-max h-2 border border-indigo-300 bg-indigo-100 gap-4  px-4 py-4 rounded-sm flex items-center justify-center"
+            >
+              <h1 className="font-medium text-sm">Sort</h1>
+              {openSort ? (
+                <MdKeyboardArrowUp className="text-3xl text-gray-500 border border-gray-200 " />
+              ) : (
+                <MdKeyboardArrowDown className="text-3xl text-gray-500 border border-gray-200 " />
+              )}
+            </div>
+            {openSort && ( */}
+            <div className="  bg-white w-64 h-max border-b border-b-gray-300  p-4 ">
+              {sortProducts.map((sort: any) => {
+                return (
+                  <div
+                    key={sort.id}
+                    className=" w-full h-max flex items-center my-6 gap-4"
+                  >
+                    <input
+                      type="radio"
+                      onClick={() => handleSort(sort.typeFilter)}
+                      defaultChecked={sort.checked}
+                      name="sort"
+                      className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
+                    />
+                    <label className="">{sort.value}</label>
+                  </div>
+                );
+              })}
+            </div>
+            {/* // )} */}
+          </div>
+          <div className="hidden sm:inline relative w-max  ">
+            <h1 className="font-semibold text-lg">Filter Size</h1>
+            {/* <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4 px-4 py-4 rounded-sm flex items-center justify-center">
+              <h1 className="font-medium text-sm">Size</h1>
+              {openSize ? (
+                <MdKeyboardArrowUp
+                  onClick={() => setOpenSize(!openSize)}
+                  className="text-3xl text-gray-500 border border-gray-200 "
+                />
+              ) : (
+                <MdKeyboardArrowDown
+                  onClick={() => setOpenSize(!openSize)}
+                  className="text-3xl text-gray-500 border border-gray-200 "
+                />
+              )}
+            </div> */}
+            {/* {openSize && ( */}
+            <div className="  bg-white border-b border-b-gray-300   w-64 h-max  px-4 ">
+              {sizeFilter.map((size: any) => {
+                return (
+                  <div
+                    key={size.id}
+                    className=" w-full h-max flex items-center my-8 gap-4"
+                  >
+                    <input
+                      type="checkbox"
+                      onClick={() => handleSizes(size.value)}
+                      checked={sizes.find(
+                        (sizeExist) => sizeExist == size.value
+                      )}
+                      name="size"
+                      className="w-5 h-5 border border-gray-400 checked:bg-green-500 focus:ring-green-500 hover:bg-green-500 checked:text-green-500"
+                    />
+                    <label className="">{size.value}</label>
+                  </div>
+                );
+              })}
+            </div>
+            {/* // )} */}
+            <div className="w-full h-full absolute"></div>
+          </div>
+
+          {/* <div
+            onClick={() => setOpen(!open)}
+            className="w-max cursor-pointer h-2 border border-indigo-300 bg-indigo-100 gap-4 p-1  px-4 py-4 rounded-full flex items-center justify-center"
+          >
+            <h1 className="font-medium text-sm">All Filters</h1>
+            <MdFilterListAlt className="text-xl text-gray-500 border border-gray-200 " />
+          </div> */}
+        </div>
+        <div className=" w-full h-full flex items-center"></div>
       </div>
     </div>
   );

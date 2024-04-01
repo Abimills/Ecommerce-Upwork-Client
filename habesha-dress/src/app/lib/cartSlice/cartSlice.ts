@@ -116,7 +116,7 @@ export const cartSlice = createSlice({
         (item: any) => item.id === action.payload.id
       );
       if (itemExist) {
-        itemExist.quantity = action.payload.quantity;
+        itemExist.quantity = action.payload.newQuantity;
         localStorage.setItem("cart", JSON.stringify(state.items));
       } else if (!itemExist) {
         toast.error("item does not exist, thus you can not add quantity");

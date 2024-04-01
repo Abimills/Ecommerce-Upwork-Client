@@ -116,7 +116,7 @@ const Cart: React.FC = () => {
       <div className="w-full flex-col   lg:flex-row flex mb-24 font-Dosis  justify-between min-h-screen p-5 gap-8 bg-white">
         {/* left side cart */}
         {cartItems?.length > 0 ? (
-          <div className=" w-full md:w-2/3 ">
+          <div className=" w-full lg:w-2/3 ">
             {/* <h1 className=" text-4xl  px-2 leading-7 font-poppins w-full  r mb-5 flex justify-start gap-2  text-gray-600   font-semibold ">
               <FaShoppingBag className=" text-2xl" />
               <span className="">Cart </span>
@@ -169,7 +169,7 @@ const Cart: React.FC = () => {
           </div>
         )}
         {/* right side cart  */}
-        <div className=" w-full lg:w-1/3 bg-indigo-100  font-Dosis text-base mt-8  p-8 h-max rounded-lg shadow-lg">
+        <div className=" w-full lg:w-1/3 bg-indigo-100  font-Dosis text-base mt-8 p-2  sm:p-8 h-max rounded-lg shadow-lg">
           <h1 className="text-xl font-medium mb-7 ">Order summary</h1>
           <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">Subtotal</p>

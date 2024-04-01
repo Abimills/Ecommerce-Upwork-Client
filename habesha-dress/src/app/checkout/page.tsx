@@ -307,7 +307,7 @@ const Cart: React.FC = () => {
       font-poppins  min-h-screen  bg-white"
     >
       <ToastContainer />
-      <div className="w-1/2 ">
+      <div className=" w-full px-2 lg:px-0 lg:w-1/2 ">
         {/* <div className="w-full mb-8">
           <div className="w-full flex gap-16 items-center py-4  px-16 border-2 rounded-sm border-gray-500">
             <IoHome className="text-2xl " />
@@ -332,7 +332,7 @@ const Cart: React.FC = () => {
           </h1>
           <div className="w-full mb-8">
             <div className="w-full">
-              <div className="w-full flex items-center pr-2 justify-between border border-gray-300">
+              <div className="w-full flex items-center sm:pr-2 justify-between border border-gray-300">
                 <input
                   onChange={(e) => handleInput(e)}
                   name="email"
@@ -356,9 +356,9 @@ const Cart: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="w-full flex gap-4 items-center mb-4">
-            <div className="w-1/2">
-              <div className="w-full flex items-center pr-2 justify-between border border-gray-300">
+          <div className="w-full flex flex-wrap sm:flex-nowrap gap-4 items-center mb-4">
+            <div className="w-full sm:w-1/2">
+              <div className="w-full flex items-center sm:pr-2 justify-between border border-gray-300">
                 <input
                   type="text"
                   onChange={(e) => handleInput(e)}
@@ -380,8 +380,8 @@ const Cart: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="w-1/2">
-              <div className="w-full flex items-center pr-2 justify-between border border-gray-300">
+            <div className="w-full sm:w-1/2">
+              <div className="w-full flex items-center sm:pr-2 justify-between border border-gray-300">
                 <input
                   type="text"
                   required
@@ -407,9 +407,9 @@ const Cart: React.FC = () => {
           </div>
 
           {/* <h1 className="">Home Address</h1> */}
-          <div className=" w-full relative flex gap-4 items-center mb-6 ">
-            <div className="w-2/3 ">
-              <div className="w-full flex items-center pr-2 justify-between border border-gray-300">
+          <div className=" w-full relative flex-wrap sm:flex-nowrap flex gap-4 items-center mb-6 ">
+            <div className="w-full sm:w-2/3 ">
+              <div className="w-full flex items-center sm:pr-2 justify-between border border-gray-300">
                 <input
                   type="text"
                   required
@@ -430,14 +430,16 @@ const Cart: React.FC = () => {
                   <BiError /> Enter your Street address
                 </div>
               )}
-              <div className={`w-max  absolute h-max px-8 pt-2 bg-white z-10 `}>
+              <div
+                className={`w-full md:w-max  absolute h-max px-8 pt-2 bg-white z-20 `}
+              >
                 {searchResult?.length > 0 &&
                   searching &&
                   searchResult?.map((result: any) => {
                     return (
                       <div
                         onClick={() => handleStreet(result.formatted)}
-                        className="my-2 cursor-pointer hover:text-green-400"
+                        className="my-2 text-sm md:text-base cursor-pointer hover:text-green-400"
                       >
                         {result.formatted}
                       </div>
@@ -445,7 +447,7 @@ const Cart: React.FC = () => {
                   })}
               </div>
             </div>
-            <div className="w-1/3">
+            <div className="w-full sm:w-1/3">
               <div className="w-full flex items-center  justify-between border border-gray-300">
                 <input
                   type="text"
@@ -481,8 +483,8 @@ const Cart: React.FC = () => {
               placeholder="extra address Information (Optional)"
             />
           </div> */}
-          <div className="w-full relative flex gap-4 items-center mb-6">
-            <div className="w-1/2">
+          <div className="w-full relative flex-wrap sm:flex-nowrap flex gap-4 items-center mb-6">
+            <div className="w-full sm:w-1/2">
               <div className="w-full flex items-center  justify-between border border-gray-300">
                 <input
                   type="text"
@@ -505,7 +507,9 @@ const Cart: React.FC = () => {
                   <BiError /> Enter your Postal code
                 </div>
               )}
-              <div className={`w-max  absolute h-max px-4 pt-2 bg-white z-1 `}>
+              <div
+                className={`w-full md:w-max  absolute h-max px-4 pt-2 bg-white z-10 `}
+              >
                 {searchResultPostCode?.length > 0 &&
                   searchingPostCode &&
                   searchResultPostCode?.map((result: any) => {
@@ -520,7 +524,7 @@ const Cart: React.FC = () => {
                   })}
               </div>
             </div>
-            <div className="w-1/2">
+            <div className="w-full sm:w-1/2">
               <div className="w-full flex items-center  justify-between border border-gray-300">
                 <input
                   type="text"
@@ -543,7 +547,9 @@ const Cart: React.FC = () => {
                   <BiError /> Enter your city and/or country
                 </div>
               )}
-              <div className={`w-max  absolute h-max px-4 pt-2 bg-white z-1 `}>
+              <div
+                className={`w-full sm:w-max  absolute h-max px-4 pt-2 bg-white z-1 `}
+              >
                 {searchResultCity?.length > 0 &&
                   searchingCity &&
                   searchResultCity?.map((result: any) => {
@@ -589,7 +595,7 @@ const Cart: React.FC = () => {
             <button
               type="submit"
               className="w-full py-4 bg-gray-800 hover:bg-gray-600
-            font-semibold text-xl text-white rounded-lg"
+            font-semibold text-lg sm:text-xl text-white rounded-lg"
             >
               Checkout
             </button>
