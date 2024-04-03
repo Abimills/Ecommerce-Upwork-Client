@@ -22,6 +22,7 @@ export interface CartState {
   showSearch: boolean;
   showFilter: boolean;
   showSidebar: boolean;
+  showBodySize: boolean;
   showNewsletter: boolean;
   showNotification: boolean;
 }
@@ -57,6 +58,7 @@ const initialState: CartState = {
   showNewsletter: false,
   showSearch: false,
   showSidebar: false,
+  showBodySize: false,
   showFilter: false,
   showNotification: false,
 };
@@ -91,6 +93,9 @@ export const cartSlice = createSlice({
 
     toggleShowSignIn: (state) => {
       state.showSignIn = !state.showSignIn;
+    },
+    toggleShowBodySize: (state) => {
+      state.showBodySize = !state.showBodySize;
     },
     toggleShowNotification: (state, action: PayloadAction<boolean>) => {
       if (action?.payload) {
@@ -167,6 +172,7 @@ export const {
   toggleShowNewsletter,
   toggleShowNotification,
   removeFromCart,
+  toggleShowBodySize,
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

@@ -44,7 +44,6 @@ const Products: React.FC = () => {
         );
 
         if (res.data.totalPages) {
-          console.log(res.data);
           setTotalPages(res.data.totalPages);
           setData(res.data.cloths);
           setFilteredData(res.data.cloths);
@@ -157,10 +156,10 @@ const Products: React.FC = () => {
                 ?.filter((cloth: any) => cloth.category?.includes("Popular"))
                 .map((item: any) => {
                   return (
-                    <SwiperSlide className="cursor-pointer   ">
+                    <SwiperSlide className="cursor-pointer   " key={item._id}>
                       <div className="w-full h-full flex justify-center items-center">
                         <div className="">
-                          <ProductCard key={item._id} product={item} />
+                          <ProductCard product={item} />
                         </div>
                       </div>
                     </SwiperSlide>

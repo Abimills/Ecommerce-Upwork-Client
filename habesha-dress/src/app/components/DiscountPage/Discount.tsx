@@ -32,6 +32,7 @@ const Discount: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
   useEffect(() => {
     // Update slidesPerView based on screen size
     const handleResize = () => {
@@ -80,12 +81,15 @@ const Discount: React.FC = () => {
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
-          {data?.slice(0, 6)?.map((item: any) => {
+          {data?.map((item: any) => {
             return (
-              <SwiperSlide className="cursor-pointer  ">
+              <SwiperSlide
+                className="cursor-pointer  "
+                key={item?.products?._id}
+              >
                 <div className="w-full h-full flex justify-center items-center">
                   <div className="">
-                    <DiscountCard item={item} key={item._id} />
+                    <DiscountCard item={item} />
                   </div>
                 </div>
               </SwiperSlide>

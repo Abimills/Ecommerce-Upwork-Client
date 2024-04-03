@@ -18,6 +18,7 @@ const SuccessfulPayment = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
+  console.log(cartItems);
   const showIcons = {
     search: false,
     user: true,

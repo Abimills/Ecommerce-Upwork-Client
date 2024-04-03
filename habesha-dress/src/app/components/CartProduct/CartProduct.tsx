@@ -7,8 +7,11 @@ import {
   addToCart,
   removeFromCart,
   setCartQuantity,
+  toggleShowBodySize,
 } from "@/app/lib/cartSlice/cartSlice";
 import { useState } from "react";
+import BodySize from "../AddBodySize/BodySize";
+import { useDispatch, useSelector } from "react-redux";
 
 // interface Item {
 //   id: string;
@@ -44,8 +47,10 @@ const CartProduct: React.FC<Props> = ({ product }) => {
     chosenSize,
   } = product;
   const shortTitle = title.slice(0, 30);
+
   const [currentQuantity, setCurrentQuantity] = useState<number>(quantity || 1);
   const discountedPrice = (product?.discountedPrice * quantity).toFixed(2);
+  const showBodySize = useSelector((state: any) => state.cart.showBodySize);
 
   const [discountedPart, decimalDiscountedPart] = discountedPrice.split(".");
   const handleRemoveFromCart = (id: any) => {
@@ -75,9 +80,12 @@ const CartProduct: React.FC<Props> = ({ product }) => {
   ).toFixed(0);
   const priceString = (price * currentQuantity).toFixed(2);
   const [wholePart, decimalPart] = priceString.split(".");
-  console.log(currentQuantity);
+  const handleBodySize = (id: any) => {
+    dispatch(toggleShowBodySize());
+  };
   return (
     <section className="w-full flex items-start font-Dosis border-b-2  border-b border-gray-200 p-2 sm:p-8 mb-6">
+      {showBodySize && <BodySize id={id} />}
       <div className="w-full flex-col gap-4 flex items-start flex-wrap ">
         <div className="w-full flex flex-col sm:flex-row  gap-4">
           <div className=" w-full sm:w-1/4">
@@ -167,7 +175,10 @@ const CartProduct: React.FC<Props> = ({ product }) => {
               </div>
             </div>
             <div className="flex  justify-end mt-6">
-              <button className="bg-gray-800 hover:bg-gray-300 mr-2 text-white p-2 px-3 rounded-full text-sm">
+              <button
+                onClick={handleBodySize}
+                className="bg-gray-800 hover:bg-gray-300 mr-2 text-white p-2 px-3 rounded-full text-sm"
+              >
                 Give your body size
               </button>
             </div>

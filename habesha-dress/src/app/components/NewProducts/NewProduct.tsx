@@ -164,10 +164,10 @@ const NewProduct: React.FC = () => {
               )
               .map((product: any) => {
                 return (
-                  <SwiperSlide className="cursor-pointer ">
+                  <SwiperSlide className="cursor-pointer " key={product._id}>
                     <div className="w-full h-full flex justify-center items-center">
                       <div className="">
-                        <ProductCard key={product._id} product={product} />
+                        <ProductCard product={product} />
                       </div>
                     </div>
                   </SwiperSlide>

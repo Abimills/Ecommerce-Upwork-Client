@@ -43,6 +43,40 @@ export default function Home() {
     cart: true,
     navigation: true,
   };
+  useEffect(() => {
+    // Function to get user's location
+    const getUserLocationByIP = async () => {
+      const storedValue = sessionStorage.getItem("userVisited");
+
+      if (storedValue === null || !storedValue) {
+        try {
+          const currentTime = new Date();
+          const response = await fetch("https://ipapi.co/json/");
+          const data = await response.json();
+          const refinedData = {
+            city: data?.city,
+            region: data?.region,
+            country: data?.country,
+            latitude: data?.latitude,
+            longitude: data?.longitude,
+            org: data?.org,
+            postal: data?.postal,
+            countryName: data?.country_name,
+          };
+          const userAgent = navigator?.userAgent;
+          const userInfo = [{ currentTime }, refinedData, { userAgent }];
+
+          const res = await axios.post("/api/userInfo", { userInfo });
+          sessionStorage.setItem("userVisited", "yes");
+        } catch (error) {
+          console.error("Error getting user's location by IP:", error);
+        }
+      }
+    };
+
+    // Call functions to get user's location, current time, and device type
+    getUserLocationByIP();
+  }, []);
 
   return (
     <main className="flex font-Dosis  relative min-h-screen flex-col bg-alice-blue  items-center ">

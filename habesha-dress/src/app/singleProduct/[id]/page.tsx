@@ -16,7 +16,11 @@ import { GiBodyHeight } from "react-icons/gi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import { Pagination, Navigation, Autoplay, EffectFade } from "swiper/modules";
-import { addToCart, addToFavorites } from "../../lib/cartSlice/cartSlice";
+import {
+  addToCart,
+  addToFavorites,
+  toggleShowBodySize,
+} from "../../lib/cartSlice/cartSlice";
 import { useAppDispatch } from "../../lib/hooks";
 import SearchBar from "../../components/Navbar/SearchBar";
 import Navbar from "../../components/Navbar/Navbar";
@@ -32,6 +36,7 @@ import Notification from "@/app/components/Notification/Notification";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
 import ProductCard from "@/app/components/ProductCard/ProductCard";
+import BodySize from "@/app/components/AddBodySize/BodySize";
 
 // interface DataType {
 //   title: string;
@@ -57,6 +62,7 @@ const SingleProduct: React.FC = () => {
   const [similarClothes, setSimilarClothes] = useState<any>([]);
   const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showBodySize = useSelector((state: any) => state.cart.showBodySize);
   const [isFavored, setIsFavored] = useState(
     favorites?.includes(param?.id) || false
   );
@@ -78,6 +84,9 @@ const SingleProduct: React.FC = () => {
   const handleFavorites = (id: any) => {
     dispatch(addToFavorites(id));
     setIsFavored(!isFavored);
+  };
+  const handleBodySize = (id: any) => {
+    dispatch(toggleShowBodySize());
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -101,10 +110,13 @@ const SingleProduct: React.FC = () => {
     fetchData();
   }, []);
   const handleAddToCart = (product: any) => {
+    let measurements: any = localStorage.getItem("measurements");
+    const allMeasurements = JSON.parse(measurements);
     const data: any = {
       title: product.title,
       price: product.price,
       quantity: 1,
+      bodySize: allMeasurements || [],
       id: product._id,
       discountedPrice: product?.discountedPrice,
       discount: product.discount,
@@ -182,6 +194,7 @@ const SingleProduct: React.FC = () => {
         theme="dark"
         position={"bottom-right"}
       />
+      {showBodySize && <BodySize id={param?.id} />}
       <div className="bg-white w-full h-max mb-16  py-4">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -285,7 +298,7 @@ const SingleProduct: React.FC = () => {
                 </div> */}
                 <div className="w-full flex justify-end px-2">
                   <button
-                    onClick={() => handleBuy(data)}
+                    onClick={handleBodySize}
                     className="w-full sm:w-1/2 flex items-center justify-center gap-3 bg-red-300 text-white  py-2 px-4 rounded-full font-bold "
                   >
                     &#8594; Your body size

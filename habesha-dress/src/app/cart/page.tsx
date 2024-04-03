@@ -7,19 +7,23 @@ import Footer from "../components/Footer/Footer";
 import { useAppSelector } from "../lib/hooks";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { ToastContainer, toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import BodySize from "../components/AddBodySize/BodySize";
+import { toggleShowBodySize } from "../lib/cartSlice/cartSlice";
 
 const Cart: React.FC = () => {
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   // const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showBodySize = useSelector((state: any) => state.cart.showBodySize);
   const subTotal: number =
     cartItems.length > 0 &&
     cartItems
@@ -79,6 +83,7 @@ const Cart: React.FC = () => {
   //     console.log({ message: "error in payment", error });
   //   }
   // };
+
   return (
     <main className="w-full font-Dosis  min-h-screen p-2 bg-white">
       <ToastContainer
@@ -113,6 +118,7 @@ const Cart: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+
       <div className="w-full flex-col   lg:flex-row flex mb-24 font-Dosis  justify-between min-h-screen p-5 gap-8 bg-white">
         {/* left side cart */}
         {cartItems?.length > 0 ? (
@@ -139,7 +145,9 @@ const Cart: React.FC = () => {
                 </div>
 
                 <button
-                  onClick={() => router.push("/checkout")}
+                  onClick={() => {
+                    cartItems?.length > 0 && router.push("/checkout");
+                  }}
                   className=" w-1/3 my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white"
                 >
                   Checkout
@@ -173,14 +181,14 @@ const Cart: React.FC = () => {
           <h1 className="text-xl font-medium mb-7 ">Order summary</h1>
           <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">Subtotal</p>
-            <p className="my-4 font-medium">${subTotal}</p>
+            <p className="my-4 font-medium">${subTotal || 0}</p>
           </div>
           <div className="w-full flex items-center justify-between border-b border-gray-300">
             <p className="text-base text-lg text-gray-600 my-4 ">
               Discount estimate
             </p>
             <p className="my-4 font-medium text-green-500">
-              - ${subTotalDiscount}
+              - ${subTotalDiscount || 0}
             </p>
           </div>
           {/* <div className="w-full flex items-center justify-between border-b border-gray-300">
@@ -194,10 +202,12 @@ const Cart: React.FC = () => {
             <p className="text-base font-semibold text-lg text-gray-600 my-4 ">
               Total
             </p>
-            <p className="my-4 font-semibold">${total}</p>
+            <p className="my-4 font-semibold">${total || 0}</p>
           </div>
           <button
-            onClick={() => router.push("/checkout")}
+            onClick={() => {
+              cartItems?.length > 0 && router.push("/checkout");
+            }}
             className=" w-full my-4 border border-indigo-200 p-2 bg-gray-700 hover:bg-gray-600 py-4 font-semibold tracking-wide text-lg rounded-lg text-white"
           >
             Checkout
