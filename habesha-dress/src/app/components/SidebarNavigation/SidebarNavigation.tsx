@@ -10,6 +10,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineWorkHistory } from "react-icons/md";
 import { MdOutlineCall } from "react-icons/md";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 
 import {
   toggleShowNewsletter,
@@ -69,8 +70,11 @@ const SidebarNavigation: React.FC = () => {
   return (
     <div className="w-full h-full relative ">
       <div className="fixed top-0 left-0 z-40 w-full md:w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
-        <h5 className="text-xl mb-8 font-semibold text-gray-800 uppercase dark:text-gray-400">
-          HabeshaD
+        <h5
+          onClick={() => router.push("/")}
+          className="text-xl mb-8 cursor-pointer flex items-center gap-4 text-gray-800  underline underline-offset-2 hover:underline-offset-4 dark:text-gray-400"
+        >
+          <MdOutlineKeyboardBackspace className="" /> <span> home </span>
         </h5>
         <button
           type="button"

@@ -31,14 +31,6 @@ const validateProductData = (data: ProductData) => {
     errors = { ...errors, price: "Price must be a valid positive number." };
   }
 
-  if (isNaN(data.purchasedNo) || data.purchasedNo < 0) {
-    errors = {
-      ...errors,
-
-      purchasedNo: "Purchased number must be a valid non-negative number.",
-    };
-  }
-
   if (isNaN(data.rating) || data.rating < 0 || data.rating > 5) {
     errors = {
       ...errors,
@@ -48,24 +40,24 @@ const validateProductData = (data: ProductData) => {
   }
 
   // Validate Available Sizes, Colors, and Categories
-  if (!Array.isArray(data.availableSizes) || data.availableSizes.length === 0) {
-    errors = {
-      ...errors,
+  // if (!Array.isArray(data.availableSizes) || data.availableSizes.length === 0) {
+  //   errors = {
+  //     ...errors,
 
-      availableSizes: "At least one available size is required.",
-    };
-  }
+  //     availableSizes: "At least one available size is required.",
+  //   };
+  // }
 
-  if (
-    !Array.isArray(data.availableColors) ||
-    data.availableColors.length === 0
-  ) {
-    errors = {
-      ...errors,
+  // if (
+  //   !Array.isArray(data.availableColors) ||
+  //   data.availableColors.length === 0
+  // ) {
+  //   errors = {
+  //     ...errors,
 
-      availableColors: "At least one available color is required.",
-    };
-  }
+  //     availableColors: "At least one available color is required.",
+  //   };
+  // }
 
   if (!Array.isArray(data.category) || data.category.length === 0) {
     errors = {

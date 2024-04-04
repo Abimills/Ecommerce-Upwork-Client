@@ -13,7 +13,7 @@ interface ProductData {
   img: string;
   price: number;
   discount: number;
-  discountInPercent: number;
+  discountedPrice: number;
   purchasedNo: number;
   stock: number;
   likes: number;
@@ -36,6 +36,7 @@ const showIcons = {
 };
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState("");
 
   const [data, setData] = useState<ProductData>({
@@ -45,7 +46,7 @@ const AddProducts: React.FC = () => {
     img: "",
     price: 0,
     discount: 0,
-    discountInPercent: 0,
+    discountedPrice: 0,
     stock: 0,
     likes: 0,
     purchasedNo: 0,
@@ -58,6 +59,7 @@ const AddProducts: React.FC = () => {
     category: [],
     forWhichGender: [],
   });
+  const [loading, setLoading] = useState(false);
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };

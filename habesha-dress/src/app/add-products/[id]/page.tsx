@@ -10,13 +10,15 @@ import Navbar from "../../components/Navbar/Navbar";
 import { useParams } from "next/navigation";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
+import Preview from "@/app/components/Preview/Preview";
 interface ProductData {
   title: string;
   description: string;
   img: string;
   price: number;
+  discountedPrice: number;
   discount: number;
-  discountInPercent: number;
+  // discountInPercent: number;
   purchasedNo: number;
   stock: number;
   likes: number;
@@ -42,7 +44,7 @@ const AddProducts: React.FC = () => {
   const param = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(param?.id);
-
+  const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<ProductData>({
     title: "",
     couples: "false",
@@ -50,7 +52,7 @@ const AddProducts: React.FC = () => {
     img: "",
     price: 0,
     discount: 0,
-    discountInPercent: 0,
+    discountedPrice: 0,
     stock: 0,
     likes: 0,
     purchasedNo: 0,
@@ -89,7 +91,28 @@ const AddProducts: React.FC = () => {
       console.log({ message: "error while saving image", error });
     }
   };
+  const handleAdditionalImageChange = async (e: any) => {
+    const file = e.target.files[0];
 
+    const newData = new FormData();
+    newData.append("file", file);
+    newData.append("upload_preset", "uploads");
+    try {
+      setLoading(true);
+      const imgUploaded = await axios.post(
+        "https://api.cloudinary.com/v1_1/dnokvmwmd/image/upload",
+        newData
+      );
+      const { url } = imgUploaded.data;
+      setData({ ...data, boughtWithIds: [...data?.boughtWithIds, url] });
+      setLoading(false);
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      setLoading(false);
+
+      console.log({ message: "error while saving image", error });
+    }
+  };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const validatedData = validateData(data);
@@ -128,7 +151,7 @@ const AddProducts: React.FC = () => {
           img: cloth?.img,
           price: cloth?.price,
           discount: cloth?.discount,
-          discountInPercent: cloth?.discountInPercent,
+          discountedPrice: cloth?.discountedPrice,
           stock: cloth?.stock,
           likes: cloth?.likes,
           purchasedNo: cloth?.purchasedNo,
@@ -150,14 +173,21 @@ const AddProducts: React.FC = () => {
     };
     fetchData();
   }, []);
-
+  useEffect(() => {
+    setData({
+      ...data,
+      discountedPrice: data?.price - data?.discount || data?.price,
+    });
+  }, [data?.price, data?.discount]);
   return (
-    <div className="bg-white w-full ">
-      {showSearch ? (
-        <SearchBar showIcons={showIcons} />
-      ) : (
-        <Navbar showIcons={showIcons} />
-      )}
+    <div className="bg-red-50  w-full relative ">
+      <div className="bg-white ">
+        {showSearch ? (
+          <SearchBar showIcons={showIcons} />
+        ) : (
+          <Navbar showIcons={showIcons} />
+        )}
+      </div>
       <ToastContainer />
       {loading && (
         <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
@@ -169,27 +199,45 @@ const AddProducts: React.FC = () => {
           />
         </div>
       )}
-      <section className="max-w-full p-6 mb-10 mx-auto bg-gray-700 rounded-md shadow-md  mt-20">
-        <h1 className="text-xl font-bold text-white capitalize dark:text-white">
+      {open && <Preview open={open} setOpen={setOpen} data={data} />}
+      <section className=" w-full border-none   md:w-2/3 md:border bg-white border-gray-300 py-10 px-10 mb-10 md:mx-auto text-black font-poppins  rounded-xl shadow-md  mt-8">
+        <h1 className="text-xl font-bold text-black capitalize dark:text-black">
           Product Information
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            <div>
-              <label className="text-white dark:text-gray-200">
-                Product Name
+          <div className="flex gap-6 w-full flex-col text-md my-3">
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Product Name <span className="text-red-500"> * </span>
               </label>
               <input
                 type="text"
                 value={data.title}
                 name="title"
+                placeholder="your product name goes here"
                 onChange={(e) => handleChange(e)}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Product Description
+                <span className="text-red-500"> * </span>
+              </label>
+              <textarea
+                name="description"
+                placeholder="your product description goes here...."
+                onChange={(e) => handleChange(e)}
+                value={data.description}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white min-h-32 h-max border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+              ></textarea>
+            </div>
 
-            <div>
-              <label className="text-white dark:text-gray-200">Price</label>
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Price
+                <span className="text-red-500"> * </span>
+              </label>
               <input
                 type="number"
                 name="price"
@@ -198,8 +246,8 @@ const AddProducts: React.FC = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">
+            {/* <div>
+              <label className="text-black dark:text-gray-200">
                 Total Liked by users
               </label>
               <input
@@ -209,10 +257,10 @@ const AddProducts: React.FC = () => {
                 onChange={(e) => handleChange(e)}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
-            </div>
-            <div>
-              <label className="text-white dark:text-gray-200">
-                Stock Status :
+            </div> */}
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Stock Status : <span className="text-red-500"> * </span>
               </label>
               <input
                 type="number"
@@ -222,8 +270,8 @@ const AddProducts: React.FC = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">Discount</label>
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">Discount</label>
               <input
                 type="number"
                 name="discount"
@@ -232,34 +280,37 @@ const AddProducts: React.FC = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">
-                Discount Percentage
+
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Price After Discount
               </label>
               <input
                 type="number"
-                name="discountInPercent"
-                value={data.discountInPercent}
+                name="discountedPrice"
+                disabled={true}
+                value={data.discountedPrice}
                 onChange={(e) => handleChange(e)}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                className="block w-full cursor-not-allowed px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
 
-            <div>
-              <label className="text-white dark:text-gray-200">
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
                 Purchased Number
               </label>
               <input
                 type="number"
+                disabled={true}
                 value={data.purchasedNo}
                 onChange={(e) => handleChange(e)}
                 name="purchasedNo"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                className="block w-full cursor-not-allowed px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">
-                Couples Clothes
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Is it couples clothes
               </label>
               <select
                 value={data.couples}
@@ -275,9 +326,9 @@ const AddProducts: React.FC = () => {
                 <option value={"false"}>false</option>
               </select>
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">
-                For which gender
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Gender / Age <span className="text-red-500"> * </span>
               </label>
               <select
                 value={data.forWhichGender}
@@ -296,17 +347,16 @@ const AddProducts: React.FC = () => {
                 }}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
-                <option>...</option>
                 <option value={"Men"}>Men</option>
                 <option value={"Women"}>Women</option>
                 <option value={"Kids"}>Kids</option>
-                <option value={"Uni Sex"}>Uni Sex</option>
+                {/* <option value={"Uni Sex"}>Uni Sex</option> */}
               </select>
               {data.forWhichGender.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">
                   {data?.forWhichGender?.map((item: any) => {
                     return (
-                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
                         <span
                           onClick={() =>
                             setData({
@@ -326,8 +376,11 @@ const AddProducts: React.FC = () => {
                 </div>
               )}
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">Groups</label>
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Groups
+                <span className="text-red-500"> * </span>
+              </label>
               <select
                 value={data.whichGroupCloth}
                 onChange={(e: any) => {
@@ -348,7 +401,6 @@ const AddProducts: React.FC = () => {
                 }}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
-                <option>...</option>
                 <option value={"Family"}>Family</option>
                 <option value={"Men Friends"}>Men Friends</option>
                 <option value={"Women Friends"}>Women Friends</option>
@@ -357,7 +409,7 @@ const AddProducts: React.FC = () => {
                 <div className="w-max flex items-center gap-3 my-3">
                   {data?.whichGroupCloth?.map((item: any) => {
                     return (
-                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
                         <span
                           onClick={() =>
                             setData({
@@ -378,8 +430,9 @@ const AddProducts: React.FC = () => {
               )}
             </div>
             <div>
-              <label className="text-white dark:text-gray-200">
+              <label className="text-black dark:text-gray-200">
                 For which occasions
+                <span className="text-red-500"> * </span>
               </label>
               <select
                 value={data.clothOccasion}
@@ -398,7 +451,6 @@ const AddProducts: React.FC = () => {
                 }}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
-                <option>...</option>
                 <option value={"Wedding"}>Wedding</option>
                 <option value={"Holiday"}>Holiday</option>
                 <option value={"Timket"}>Timket</option>
@@ -409,7 +461,7 @@ const AddProducts: React.FC = () => {
                 <div className="w-max flex items-center gap-3 my-3">
                   {data?.clothOccasion?.map((item: any) => {
                     return (
-                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
                         <span
                           onClick={() =>
                             setData({
@@ -430,8 +482,8 @@ const AddProducts: React.FC = () => {
               )}
             </div>
 
-            <div>
-              <label className="text-white dark:text-gray-200">Rating</label>
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">Rating</label>
               <input
                 type="number"
                 value={data.rating}
@@ -440,8 +492,8 @@ const AddProducts: React.FC = () => {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
             </div>
-            <div>
-              <label className="text-white dark:text-gray-200">
+            {/* <div>
+              <label className="text-black dark:text-gray-200">
                 Bought With products
               </label>
               <input
@@ -451,10 +503,10 @@ const AddProducts: React.FC = () => {
                 onChange={(e) => handleChange(e)}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               />
-            </div>
+            </div> */}
 
-            <div>
-              <label className="text-white dark:text-gray-200">Colors</label>
+            {/* <div>
+              <label className="text-black dark:text-gray-200">Colors</label>
               <select
                 name="availableColors"
                 onChange={(e: any) => {
@@ -490,7 +542,7 @@ const AddProducts: React.FC = () => {
                 <div className="w-max flex items-center gap-3 my-3">
                   {data?.availableColors?.map((item: any) => {
                     return (
-                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
                         <span
                           onClick={() =>
                             setData({
@@ -509,9 +561,9 @@ const AddProducts: React.FC = () => {
                   })}
                 </div>
               )}
-            </div>
-            <div>
-              <label className="text-white dark:text-gray-200">Sizes</label>
+            </div> */}
+            {/* <div>
+              <label className="text-black dark:text-gray-200">Sizes</label>
               <select
                 name="availableSizes"
                 onChange={(e: any) => {
@@ -541,7 +593,7 @@ const AddProducts: React.FC = () => {
                 <div className="w-max flex items-center gap-3 my-3">
                   {data?.availableSizes?.map((item: any) => {
                     return (
-                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
                         <span
                           onClick={() =>
                             setData({
@@ -560,9 +612,12 @@ const AddProducts: React.FC = () => {
                   })}
                 </div>
               )}
-            </div>
-            <div>
-              <label className="text-white dark:text-gray-200">Category</label>
+            </div> */}
+            <div className="my-4">
+              <label className="text-black dark:text-gray-200">
+                Category
+                <span className="text-red-500"> * </span>
+              </label>
               <select
                 onChange={(e: any) => {
                   const found = data?.category?.find(
@@ -581,7 +636,8 @@ const AddProducts: React.FC = () => {
                 name="category"
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               >
-                <option>...</option>
+                <option value={"Zuriya"}>Zuriya</option>
+                <option value={"Shifon"}>Shifon</option>
                 <option value={"New Product"}>New Product</option>
                 <option value={"Recommended"}>Recommended</option>
                 <option value={"Popular"}>Popular</option>
@@ -590,7 +646,7 @@ const AddProducts: React.FC = () => {
                 <div className="w-max flex items-center gap-3 my-3">
                   {data?.category?.map((item: any) => {
                     return (
-                      <div className="text-white text-sm flex border border-white mx-1 w-max items-center bg-green-500 rounded-lg p-1">
+                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
                         <span
                           onClick={() =>
                             setData({
@@ -611,8 +667,8 @@ const AddProducts: React.FC = () => {
               )}
             </div>
 
-            <div>
-              <label className="text-white dark:text-gray-200">
+            {/* <div>
+              <label className="text-black dark:text-gray-200">
                 Product Description
               </label>
               <textarea
@@ -621,51 +677,138 @@ const AddProducts: React.FC = () => {
                 value={data.description}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
               ></textarea>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-white">
-                Image
-              </label>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                <div className="space-y-1 text-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-white"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <label className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                      <span className="">Upload a file</span>
-                      <input
-                        name="file-upload"
-                        onChange={(e) => handleImageChange(e)}
-                        type="file"
-                        className="sr-only"
+            </div> */}
+
+            <div className="w-full flex gap-4 items-center justify-between">
+              <div className="w-2/3">
+                <label className="block text-sm font-medium text-black">
+                  Primary Image <span className="text-red-500"> * </span>
+                </label>
+                <div className="mt-1 flex justify-center relative px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                  <div className="space-y-1 text-center ">
+                    <svg
+                      className="mx-auto h-12 w-12 text-black"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
-                    </label>
-                    <p className="pl-1 text-white">or drag and drop</p>
+                    </svg>
+                    <div className="flex  text-sm text-gray-600">
+                      <p className="absolute text-sm py-2 px-4 rounded-full m-1 text-white bg-blue-600 top-0 right-0">
+                        Primary
+                      </p>
+                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                        <span className="">Upload a file</span>
+                        <input
+                          name="file-upload"
+                          onChange={(e) => handleImageChange(e)}
+                          type="file"
+                          className="sr-only"
+                        />
+                      </label>
+                      <p className="pl-1 text-black">or drag and drop</p>
+                    </div>
+                    <p className="text-xs text-black">
+                      PNG, JPG, GIF up to 5MB
+                    </p>
                   </div>
-                  <p className="text-xs text-white">PNG, JPG, GIF up to 5MB</p>
                 </div>
+              </div>
+
+              {/* secondary image */}
+              <div className="w-1/3">
+                <label className="block text-sm font-medium text-black">
+                  Add more Image
+                </label>
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                  <div className="space-y-1 text-center">
+                    <svg
+                      className="mx-auto h-12 w-12 text-black"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    <div className="flex text-sm text-gray-600">
+                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                        <span className="">Upload a file</span>
+                        <input
+                          name="file-upload"
+                          onChange={(e) => handleAdditionalImageChange(e)}
+                          type="file"
+                          className="sr-only"
+                        />
+                      </label>
+                      <p className="pl-1 text-black">or drag and drop</p>
+                    </div>
+                    <p className="text-xs text-black">
+                      PNG, JPG, GIF up to 5MB
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* show images */}
+            <div className="flex w-max gap-8">
+              <div className="w-max relative flex">
+                {data?.img !== "" && (
+                  <div className="w-32 h-32">
+                    <img
+                      src={data?.img}
+                      alt=""
+                      className=" border border-gray-400 w-full h-full object-contain"
+                    />
+                    <p className="absolute text-xs py-1 px-3 rounded-full m-0.5 text-white bg-blue-600 bottom-0 right-0">
+                      Primary
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="w-max relative flex">
+                {data?.boughtWithIds?.length > 0 &&
+                  data?.boughtWithIds.map((img: string) => (
+                    <div className="w-32 h-32">
+                      <img
+                        src={img}
+                        alt=""
+                        className=" border border-gray-400 w-full h-full object-contain"
+                      />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end mt-6">
+          <div className="flex w-full items-center gap-8   justify-end mt-6">
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+              type="button"
+              className=" w-1/3 px-6 py-4 leading-5 text-black border-2 border-gray-800 transition-colors duration-200 transform bg-transparent rounded-md hover:bg-gray-700 hover:text-white focus:outline-none focus:bg-gray-600"
+            >
+              Preview Product
+            </button>
             <button
               type="submit"
-              className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600"
+              className=" w-2/3 px-6  py-4 leading-5 border-2 border-gray-800 text-white transition-colors duration-200 transform bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-600"
             >
-              Save
+              Save <span className=""> &#8594; </span>
             </button>
           </div>
         </form>

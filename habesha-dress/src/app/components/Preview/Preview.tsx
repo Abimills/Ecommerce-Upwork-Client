@@ -13,73 +13,22 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toggleShowSignIn } from "@/app/lib/cartSlice/cartSlice";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
-import { loginSuccess } from "../lib/authSlice/authSlice";
+
 import { GoStarFill } from "react-icons/go";
 import { GoStar } from "react-icons/go";
 import { GiShoppingBag } from "react-icons/gi";
 import { GiBodyHeight } from "react-icons/gi";
 interface Props {
   data: any;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<any>>;
 }
-const Login: React.FC<Props> = ({ data }) => {
-  const [open, setOpen] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [loginIssues, setLoginIssues] = useState({
-    email: "",
-    password: "",
-  });
-  const [email, setEmail] = useState<string>("");
+const Preview: React.FC<Props> = ({ data, open, setOpen }) => {
   const [isFavored, setIsFavored] = useState(false);
-  const [password, setPassword] = useState<any>("");
-  const router = useRouter();
-  const dispatch = useDispatch();
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setLoginIssues({ email: "", password: "" });
-    if (email !== "" && password !== "") {
-      try {
-        setLoading(true);
-        const res = await axios.post("/api/login", {
-          email,
-          password,
-        });
-        if (res.data.success) {
-          dispatch(loginSuccess(res.data.user));
-
-          router.push("/user-profile");
-          setLoading(false);
-        } else if (!res.data.success) {
-          if (res.data.loginIssue === "email") {
-            setLoginIssues({ ...loginIssues, email: res.data.loginIssue });
-            setLoading(false);
-          }
-          if (res.data.loginIssue === "password") {
-            setLoginIssues({ ...loginIssues, password: res.data.loginIssue });
-            setLoading(false);
-          }
-          toast.error(" Email or Password Wrong", {
-            position: "bottom-right",
-          });
-          setLoading(false);
-        }
-      } catch (error) {
-        setLoading(false);
-
-        console.log({ message: "error while signing in ", error });
-      }
-    } else {
-      toast.error("Please Fill all Required fields", {
-        position: "bottom-right",
-      });
-    }
-  };
   const priceString = parseFloat(data?.discountedPrice)?.toFixed(2);
-
   const [wholePart, decimalPart] = priceString.split(".");
   const originalPriceString = parseFloat(data?.price).toFixed(2);
-
   const [originalWholePart, originalDecimalPart] =
     originalPriceString.split(".");
 
@@ -192,7 +141,7 @@ const Login: React.FC<Props> = ({ data }) => {
                                     </p>
                                   </div>
                                   <ul className="w-max my-1 flex gap-1 mb-4">
-                                    {Array(data?.rating)
+                                    {Array(parseFloat(data?.rating))
                                       .fill("")
                                       .map((_, index) => (
                                         <li>
@@ -234,20 +183,20 @@ const Login: React.FC<Props> = ({ data }) => {
                   })}
                 </div> */}
                                   <div className="w-full flex justify-end px-2">
-                                    <button className="w-full sm:w-1/2 flex items-center justify-center gap-3 bg-red-300 text-white  py-2 px-4 rounded-full font-bold ">
+                                    <button className="w-full  flex items-center justify-center gap-3 bg-red-300 text-white  py-2 px-4 rounded-full font-bold ">
                                       &#8594; Your body size
                                       <GiBodyHeight className="text-white tex-2xl" />
                                     </button>
                                   </div>
                                 </div>
-                                <div className="flex w-full -mx-2 mb-4">
-                                  <div className="w-2/3 sm:w-1/2 flex px-2">
-                                    <button className=" text-sm sm:text-base w-full flex items-center gap-6 justify-center bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-lg  font-bold hover:bg-white hover:text-black border-2 border-gray-700  ">
+                                <div className="flex flex-col gap-8 w-full -mx-2 mb-4">
+                                  <div className="w-full flex px-2">
+                                    <button className=" text-sm  w-full flex items-center gap-6 justify-center bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-lg  font-bold hover:bg-white hover:text-black border-2 border-gray-700  ">
                                       Add to Cart
                                       <GiShoppingBag className="  text-white" />
                                     </button>
                                   </div>
-                                  <div className="w-1/3 sm:w-1/2 px-2">
+                                  <div className="w-full px-2">
                                     <button className="text-sm sm:text-base w-full flex items-center justify-center  hover:text-white hover:bg-gray-800  gap-3 bg-white text-black border-2 border-gray-700  py-2 px-4 rounded-lg  font-bold ">
                                       Buy now
                                     </button>
@@ -278,4 +227,4 @@ const Login: React.FC<Props> = ({ data }) => {
   );
 };
 
-export default Login;
+export default Preview;

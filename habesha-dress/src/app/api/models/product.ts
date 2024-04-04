@@ -31,7 +31,6 @@ const clothProductSchema = new Schema(
     purchasedNumber: { type: Number, default: 0 },
     availableSizes: {
       type: Array,
-      required: [true, "At lease one size is required"],
     },
     availableColors: {
       type: Array,
