@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Habesha-Clothes",
   description:
-    "Habesha clothing sells for customers looking for traditional  Ethiopian or Eritrean  clothes.",
+    "Habesha clothing sells for customers looking for traditional  Ethiopian and Eritrean  clothes.",
 };
 
 export default function RootLayout({

@@ -130,7 +130,7 @@ export async function POST(req: any) {
     couples,
   });
   return NextResponse.json(
-    { message: "created a new cloth", newCloth },
+    { success: true, message: "created a new cloth", newCloth },
     { status: 201 }
   );
 }

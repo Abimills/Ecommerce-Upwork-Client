@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import ReactLoading from "react-loading";
+import { CiTrash } from "react-icons/ci";
+
 import { ToastContainer, toast } from "react-toastify";
 import Preview from "../components/Preview/Preview";
 interface ProductData {
@@ -128,7 +130,11 @@ const AddProducts: React.FC = () => {
       try {
         setLoading(true);
         const res = await axios.post("http://localhost:3000/api/product", data);
-        toast.success("Product saved!");
+        if (res.data.success) {
+          toast.success("Product saved!");
+        } else {
+          toast.error("Something went wrong while creating a product!");
+        }
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -731,17 +737,37 @@ const AddProducts: React.FC = () => {
                     <p className="absolute text-xs py-1 px-3 rounded-full m-0.5 text-white bg-blue-600 bottom-0 right-0">
                       Primary
                     </p>
+                    <CiTrash
+                      onClick={() => {
+                        setData({
+                          ...data,
+                          img: "",
+                        });
+                      }}
+                      className="absolute cursor-pointer bottom-0 left-0"
+                    />
                   </div>
                 )}
               </div>
               <div className="w-max relative flex">
                 {data?.boughtWithIds?.length > 0 &&
                   data?.boughtWithIds.map((img: string) => (
-                    <div className="w-32 h-32">
+                    <div className="w-32 h-32 relative">
                       <img
                         src={img}
                         alt=""
                         className=" border border-gray-400 w-full h-full object-contain"
+                      />
+                      <CiTrash
+                        onClick={() => {
+                          setData({
+                            ...data,
+                            boughtWithIds: data.boughtWithIds.filter(
+                              (id) => id !== img
+                            ),
+                          });
+                        }}
+                        className="absolute bottom-0 cursor-pointer left-0"
                       />
                     </div>
                   ))}

@@ -65,7 +65,7 @@ const SidebarNavigation: React.FC = () => {
     }
   };
   const handleGroupNavigation = (group: string) => {
-    router.push(`/filtered-products/${group}`);
+    router.push(`/search?query=${group}`);
   };
   return (
     <div className="w-full h-full relative ">
@@ -86,7 +86,7 @@ const SidebarNavigation: React.FC = () => {
           <ul className="space-y-2 font-medium">
             <li>
               <button
-                onClick={() => handleGroupNavigation("Women")}
+                onClick={() => handleGroupNavigation("Zurya")}
                 className=" w-full flex items-center p-2 text-gray-900  cursor-pointer"
               >
                 <span className="ms-3 font-bold font-poppins tracking-wider hover:underline leading-4 text-xl uppercase">
@@ -97,7 +97,7 @@ const SidebarNavigation: React.FC = () => {
             </li>
             <li>
               <button
-                onClick={() => handleGroupNavigation("Kids")}
+                onClick={() => handleGroupNavigation("Shifon")}
                 className=" w-full flex items-center p-2 text-gray-900  cursor-pointer"
               >
                 <span className="ms-3 font-bold font-poppins tracking-wider hover:underline leading-4 text-xl uppercase">

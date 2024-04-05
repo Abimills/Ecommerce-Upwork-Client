@@ -1,5 +1,5 @@
 "use client";
-
+import { CiTrash } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import Footer from "../../components/Footer/Footer";
 import validateData from "../../util/validateData";
@@ -767,7 +767,7 @@ const AddProducts: React.FC = () => {
             <div className="flex w-max gap-8">
               <div className="w-max relative flex">
                 {data?.img !== "" && (
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32  relative">
                     <img
                       src={data?.img}
                       alt=""
@@ -776,17 +776,37 @@ const AddProducts: React.FC = () => {
                     <p className="absolute text-xs py-1 px-3 rounded-full m-0.5 text-white bg-blue-600 bottom-0 right-0">
                       Primary
                     </p>
+                    <CiTrash
+                      onClick={() => {
+                        setData({
+                          ...data,
+                          img: "",
+                        });
+                      }}
+                      className="absolute cursor-pointer bottom-0 left-0"
+                    />
                   </div>
                 )}
               </div>
               <div className="w-max relative flex">
                 {data?.boughtWithIds?.length > 0 &&
                   data?.boughtWithIds.map((img: string) => (
-                    <div className="w-32 h-32">
+                    <div className="w-32 relative h-32">
                       <img
                         src={img}
                         alt=""
                         className=" border border-gray-400 w-full h-full object-contain"
+                      />
+                      <CiTrash
+                        onClick={() => {
+                          setData({
+                            ...data,
+                            boughtWithIds: data.boughtWithIds.filter(
+                              (id) => id !== img
+                            ),
+                          });
+                        }}
+                        className="absolute bottom-0 cursor-pointer left-0"
                       />
                     </div>
                   ))}
