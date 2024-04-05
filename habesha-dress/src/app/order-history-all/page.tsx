@@ -23,7 +23,7 @@ import Navbar from "../components/Navbar/Navbar";
 import { useAppSelector } from "../lib/hooks";
 import { useParams } from "next/navigation";
 const OrderUserProfile: React.FC = () => {
-  const ids = JSON.parse(localStorage.getItem("itemsBought") as string);
+  // const ids = JSON.parse(localStorage.getItem("itemsBought") as string);
 
   const [orders, setOrders] = useState([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
@@ -36,13 +36,17 @@ const OrderUserProfile: React.FC = () => {
     navigation: true,
   };
   const fetchOrder = async () => {
-    if (ids) {
-      const res = await Promise.all(
-        ids?.map((id: any) => axios.get(`api/order/?orderNumber=${id}`))
-      );
-      const allOrders: any = res.map((product) => product.data.order);
-      console.log(allOrders);
-      setOrders(allOrders);
+    const itemsBought = localStorage.getItem("itemsBought") as any;
+    if (itemsBought !== null) {
+      const ids = JSON.parse(itemsBought);
+      if (ids) {
+        const res = await Promise.all(
+          ids?.map((id: any) => axios.get(`api/order/?orderNumber=${id}`))
+        );
+        const allOrders: any = res.map((product) => product.data.order);
+        console.log(allOrders);
+        setOrders(allOrders);
+      }
     }
   };
   useEffect(() => {

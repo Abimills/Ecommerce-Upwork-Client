@@ -22,7 +22,6 @@ import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useAppSelector } from "../lib/hooks";
 const OrderUserProfile: React.FC = () => {
-  const ids = JSON.parse(localStorage.getItem("itemsBought") as string);
   const [orders, setOrders] = useState<any>([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showIcons = {
@@ -32,20 +31,23 @@ const OrderUserProfile: React.FC = () => {
     cart: false,
     navigation: true,
   };
-  const fetchOrder = async () => {
-    const orderNo = ids[0];
-    if (orderNo) {
-      const res: any = await axios.get(`api/order/?orderNumber=${orderNo}`);
-      console.log(res.data.success);
-      if (res.data.success) {
-        setOrders(res.data.order);
-      }
-    }
-  };
   useEffect(() => {
     // window.scrollTo(0, 0);
-
-    fetchOrder();
+    const itemsBought = localStorage.getItem("itemsBought") as any;
+    if (itemsBought !== null) {
+      const ids = JSON.parse(itemsBought);
+      const fetchOrder = async () => {
+        const orderNo = ids[0];
+        if (orderNo) {
+          const res: any = await axios.get(`api/order/?orderNumber=${orderNo}`);
+          console.log(res.data.success);
+          if (res.data.success) {
+            setOrders(res.data.order);
+          }
+        }
+      };
+      fetchOrder();
+    }
   }, []);
   console.log(orders);
   return (
