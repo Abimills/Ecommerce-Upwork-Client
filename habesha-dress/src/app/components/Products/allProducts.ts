@@ -1,4 +1,4 @@
-const category = [
+const category: any = [
   {
     id: "1",
     title: "Women Scarf",
