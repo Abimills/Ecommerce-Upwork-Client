@@ -1,6 +1,6 @@
 "use client";
 import CategoryCard from "../CategoryCard/CategoryCard";
-import category from "./data.js";
+import category from "./data";
 import { LiaAngleDoubleRightSolid } from "react-icons/lia";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
