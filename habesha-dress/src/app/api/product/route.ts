@@ -54,22 +54,22 @@ export async function GET(req: any, res: any) {
       { status: 200 }
     );
   }
-  await ClothProduct.updateMany({}, [
-    {
-      $set: {
-        discountedValue: "$discountInPercent",
-      },
-    },
-    {
-      $unset: "discountInPercent",
-    },
-    // If needed, you can also renaming the field at the same time:
-    {
-      $rename: {
-        discountedValue: "discountedPrice",
-      },
-    },
-  ]);
+  // await ClothProduct.updateMany({}, [
+  //   {
+  //     $set: {
+  //       discountedValue: "$discountInPercent",
+  //     },
+  //   },
+  //   {
+  //     $unset: "discountInPercent",
+  //   },
+  //   // If needed, you can also renaming the field at the same time:
+  //   {
+  //     $rename: {
+  //       discountedValue: "discountedPrice",
+  //     },
+  //   },
+  // ]);
   const totalCloths = await ClothProduct.countDocuments();
   const totalPages = Math.ceil(totalCloths / pageSize);
   const cloths = await ClothProduct.find().skip(0).limit(pageSize);
@@ -150,7 +150,7 @@ export async function PUT(req: any) {
     forWhichGender,
     boughtWithIds,
     discount,
-    discountInPercent,
+    discountedPrice,
     stock,
     likes,
     clothOccasion,
@@ -173,7 +173,7 @@ export async function PUT(req: any) {
       forWhichGender,
       boughtWithIds,
       discount,
-      discountInPercent,
+      discountedPrice,
       stock,
       likes,
       clothOccasion,
