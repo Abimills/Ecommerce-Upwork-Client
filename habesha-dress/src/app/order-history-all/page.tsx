@@ -86,9 +86,12 @@ const OrderUserProfile: React.FC = () => {
             Check the status of recent orders, manage returns, and discover
             similar products.
           </p>
-          {orders.map((order: any) => {
+          {orders.map((order: any, index: number) => {
             return (
-              <div className="w-full h-max pb-16 px-4  sm:px-16 my-8">
+              <div
+                key={index + order?._id}
+                className="w-full h-max pb-16 px-4  sm:px-16 my-8"
+              >
                 <div className="w-full h-max flex rounded-t-lg  p-8 border border-green-300 items-center justify-between">
                   <span className="hidden sm:inline">
                     <p className="">Order number</p>

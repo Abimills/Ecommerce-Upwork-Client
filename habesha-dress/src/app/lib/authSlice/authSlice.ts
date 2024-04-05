@@ -7,7 +7,6 @@ interface User {
   // Add other user properties
 }
 const loadUser = (): any => {
-  // try {
   const userJson: any = localStorage.getItem("user");
   if (userJson) {
     return JSON.parse(userJson);

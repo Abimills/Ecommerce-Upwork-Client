@@ -199,7 +199,7 @@ const SingleProduct: React.FC = () => {
                   {Array(data?.rating)
                     .fill("")
                     .map((_, index) => (
-                      <li>
+                      <li key={index}>
                         <GoStarFill className="text-lg text-orange-500" />
                       </li>
                     ))}
@@ -207,7 +207,7 @@ const SingleProduct: React.FC = () => {
                     Array(5 - data?.rating)
                       .fill("")
                       .map((_, index) => (
-                        <li>
+                        <li key={index}>
                           <GoStar className="text-lg text-gray-500" />
                         </li>
                       ))}
@@ -219,9 +219,10 @@ const SingleProduct: React.FC = () => {
                 </h1>
 
                 <div className="flex  items-center mt-2 ">
-                  {data?.availableSizes?.map((size: any) => {
+                  {data?.availableSizes?.map((size: any, index: number) => {
                     return sizeChoose === size ? (
                       <button
+                        key={size + index}
                         onClick={() => setSizeChose(size)}
                         className="bg-indigo-400 dark:bg-gray-700 text-white  py-2 px-4 rounded-full font-bold mr-2 hover:bg-indigo-400 hover:text-white "
                       >
@@ -229,6 +230,7 @@ const SingleProduct: React.FC = () => {
                       </button>
                     ) : (
                       <button
+                        key={size + index}
                         onClick={() => setSizeChose(size)}
                         className="bg-indigo-100 dark:bg-gray-700 text-gray-700  py-2 px-4 rounded-full font-bold mr-2 hover:bg-indigo-400 hover:text-white "
                       >

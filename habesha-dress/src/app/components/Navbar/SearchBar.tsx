@@ -277,9 +277,10 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
             </h1>
 
             {searches?.length > 0 ? (
-              searches?.slice(0, 6).map((search: any) => {
+              searches?.slice(0, 6).map((search: any, index: number) => {
                 return (
                   <p
+                    key={search + index}
                     onClick={() => handleSearchNavigation(search)}
                     className=" text-md text-gray-500 hover:text-gray-700 font-semibold cursor-pointer  hover:underline underline-offset-4 mb-4"
                   >
@@ -359,10 +360,13 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
                   {data.length > 0 &&
                     data?.slice(0, 16)?.map((item: any) => {
                       return (
-                        <SwiperSlide className=" cursor-pointer   ">
+                        <SwiperSlide
+                          className=" cursor-pointer "
+                          key={item._id}
+                        >
                           <div className="w-full h-full flex justify-center items-center">
                             <div className="">
-                              <SearchCard key={item._id} product={item} />
+                              <SearchCard product={item} />
                             </div>
                           </div>
                         </SwiperSlide>

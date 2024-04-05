@@ -286,9 +286,12 @@ const BodySize: React.FC<Props> = ({ id }) => {
                               </div>
 
                               <div className="w-full ">
-                                {data.map((item: any) => {
+                                {data.map((item: any, index: number) => {
                                   return (
-                                    <div className="flex w-full gap-4 items-center  my-3">
+                                    <div
+                                      key={item.id + index}
+                                      className="flex w-full gap-4 items-center  my-3"
+                                    >
                                       <div className="w-full flex items-start justify-center flex-col">
                                         <label className="  text-sm font-medium text-gray-900 dark:text-white">
                                           {item.title}
@@ -361,9 +364,12 @@ const BodySize: React.FC<Props> = ({ id }) => {
                               </div>
 
                               <div className="w-full ">
-                                {menData.map((item: any) => {
+                                {menData.map((item: any, index: number) => {
                                   return (
-                                    <div className="flex w-full gap-4 items-center  my-3">
+                                    <div
+                                      key={item.id + index}
+                                      className="flex w-full gap-4 items-center  my-3"
+                                    >
                                       <div className="w-full flex items-start justify-center flex-col">
                                         <label className="  text-sm font-medium text-gray-900 dark:text-white">
                                           {item.title}

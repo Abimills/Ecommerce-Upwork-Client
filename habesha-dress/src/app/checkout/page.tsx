@@ -435,9 +435,10 @@ const Cart: React.FC = () => {
               >
                 {searchResult?.length > 0 &&
                   searching &&
-                  searchResult?.map((result: any) => {
+                  searchResult?.map((result: any, index: number) => {
                     return (
                       <div
+                        key={result.formatted + index}
                         onClick={() => handleStreet(result.formatted)}
                         className="my-2 text-sm md:text-base cursor-pointer hover:text-green-400"
                       >
@@ -512,9 +513,10 @@ const Cart: React.FC = () => {
               >
                 {searchResultPostCode?.length > 0 &&
                   searchingPostCode &&
-                  searchResultPostCode?.map((result: any) => {
+                  searchResultPostCode?.map((result: any, index: number) => {
                     return (
                       <div
+                        key={result.postcode + index}
                         onClick={() => handlePostCode(result.postcode)}
                         className="my-2 cursor-pointer hover:text-green-400"
                       >
@@ -552,9 +554,10 @@ const Cart: React.FC = () => {
               >
                 {searchResultCity?.length > 0 &&
                   searchingCity &&
-                  searchResultCity?.map((result: any) => {
+                  searchResultCity?.map((result: any, index: number) => {
                     return (
                       <div
+                        key={result.country + index}
                         onClick={() =>
                           handleCity(`${result.city},${result.country}`)
                         }

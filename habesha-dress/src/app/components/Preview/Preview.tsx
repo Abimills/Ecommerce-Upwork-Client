@@ -144,7 +144,7 @@ const Preview: React.FC<Props> = ({ data, open, setOpen }) => {
                                     {Array(parseFloat(data?.rating))
                                       .fill("")
                                       .map((_, index) => (
-                                        <li>
+                                        <li key={index}>
                                           <GoStarFill className="text-lg text-orange-500" />
                                         </li>
                                       ))}
@@ -152,7 +152,7 @@ const Preview: React.FC<Props> = ({ data, open, setOpen }) => {
                                       Array(5 - data?.rating)
                                         .fill("")
                                         .map((_, index) => (
-                                          <li>
+                                          <li key={index}>
                                             <GoStar className="text-lg text-gray-500" />
                                           </li>
                                         ))}

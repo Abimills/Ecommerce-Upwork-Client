@@ -49,7 +49,7 @@ const validateProductData = (data: ProductData) => {
   // }
 
   // if (
-  //   !Array.isArray(data.availableColors) ||
+
   //   data.availableColors.length === 0
   // ) {
   //   errors = {

@@ -354,9 +354,12 @@ const AddProducts: React.FC = () => {
               </select>
               {data.forWhichGender.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">
-                  {data?.forWhichGender?.map((item: any) => {
+                  {data?.forWhichGender?.map((item: any, index: any) => {
                     return (
-                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
+                      <div
+                        className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1"
+                        key={item + index}
+                      >
                         <span
                           onClick={() =>
                             setData({
@@ -407,9 +410,12 @@ const AddProducts: React.FC = () => {
               </select>
               {data.whichGroupCloth.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">
-                  {data?.whichGroupCloth?.map((item: any) => {
+                  {data?.whichGroupCloth?.map((item: any, index: any) => {
                     return (
-                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
+                      <div
+                        key={item + index}
+                        className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1"
+                      >
                         <span
                           onClick={() =>
                             setData({
@@ -459,9 +465,12 @@ const AddProducts: React.FC = () => {
               </select>
               {data.clothOccasion.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">
-                  {data?.clothOccasion?.map((item: any) => {
+                  {data?.clothOccasion?.map((item: any, index: number) => {
                     return (
-                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
+                      <div
+                        key={item + index}
+                        className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1"
+                      >
                         <span
                           onClick={() =>
                             setData({
@@ -644,9 +653,12 @@ const AddProducts: React.FC = () => {
               </select>
               {data.category.length > 0 && (
                 <div className="w-max flex items-center gap-3 my-3">
-                  {data?.category?.map((item: any) => {
+                  {data?.category?.map((item: any, index: number) => {
                     return (
-                      <div className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1">
+                      <div
+                        key={item + index}
+                        className="text-black text-sm flex border border-white mx-1 w-max items-center bg-red-100 rounded-lg p-1"
+                      >
                         <span
                           onClick={() =>
                             setData({
@@ -790,8 +802,8 @@ const AddProducts: React.FC = () => {
               </div>
               <div className="w-max relative flex">
                 {data?.boughtWithIds?.length > 0 &&
-                  data?.boughtWithIds.map((img: string) => (
-                    <div className="w-32 relative h-32">
+                  data?.boughtWithIds.map((img: string, index: number) => (
+                    <div key={img + index} className="w-32 relative h-32">
                       <img
                         src={img}
                         alt=""

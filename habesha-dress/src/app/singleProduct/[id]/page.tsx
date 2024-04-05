@@ -258,7 +258,7 @@ const SingleProduct: React.FC = () => {
                   {Array(data?.rating)
                     .fill("")
                     .map((_, index) => (
-                      <li>
+                      <li key={index}>
                         <GoStarFill className="text-lg text-orange-500" />
                       </li>
                     ))}
@@ -266,7 +266,7 @@ const SingleProduct: React.FC = () => {
                     Array(5 - data?.rating)
                       .fill("")
                       .map((_, index) => (
-                        <li>
+                        <li key={index}>
                           <GoStar className="text-lg text-gray-500" />
                         </li>
                       ))}
