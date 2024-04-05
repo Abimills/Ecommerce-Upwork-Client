@@ -14,10 +14,7 @@ import { emptyCart } from "../lib/cartSlice/cartSlice";
 const SuccessfulPayment = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   // const user = useAppSelector((state: any) => state.auth.user);
-  const user =
-    (localStorage.getItem("user") as string) !== null
-      ? JSON.parse(localStorage.getItem("user") as string)
-      : {};
+
   const dispatch = useDispatch();
   const router = useRouter();
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
@@ -31,6 +28,10 @@ const SuccessfulPayment = () => {
   };
 
   useEffect(() => {
+    const user =
+      (localStorage.getItem("user") as string) !== null
+        ? JSON.parse(localStorage.getItem("user") as string)
+        : {};
     let idExist = localStorage.getItem("payId") as any;
     if (idExist !== null) {
       const id = JSON.parse(idExist);
