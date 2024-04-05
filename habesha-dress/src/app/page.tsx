@@ -24,6 +24,8 @@ import SearchBar from "./components/Navbar/SearchBar";
 import ToggleSubscribe from "./components/NewsletterSlider/ToggleSubscribe";
 import { setAllProducts, sortDataReducer } from "./lib/cartSlice/dataSlice";
 import Notification from "./components/Notification/Notification";
+import { setFavorites, setItems } from "./lib/cartSlice/cartSlice";
+import { loginSuccess } from "./lib/authSlice/authSlice";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
 export default function Home() {
@@ -43,6 +45,7 @@ export default function Home() {
     cart: true,
     navigation: true,
   };
+
   useEffect(() => {
     // Function to get user's location
     const getUserLocationByIP = async () => {
@@ -73,7 +76,19 @@ export default function Home() {
         }
       }
     };
+    const carts = localStorage.getItem("cart") as any;
+    const favorites = localStorage.getItem("favorites") as any;
+    const user = localStorage.getItem("user") as any;
 
+    if (carts !== null) {
+      dispatch(setItems(JSON.parse(carts)));
+    }
+    if (favorites !== null) {
+      dispatch(setFavorites(JSON.parse(favorites)));
+    }
+    if (user !== null) {
+      dispatch(loginSuccess(JSON.parse(user)));
+    }
     // Call functions to get user's location, current time, and device type
     getUserLocationByIP();
   }, []);

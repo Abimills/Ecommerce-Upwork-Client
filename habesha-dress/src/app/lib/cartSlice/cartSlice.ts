@@ -26,28 +26,30 @@ export interface CartState {
   showNewsletter: boolean;
   showNotification: boolean;
 }
-const loadUserFavoritesFromLocalStorage = (): any => {
-  const favJson: any = localStorage.getItem("favorites");
-  if (favJson) {
-    return JSON.parse(favJson);
-  } else {
-    return [];
-  }
-};
-const loadUserCartFromLocalStorage = () => {
-  const cartJson: any = localStorage.getItem("cart");
+// const loadUserFavoritesFromLocalStorage = (): any => {
+//   // try {
+//   if (typeof window !== "undefined" && window.localStorage) {
+//     return JSON.parse(
+//       JSON.parse(window.localStorage.getItem("favorites") as any)
+//     );
+//   } else {
+//     return [];
+//   }
+// };
 
-  if (cartJson) {
-    return JSON.parse(cartJson);
-  } else {
-    return [];
-  }
-};
+// const loadUserCartFromLocalStorage = () => {
+//   if (typeof window !== "undefined" && window.localStorage) {
+//     const data = JSON.parse(window.localStorage.getItem("cart") as any);
+//     return JSON.parse(data);
+//   } else {
+//     return [];
+//   }
+// };
 
 // Define the initial state using that type
 const initialState: CartState = {
-  items: loadUserCartFromLocalStorage() || [],
-  favorites: loadUserFavoritesFromLocalStorage() || [],
+  items: [],
+  favorites: [],
   showSignIn: false,
   showNewsletter: false,
   showSearch: false,
@@ -110,6 +112,12 @@ export const cartSlice = createSlice({
     toggleShowSidebar: (state) => {
       state.showSidebar = !state.showSidebar;
     },
+    setItems: (state, action: PayloadAction<any>) => {
+      state.items = action.payload;
+    },
+    setFavorites: (state, action: PayloadAction<any>) => {
+      state.favorites = action.payload;
+    },
     setCartQuantity: (state, action: PayloadAction<any>) => {
       const itemExist = state.items.find(
         (item: any) => item.id === action.payload.id
@@ -162,6 +170,8 @@ export const {
   toggleShowFilter,
   setCartQuantity,
   addToCart,
+  setItems,
+  setFavorites,
   emptyCart,
   toggleShowNewsletter,
   toggleShowNotification,
