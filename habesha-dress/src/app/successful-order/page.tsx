@@ -14,7 +14,10 @@ import { emptyCart } from "../lib/cartSlice/cartSlice";
 const SuccessfulPayment = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   // const user = useAppSelector((state: any) => state.auth.user);
-  const user = JSON.parse(localStorage.getItem("user") as string);
+  const user =
+    (localStorage.getItem("user") as string) !== null
+      ? JSON.parse(localStorage.getItem("user") as string)
+      : {};
   const dispatch = useDispatch();
   const router = useRouter();
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
@@ -27,8 +30,10 @@ const SuccessfulPayment = () => {
     navigation: true,
   };
   const handleUserExistOrder = async () => {
-    const id: any = JSON.parse(localStorage.getItem("payId") as string);
-    console.log(user?._id);
+    const id: any =
+      (localStorage.getItem("payId") as string) !== null
+        ? JSON.parse(localStorage.getItem("payId") as string)
+        : "";
 
     if (user?._id && id) {
       const userData = {
@@ -36,7 +41,7 @@ const SuccessfulPayment = () => {
         token: user?.token,
         data: { orders: [...user?.orders, id] },
       };
-      console.log("working");
+
       const res = await axios.put("/api/login", { ...userData });
       if (res.data.success) {
         const updatedUser = {
@@ -48,10 +53,14 @@ const SuccessfulPayment = () => {
     }
   };
   const handleOrder = async () => {
-    const id: any = JSON.parse(localStorage.getItem("payId") as string);
-    const customerDetail: any = JSON.parse(
-      localStorage.getItem("customerDetail") as string
-    );
+    const id: any =
+      (localStorage.getItem("payId") as string) !== null
+        ? JSON.parse(localStorage.getItem("payId") as string)
+        : "";
+    const customerDetail: any =
+      (localStorage.getItem("customerDetail") as string) !== null
+        ? JSON.parse(localStorage.getItem("customerDetail") as string)
+        : {};
 
     let data: any = {};
     if (user?._id) {
@@ -80,7 +89,10 @@ const SuccessfulPayment = () => {
   };
 
   useEffect(() => {
-    const id: any = JSON.parse(localStorage.getItem("payId") as string);
+    const id: any =
+      (localStorage.getItem("payId") as string) !== null
+        ? JSON.parse(localStorage.getItem("payId") as string)
+        : "";
     if (id) {
       handleUserExistOrder();
       handleOrder();
