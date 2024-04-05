@@ -33,6 +33,7 @@ const OrderUserProfile: React.FC = () => {
   };
   useEffect(() => {
     // window.scrollTo(0, 0);
+    
     const itemsBought = localStorage.getItem("itemsBought") as any;
     if (itemsBought !== null) {
       const ids = JSON.parse(itemsBought);

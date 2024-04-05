@@ -29,71 +29,74 @@ const SuccessfulPayment = () => {
     cart: true,
     navigation: true,
   };
-  const handleUserExistOrder = async () => {
-    const id: any =
-      (localStorage.getItem("payId") as string) !== null
-        ? JSON.parse(localStorage.getItem("payId") as string)
-        : "";
-
-    if (user?._id && id) {
-      const userData = {
-        id: user?._id,
-        token: user?.token,
-        data: { orders: [...user?.orders, id] },
-      };
-
-      const res = await axios.put("/api/login", { ...userData });
-      if (res.data.success) {
-        const updatedUser = {
-          ...user,
-          orders: res.data.updatedUser.orders,
-        };
-        dispatch(loginSuccess(updatedUser));
-      }
-    }
-  };
-  const handleOrder = async () => {
-    const id: any =
-      (localStorage.getItem("payId") as string) !== null
-        ? JSON.parse(localStorage.getItem("payId") as string)
-        : "";
-    const customerDetail: any =
-      (localStorage.getItem("customerDetail") as string) !== null
-        ? JSON.parse(localStorage.getItem("customerDetail") as string)
-        : {};
-
-    let data: any = {};
-    if (user?._id) {
-      data = {
-        orderedProducts: cartItems,
-        customerId: user?._id,
-        orderProductsQuantity: cartItems?.length,
-        customerAddress: customerDetail,
-      };
-    } else {
-      data = {
-        orderedProducts: cartItems,
-        orderProductsQuantity: cartItems?.length,
-        customerAddress: customerDetail,
-      };
-    }
-    const payload = { id, data };
-    const res = await axios.put("/api/order", payload);
-
-    if (res.data.success) {
-      toast.success("successfully ordered your product");
-      localStorage.removeItem("cart");
-      dispatch(emptyCart());
-      localStorage.removeItem("payId");
-    }
-  };
 
   useEffect(() => {
-    const id: any =
-      (localStorage.getItem("payId") as string) !== null
-        ? JSON.parse(localStorage.getItem("payId") as string)
-        : "";
-    if (id) {
+    let idExist = localStorage.getItem("payId") as any;
+    if (idExist !== null) {
+      const id = JSON.parse(idExist);
+      const customerDetail: any =
+        (localStorage.getItem("customerDetail") as string) !== null
+          ? JSON.parse(localStorage.getItem("customerDetail") as string)
+          : {};
+      // const id: any =
+      //   (localStorage.getItem("payId") as string) !== null
+      //     ? JSON.parse(localStorage.getItem("payId") as string)
+      //     : "";
+      const handleUserExistOrder = async () => {
+        // const id: any =
+        //   (localStorage.getItem("payId") as string) !== null
+        //     ? JSON.parse(localStorage.getItem("payId") as string)
+        //     : "";
+
+        if (user?._id && id) {
+          const userData = {
+            id: user?._id,
+            token: user?.token,
+            data: { orders: [...user?.orders, id] },
+          };
+
+          const res = await axios.put("/api/login", { ...userData });
+          if (res.data.success) {
+            const updatedUser = {
+              ...user,
+              orders: res.data.updatedUser.orders,
+            };
+            dispatch(loginSuccess(updatedUser));
+          }
+        }
+      };
+      const handleOrder = async () => {
+        // const id: any =
+        //   (localStorage.getItem("payId") as string) !== null
+        //     ? JSON.parse(localStorage.getItem("payId") as string)
+        //     : "";
+
+        let data: any = {};
+        if (user?._id) {
+          data = {
+            orderedProducts: cartItems,
+            customerId: user?._id,
+            orderProductsQuantity: cartItems?.length,
+            customerAddress: customerDetail,
+          };
+        } else {
+          data = {
+            orderedProducts: cartItems,
+            orderProductsQuantity: cartItems?.length,
+            customerAddress: customerDetail,
+          };
+        }
+        const payload = { id, data };
+        const res = await axios.put("/api/order", payload);
+
+        if (res.data.success) {
+          toast.success("successfully ordered your product");
+          localStorage.removeItem("cart");
+          dispatch(emptyCart());
+          localStorage.removeItem("payId");
+        }
+      };
+
       handleUserExistOrder();
       handleOrder();
     }
