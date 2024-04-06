@@ -37,7 +37,7 @@ export default function Home() {
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showSidebar = useSelector((state: any) => state.cart.showSidebar);
-  const showFilter = useSelector((state: any) => state.cart.showFilter);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
   const showIcons = {
     search: true,
     user: true,
@@ -69,7 +69,7 @@ export default function Home() {
           const userAgent = navigator?.userAgent;
           const userInfo = [{ currentTime }, refinedData, { userAgent }];
 
-          const res = await axios.post("/api/userInfo", { userInfo });
+          const res = await axios.post(`${gateWay}/api/userInfo`, { userInfo });
           sessionStorage.setItem("userVisited", "yes");
         } catch (error) {
           console.error("Error getting user's location by IP:", error);

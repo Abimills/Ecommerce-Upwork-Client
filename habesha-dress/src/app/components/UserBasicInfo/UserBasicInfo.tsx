@@ -20,6 +20,8 @@ interface Props {
 const UserBasicInfo: React.FC<Props> = ({ open, setOpen }) => {
   const user = useSelector((state: any) => state.auth.user);
   const [loading, setLoading] = useState(false);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const [data, setData] = useState({
     name: user?.name || "",
     gender: user?.gender || "",
@@ -36,7 +38,7 @@ const UserBasicInfo: React.FC<Props> = ({ open, setOpen }) => {
     if (data.name !== "") {
       try {
         setLoading(true);
-        const res = await axios.put("http://localhost:3000/api/update-user", {
+        const res = await axios.put(`${gateWay}/api/update-user`, {
           token: user?.token,
 
           data,

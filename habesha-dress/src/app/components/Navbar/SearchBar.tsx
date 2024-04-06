@@ -19,7 +19,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useAppSelector } from "@/app/lib/hooks";
 import { RootState } from "@/app/lib/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative } from "swiper/modules";
 import ReactLoading from "react-loading";
@@ -70,6 +70,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
   const storedSearches = localStorage.getItem("habeshaSearches");
   const initialSearches = storedSearches ? JSON.parse(storedSearches) : [];
   const [searches, setSearches] = useState<any>(initialSearches);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
@@ -95,9 +96,7 @@ const SearchBar: React.FC<Props> = ({ showIcons }) => {
         if (query && query !== "") {
           setQueryEmpty(false);
           setLoading(true);
-          const res = await axios.get(
-            `http://localhost:3000/api/search/?query=${query}`
-          );
+          const res = await axios.get(`${gateWay}/api/search/?query=${query}`);
           if (res.data.cloths) {
             setData(res.data.cloths);
             setLoading(false);

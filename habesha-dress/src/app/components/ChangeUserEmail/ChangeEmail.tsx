@@ -22,6 +22,7 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(user?.email || "");
   const [password, setPassword] = useState<any>("");
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
     if (email !== "" && password !== "") {
       try {
         setLoading(true);
-        const res = await axios.put("http://localhost:3000/api/update-email", {
+        const res = await axios.put(`${gateWay}/api/update-email`, {
           token: user?.token,
 
           email,
@@ -107,7 +108,6 @@ const ChangeEmail: React.FC<Props> = ({ open, setOpen }) => {
                       {/* login section */}
                       <section className="w-full h-full flex  font-Dosis    flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
-                         
                           <form className="space-y-6" onSubmit={handleSubmit}>
                             <p className="">
                               Please enter your new email address and confirm

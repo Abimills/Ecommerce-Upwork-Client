@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ReactLoading from "react-loading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../lib/authSlice/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 const LoginPage: React.FC = () => {
@@ -12,12 +12,14 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (email !== "" && password !== "") {
       try {
         setLoading(true);
-        const res = await axios.post("http://localhost:3000/api/login", {
+        const res = await axios.post(`${gateWay}/api/login`, {
           email,
           password,
         });

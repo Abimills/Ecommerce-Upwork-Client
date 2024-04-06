@@ -47,6 +47,8 @@ const Cart: React.FC = () => {
   const [searchResultCity, setSearchResultCity] = useState([]);
   const [searchingPostCode, setSearchingPostCode] = useState(false);
   const [searchResultPostCode, setSearchResultPostCode] = useState([]);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const router = useRouter();
   const [errorInput, setErrorInput] = useState({
     email: false,
@@ -210,11 +212,14 @@ const Cart: React.FC = () => {
       });
 
       try {
-        const res = await axios.post("/api/stripe/checkout_sessions", {
-          successUrl: "http://localhost:3000/successful-order",
-          cancelUrl: "http://localhost:3000/cart",
-          products,
-        });
+        const res = await axios.post(
+          `${gateWay}/api/stripe/checkout_sessions`,
+          {
+            successUrl: `${gateWay}/successful-order`,
+            cancelUrl: `${gateWay}/cart`,
+            products,
+          }
+        );
         if (res.data.success) {
           localStorage.setItem("payId", JSON.stringify(res.data.id));
           const items =

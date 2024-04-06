@@ -20,6 +20,7 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [readTermsVerify, setReadTermsVerify] = useState(false);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const showIcons = {
     search: true,
@@ -42,7 +43,7 @@ const LoginPage: React.FC = () => {
     ) {
       try {
         setLoading(true);
-        const res = await axios.post("/api/user", data);
+        const res = await axios.post(`${gateWay}/api/user`, data);
 
         if (res.data.success) {
           toast.success("Registration Successful");

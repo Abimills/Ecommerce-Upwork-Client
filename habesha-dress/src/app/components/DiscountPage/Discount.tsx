@@ -13,15 +13,17 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
 import axios from "axios";
+import { useSelector } from "react-redux";
 const Discount: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [slidesPerView, setSlidesPerView] = useState(3);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:3000/api/discount/`);
+      const res = await axios.get(`${gateWay}/api/discount/`);
       setData(res.data.data);
       setLoading(false);
     } catch (error) {

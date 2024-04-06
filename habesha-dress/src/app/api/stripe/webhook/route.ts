@@ -44,20 +44,23 @@ export async function POST(req: any, res: NextApiResponse) {
     const paymentStatus = session?.payment_status;
     const wholeOrderObject = [session];
 
-    const res = await axios.post("http://localhost:3000/api/order", {
-      orderNumber,
-      subtotalOrderAmount,
-      totalOrderAmount,
-      shippingAmount,
-      currency,
-      dateOfOrder,
-      customerAddress,
-      customerEmail,
-      customerPhone,
-      customerName,
-      paymentStatus,
-      wholeOrderObject,
-    });
+    const res = await axios.post(
+      "https://ecommerce-upwork-client-j6gp.vercel.app/api/order",
+      {
+        orderNumber,
+        subtotalOrderAmount,
+        totalOrderAmount,
+        shippingAmount,
+        currency,
+        dateOfOrder,
+        customerAddress,
+        customerEmail,
+        customerPhone,
+        customerName,
+        paymentStatus,
+        wholeOrderObject,
+      }
+    );
     if (res.data.success) {
       return NextResponse.json(
         {

@@ -22,6 +22,7 @@ const ChangePasswordComponent: React.FC<Props> = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -31,15 +32,12 @@ const ChangePasswordComponent: React.FC<Props> = ({ open, setOpen }) => {
     if (currentPassword !== "" && newPassword !== "") {
       try {
         setLoading(true);
-        const res = await axios.put(
-          "http://localhost:3000/api/update-password",
-          {
-            token: user?.token,
+        const res = await axios.put(`${gateWay}/api/update-password`, {
+          token: user?.token,
 
-            currentPassword,
-            newPassword,
-          }
-        );
+          currentPassword,
+          newPassword,
+        });
         if (res.data.success) {
           toast.success("Password Updated!");
 
@@ -112,7 +110,7 @@ const ChangePasswordComponent: React.FC<Props> = ({ open, setOpen }) => {
                         </div>
                       </div>
                       {/* login section */}
-                    
+
                       <section className="w-full h-full flex     flex-col  items-center justify-center">
                         <div className="w-full max-w-sm p-4 bg-white sm:p-6 md:p-8 ">
                           <form className="space-y-6" onSubmit={handleSubmit}>

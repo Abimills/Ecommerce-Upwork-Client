@@ -60,6 +60,8 @@ const SingleProduct: React.FC = () => {
   const param = useParams<{ id: string }>();
   const [data, setData] = useState<any>([]);
   const [similarClothes, setSimilarClothes] = useState<any>([]);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showBodySize = useSelector((state: any) => state.cart.showBodySize);
@@ -73,7 +75,7 @@ const SingleProduct: React.FC = () => {
     data.availableColors ? data.availableColors[0] : ""
   );
 
-  // Todo: donot delete this I might need it!
+  // donot delete this I might need it!
   // const addToDbFavorites = async (userId: any, itemId: any) => {
   //   const res = await axios.put("http://localhost:3000/api/user", {
   //     userId,
@@ -92,9 +94,7 @@ const SingleProduct: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(
-          `http://localhost:3000/api/product/?id=${param.id}`
-        );
+        const res = await axios.get(`${gateWay}/api/product/?id=${param.id}`);
 
         setData(res.data.cloth);
         setSimilarClothes(res.data.similarClothes);

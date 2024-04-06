@@ -24,13 +24,14 @@ const ToggleSubscribe: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       if (email !== "" && name !== "") {
         setLoading(true);
-        const res = await axios.post("http://localhost:3000/api/newsletter", {
+        const res = await axios.post(`${gateWay}/api/newsletter`, {
           email,
           name,
         });

@@ -27,6 +27,7 @@ const Favorites: React.FC = () => {
   const favorites = useSelector((state: any) => state.cart.favorites);
   const showFilter = useSelector((state: any) => state.cart.showFilter);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const showIcons = {
     search: true,
@@ -59,7 +60,7 @@ const Favorites: React.FC = () => {
           setLoading(true);
           const res = await Promise.all(
             favorites?.map((id: any) =>
-              axios.get(`http://localhost:3000/api/product/?id=${id}`)
+              axios.get(`${gateWay}/api/product/?id=${id}`)
             )
           );
           const wishlistProducts: any = res.map(

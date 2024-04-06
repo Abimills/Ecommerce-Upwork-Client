@@ -30,6 +30,7 @@ const NewProduct: React.FC = () => {
   const [slidesPerView, setSlidesPerView] = useState(3);
   const [activePagination, setActivePagination] = useState(1);
   const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const [totalPages, setTotalPages] = useState(0);
   const [totalCloths, setTotalCloths] = useState(0);
@@ -43,9 +44,7 @@ const NewProduct: React.FC = () => {
       try {
         setLoading(true);
 
-        const res = await axios.get(
-          `http://localhost:3000/api/product/?page=${4}`
-        );
+        const res = await axios.get(`${gateWay}/api/product/?page=${4}`);
 
         if (res.data.totalPages) {
           setTotalPages(res.data.totalPages);

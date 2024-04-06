@@ -42,6 +42,8 @@ const showIcons = {
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const param = useParams<{ id: string }>();
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(param?.id);
   const [open, setOpen] = useState<boolean>(false);
@@ -122,7 +124,7 @@ const AddProducts: React.FC = () => {
     // } else {
     try {
       setLoading(true);
-      const res = await axios.put("http://localhost:3000/api/product", {
+      const res = await axios.put(`${gateWay}/api/product`, {
         ...data,
         id,
       });
@@ -139,9 +141,7 @@ const AddProducts: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(
-          `http://localhost:3000/api/product/?id=${param?.id}`
-        );
+        const res = await axios.get(`${gateWay}/api/product/?id=${param?.id}`);
         const cloth: any = res.data.cloth;
         setId(cloth?._id);
         setData({

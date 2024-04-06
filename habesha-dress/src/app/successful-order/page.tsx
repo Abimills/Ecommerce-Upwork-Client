@@ -14,11 +14,12 @@ import { emptyCart } from "../lib/cartSlice/cartSlice";
 const SuccessfulPayment = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   // const user = useAppSelector((state: any) => state.auth.user);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const dispatch = useDispatch();
   const router = useRouter();
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
-  console.log(cartItems);
+
   const showIcons = {
     search: false,
     user: true,
@@ -56,7 +57,7 @@ const SuccessfulPayment = () => {
             data: { orders: [...user?.orders, id] },
           };
 
-          const res = await axios.put("/api/login", { ...userData });
+          const res = await axios.put(`${gateWay}/api/login`, { ...userData });
           if (res.data.success) {
             const updatedUser = {
               ...user,
@@ -88,7 +89,7 @@ const SuccessfulPayment = () => {
           };
         }
         const payload = { id, data };
-        const res = await axios.put("/api/order", payload);
+        const res = await axios.put(`${gateWay}/api/order`, payload);
 
         if (res.data.success) {
           toast.success("successfully ordered your product");

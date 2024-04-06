@@ -25,6 +25,8 @@ const WelcomeUserProfile: React.FC = () => {
   const [recommendedData, setRecommendedData] = useState<any>([]);
   const user = useSelector((state: any) => state.auth.user);
   const [loading, setLoading] = useState(false);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   // const single: any = data.find((product) => product.id === param.id);
   // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
 
@@ -36,7 +38,7 @@ const WelcomeUserProfile: React.FC = () => {
           const selected: any = [];
           const res = await Promise.all(
             user?.recommendedProducts?.map((id: any) =>
-              axios.get(`http://localhost:3000/api/product/?id=${id._id}`)
+              axios.get(`${gateWay}/api/product/?id=${id._id}`)
             )
           );
           const wishlistProducts: any = res.map(

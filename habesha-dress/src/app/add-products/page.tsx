@@ -43,6 +43,8 @@ const showIcons = {
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+    const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const [data, setData] = useState<ProductData>({
     title: "",
     couples: "false",
@@ -129,7 +131,7 @@ const AddProducts: React.FC = () => {
     } else {
       try {
         setLoading(true);
-        const res = await axios.post("http://localhost:3000/api/product", data);
+        const res = await axios.post(`${gateWay}/api/product`, data);
         if (res.data.success) {
           toast.success("Product saved!");
         } else {

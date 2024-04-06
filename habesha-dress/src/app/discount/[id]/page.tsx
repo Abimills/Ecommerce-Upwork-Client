@@ -48,6 +48,7 @@ const SingleProduct: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [similarClothes, setSimilarClothes] = useState<any>([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const user = useSelector((state: any) => state.auth.user);
   const [isFavored, setIsFavored] = useState(
@@ -67,9 +68,7 @@ const SingleProduct: React.FC = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(
-        `http://localhost:3000/api/discount/?id=${param.id}`
-      );
+      const res = await axios.get(`${gateWay}/api/discount/?id=${param.id}`);
 
       setData(res.data.cloth);
       setSimilarClothes(res.data.similarClothes);

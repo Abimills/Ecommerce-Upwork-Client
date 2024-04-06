@@ -41,6 +41,7 @@ const Search: React.FC = () => {
   const [genderData, setGenderData] = useState<any>({});
   const router = useRouter();
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const handleFilterByGender = (gender: string) => {
     const newData = data.filter((cloth: any) =>
@@ -57,9 +58,7 @@ const Search: React.FC = () => {
         if (q && q !== "") {
           setQuery(q);
           setLoading(true);
-          const res = await axios.get(
-            `http://localhost:3000/api/search/?query=${q}`
-          );
+          const res = await axios.get(`${gateWay}/api/search/?query=${q}`);
           if (res.data.cloths) {
             setData(res.data.cloths);
             setFilteredData(res.data.cloths);

@@ -17,6 +17,7 @@ export interface CartItem {
 }
 export interface CartState {
   items: CartItem[];
+  gateWay: string;
   favorites: any[]; // TODO: define favorite item type
   showSignIn: boolean;
   showSearch: boolean;
@@ -26,29 +27,11 @@ export interface CartState {
   showNewsletter: boolean;
   showNotification: boolean;
 }
-// const loadUserFavoritesFromLocalStorage = (): any => {
-//   // try {
-//   if (typeof window !== "undefined" && window.localStorage) {
-//     return JSON.parse(
-//       JSON.parse(window.localStorage.getItem("favorites") as any)
-//     );
-//   } else {
-//     return [];
-//   }
-// };
-
-// const loadUserCartFromLocalStorage = () => {
-//   if (typeof window !== "undefined" && window.localStorage) {
-//     const data = JSON.parse(window.localStorage.getItem("cart") as any);
-//     return JSON.parse(data);
-//   } else {
-//     return [];
-//   }
-// };
 
 // Define the initial state using that type
 const initialState: CartState = {
   items: [],
+  gateWay: "https://ecommerce-upwork-client-j6gp.vercel.app",
   favorites: [],
   showSignIn: false,
   showNewsletter: false,

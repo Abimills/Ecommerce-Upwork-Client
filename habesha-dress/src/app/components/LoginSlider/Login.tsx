@@ -25,6 +25,7 @@ const Login: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ const Login: React.FC = () => {
     if (email !== "" && password !== "") {
       try {
         setLoading(true);
-        const res = await axios.post("/api/login", {
+        const res = await axios.post(`${gateWay}/api/login`, {
           email,
           password,
         });

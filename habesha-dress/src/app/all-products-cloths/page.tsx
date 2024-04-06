@@ -36,6 +36,8 @@ const AllProducts: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const router = useRouter();
   const [activePage, setActivePage] = useState(1);
@@ -49,7 +51,7 @@ const AllProducts: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:3000/api/product/");
+        const res = await axios.get(`${gateWay}/api/product/`);
 
         if (res.data.cloths) {
           setData(res.data.cloths);
@@ -77,7 +79,7 @@ const AllProducts: React.FC = () => {
         const incrementCurrentPage = activePage + 1;
         setActivePage(incrementCurrentPage);
         const res = await axios.get(
-          `http://localhost:3000/api/product/?page=${incrementCurrentPage}`
+          `${gateWay}/api/product/?page=${incrementCurrentPage}`
         );
         setData(res.data.cloths);
         setFilteredData(res.data.cloths);
