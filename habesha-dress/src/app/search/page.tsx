@@ -10,6 +10,7 @@ import { RiMenuSearchLine } from "react-icons/ri";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactLoading from "react-loading";
 import { TbDeviceDesktopSearch } from "react-icons/tb";
+import { RiArrowGoBackLine } from "react-icons/ri";
 
 import {
   toggleShowFilter,
@@ -30,7 +31,7 @@ const showIcons = {
   user: true,
   wishlist: true,
   cart: true,
-  navigation: true,
+  navigation: false,
 };
 interface GenderData {
   [key: string]: number;
@@ -57,7 +58,7 @@ const Search: React.FC = () => {
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
 
   useEffect(() => {
-    const q = new URLSearchParams(window.location?.search).get("query");
+    const q = new URLSearchParams(window?.location?.search).get("query");
     const searchData = async () => {
       try {
         if (q && q !== "") {
@@ -100,11 +101,30 @@ const Search: React.FC = () => {
 
   return (
     <main className="w-full text-black font-Dosis  h-max bg-white flex flex-col">
-      {showSearch ? (
-        <SearchBar showIcons={showIcons} />
-      ) : (
-        <Navbar showIcons={showIcons} />
-      )}
+      <div className=" mb-8 flex items-center ">
+        <div className=" w-max flex items-center gap-4 p-0.5 ">
+          <RiArrowGoBackLine
+            onClick={() => router.back()}
+            className="ml-6 font-medium hover:text-green-700  cursor-pointer"
+          />
+          <h1 className=" hidden sm:inline text-xl font-medium  text-gray-600 tracking-tight font-base text-gray-700 cursor-pointer">
+            <span
+              className="hover:underline text-gray-700 mx-1"
+              onClick={() => router.push("/")}
+            >
+              Home
+            </span>
+            {"/"}
+
+            <span className=" hover:underline text-gray-700  mx-1">Search</span>
+          </h1>
+        </div>
+        {showSearch ? (
+          <SearchBar showIcons={showIcons} />
+        ) : (
+          <Navbar showIcons={showIcons} />
+        )}
+      </div>
       {showSidebar && <SidebarNavigation />}
       {showSignIn && <Login />}
       {showNewsletter && <ToggleSubscribe />}
