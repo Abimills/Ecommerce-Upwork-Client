@@ -28,9 +28,18 @@ const SidebarNavigation: React.FC = () => {
     dispatch(toggleShowSidebar());
   };
   const handleAccount = () => {
-    if (user || user?.email) {
+    if (user && user?.email) {
       router.push("/user-profile");
-    } else if (!user) {
+    } else if (!user?.email) {
+      dispatch(toggleShowSignIn());
+    }
+    dispatch(toggleShowSidebar());
+  };
+  const handleAccountOrder = () => {
+    if (user && user?.email) {
+      router.push("/user-profile");
+    } else if (!user?.email) {
+      router.push("/order-history-all");
       dispatch(toggleShowSignIn());
     }
     dispatch(toggleShowSidebar());
@@ -67,11 +76,15 @@ const SidebarNavigation: React.FC = () => {
   const handleGroupNavigation = (group: string) => {
     router.push(`/search?query=${group}`);
   };
+  const handleHomeNavigation = () => {
+    router.push(`/`);
+    dispatch(toggleShowSidebar());
+  };
   return (
     <div className="w-full h-full relative ">
       <div className="fixed top-0 left-0 z-40 w-full md:w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
         <h5
-          onClick={() => router.push("/")}
+          onClick={handleHomeNavigation}
           className="text-xl mb-8 cursor-pointer flex items-center gap-4 text-gray-800  underline underline-offset-2 hover:underline-offset-4 dark:text-gray-400"
         >
           <MdOutlineKeyboardBackspace className="" /> <span> home </span>
@@ -129,7 +142,7 @@ const SidebarNavigation: React.FC = () => {
             </li>
             <li>
               <button
-                onClick={handleAccount}
+                onClick={handleAccountOrder}
                 type="button"
                 className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 "
               >

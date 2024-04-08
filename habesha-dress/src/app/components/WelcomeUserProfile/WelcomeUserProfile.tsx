@@ -26,6 +26,7 @@ const WelcomeUserProfile: React.FC = () => {
   const user = useSelector((state: any) => state.auth.user);
   const [loading, setLoading] = useState(false);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
+  const [slidesPerView, setSlidesPerView] = useState(3);
 
   // const single: any = data.find((product) => product.id === param.id);
   // TODO : ADD A DIV BEFORE SWIPERSLIDE TO REMOVE ERROR
@@ -60,7 +61,29 @@ const WelcomeUserProfile: React.FC = () => {
 
     fetchData();
   }, []);
+  useEffect(() => {
+    // Update slidesPerView based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 630) {
+        setSlidesPerView(1); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 630 && window.innerWidth < 800) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else if (window.innerWidth > 800 && window.innerWidth < 1000) {
+        setSlidesPerView(2); // Set to 1 slide per view on small screens
+      } else {
+        setSlidesPerView(3); // Set to 3 slides per view on larger screens
+      }
+    };
 
+    // Call handleResize when the window size changes
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize once to set the initial slidesPerView value
+    handleResize();
+
+    // Remove event listener when component unmounts
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div className="w-full flex flex-col  relative  ">
       {loading && (
@@ -73,24 +96,47 @@ const WelcomeUserProfile: React.FC = () => {
           />
         </div>
       )}
-      <h1 className="text-2xl font-semibold mb-3 p-10">Discover now</h1>
-      <main className="flex  w-full p-10 shadow-lg items-center justify-between">
+      <h1 className="text-2xl font-semibold mb-3 mt-8 w-full text-center sm:w-max sm:p-10">
+        Discover now
+      </h1>
+      <main className="flex  w-full p-10  items-center justify-between">
         <Swiper
-          loop={true}
+          // loop={true}
           // effect={"creative"}
           autoplay={{ delay: 5000 }}
           spaceBetween={30}
-          slidesPerView={4}
-          // navigation={true}
+          slidesPerView={slidesPerView}
+          navigation={true}
           // pagination={{ clickable: true }}
-          className="w-max h-max flex  cursor-pointer  "
+          className="w-max h-max flex   cursor-pointer  "
           // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
+          onSlideChange={(swiper) => {
+            swiper.navigation.nextEl.className = ` ${
+              swiper.isEnd ? "hidden" : "swiper-button-next bg-white"
+            } 
+              
+              `;
+            swiper.navigation.prevEl.className = `${
+              swiper.isBeginning ? "" : "swiper-button-prev bg-white"
+            } `;
+            if (swiper.isEnd) {
+              // router.push("/all-products-cloths");
+            }
+          }}
+          onSwiper={(swiper) => {
+            swiper.navigation.prevEl.className = `${
+              swiper.realIndex == 0 ? "" : ""
+            }`;
+            // console.log(swiper.isEnd);
+            // swiper.navigation.nextEl.className = ` ${
+            //   swiper.isEnd ? "" : "swiper-button-next"
+            // }`;
+          }}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
         >
           {welcome?.map((item: any) => {
             return (
-              <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
+              <SwiperSlide className="cursor-pointer w-max  " key={item.id}>
                 <WelcomeCard item={item} />
               </SwiperSlide>
             );
@@ -98,19 +144,42 @@ const WelcomeUserProfile: React.FC = () => {
           {/* <LiaAngleDoubleRightSolid className="text-lg text-gray-400" /> */}
         </Swiper>
       </main>
-      <h1 className="mt-16 font-semibold text-2xl mb-4">
+      <h1 className="mt-16  mb-6 pl-4 font-semibold text-2xl mb-4">
         Inspiration for your next purchase
       </h1>
-      <main className="flex  w-full p-5 shadow-lg items-center justify-between">
+      <main className="flex  w-full p-5  items-center justify-between">
         <Swiper
-          loop={true}
+          // loop={true}
           // effect={"creative"}
           autoplay={{ delay: 5000 }}
           spaceBetween={30}
-          slidesPerView={4}
-          // navigation={true}
-          // pagination={{ clickable: true }}
-          className="w-max h-max flex  cursor-pointer  "
+          slidesPerView={slidesPerView}
+          navigation={true}
+          pagination={{ clickable: true }}
+          className="w-max h-max flex   cursor-pointer  "
+          // onSlideChange={() => console.log("slide change")}
+          onSlideChange={(swiper) => {
+            swiper.navigation.nextEl.className = ` ${
+              swiper.isEnd ? "hidden" : "swiper-button-next bg-white"
+            } 
+              
+              `;
+            swiper.navigation.prevEl.className = `${
+              swiper.isBeginning ? "" : "swiper-button-prev bg-white"
+            } `;
+            if (swiper.isEnd) {
+              // router.push("/all-products-cloths");
+            }
+          }}
+          onSwiper={(swiper) => {
+            swiper.navigation.prevEl.className = `${
+              swiper.realIndex == 0 ? "" : ""
+            }`;
+            // console.log(swiper.isEnd);
+            // swiper.navigation.nextEl.className = ` ${
+            //   swiper.isEnd ? "" : "swiper-button-next"
+            // }`;
+          }}
           // onSlideChange={() => console.log("slide change")}
           // onSwiper={(swiper) => console.log(swiper)}
           modules={[Pagination, Navigation, Autoplay, EffectCreative]}
@@ -118,16 +187,17 @@ const WelcomeUserProfile: React.FC = () => {
           {recommendedData?.map((item: any) => {
             return (
               <SwiperSlide className="cursor-pointer w-max  " key={item._id}>
-                <InspirationCard product={item} />
+                <div className="w-full h-full flex justify-center items-center">
+                  <div className="">
+                    <InspirationCard product={item} />
+                  </div>
+                </div>
               </SwiperSlide>
             );
           })}
           {/* <LiaAngleDoubleRightSolid className="text-lg text-gray-400" /> */}
         </Swiper>
       </main>
-      <div className="mt-32">
-        <Footer />
-      </div>
     </div>
   );
 };

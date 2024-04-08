@@ -9,6 +9,9 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const [data, setData] = useState<any>({
@@ -21,7 +24,9 @@ const LoginPage: React.FC = () => {
   const [readTermsVerify, setReadTermsVerify] = useState(false);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
-
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const showIcons = {
     search: true,
     user: true,
@@ -78,7 +83,7 @@ const LoginPage: React.FC = () => {
     saveAs(pdfFile, "downloaded_file.pdf");
   };
   return (
-    <div className="w-full font-Dosis     bg-white ">
+    <div className="w-full text-black font-Dosis     bg-white ">
       <div className="w-full   border border-gray-100 border-2 ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -87,7 +92,10 @@ const LoginPage: React.FC = () => {
         )}
       </div>
       <ToastContainer />
-      <section className="bg-white  relative my-8 p-4 py-15 rounded-full ">
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
+      <section className="bg-white w-full  relative my-8 mt-0 p-4 pt-0  rounded-full ">
         {loading && (
           <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
             <ReactLoading
@@ -99,46 +107,67 @@ const LoginPage: React.FC = () => {
           </div>
         )}
 
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow-xl border border-green-100  md:mt-0 sm:max-w-md xl:p-0  ">
-            <div className="p-6  w-full space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <div className="flex w-full flex-col items-center justify-center sm:px-6 sm:py-8   lg:py-0">
+          <div className="w-full bg-white rounded-lg sm:shadow-xl sm:border sm:border-green-100  md:mt-0 xl:p-0  ">
+            <div className="sm:p-6  w-full  sm:p-8">
+              <h1 className="text-xl font-bold mb-4 mt-4 leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create and account
               </h1>
               <form
                 className=" w-full space-y-4 md:space-y-6"
                 onSubmit={handleSubmit}
               >
-                <div>
+                <div className="w-full flex sm:items-center gap-4 flex-col sm:flex-row">
+                  <div className="w-full sm:w-1/2">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      onChange={(e) => handleChange(e)}
+                      value={data.name}
+                      required
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="name"
+                    />
+                  </div>
+                  <div className="w-full sm:w-1/2">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Your email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      onChange={(e) => handleChange(e)}
+                      value={data.email}
+                      required
+                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="john@gmail.com"
+                    />
+                  </div>
+                </div>
+                <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Name
+                    Password
                   </label>
                   <input
-                    type="text"
-                    name="name"
+                    type="password"
+                    name="password"
                     onChange={(e) => handleChange(e)}
-                    value={data.name}
+                    value={data.password}
+                    placeholder="••••••••"
                     required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name"
+                    className="bg-gray-50 border mb-1 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
+                  <div className=" px-2 flex items-center justify-between">
+                    <p className="text-xs"> 8 characters</p>
+                    <p className="text-xs"> 1 digit</p>
+                    <p className="text-xs"> 1 capital letter</p>
+                    <p className="text-xs"> 1 punctuation mark</p>
+                  </div>
                 </div>
-                <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Your email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    onChange={(e) => handleChange(e)}
-                    value={data.email}
-                    required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="john@gmail.com"
-                  />
-                </div>
-
-                <div>
+                <div className="mb-6">
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Gender
                   </label>
@@ -175,26 +204,7 @@ const LoginPage: React.FC = () => {
 
                   {/* </select> */}
                 </div>
-                <div className="mb-6">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    onChange={(e) => handleChange(e)}
-                    value={data.password}
-                    placeholder="••••••••"
-                    required
-                    className="bg-gray-50 border mb-1 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  />
-                  <div className=" px-2 flex items-center justify-between">
-                    <p className="text-xs"> 8 characters</p>
-                    <p className="text-xs"> 1 digit</p>
-                    <p className="text-xs"> 1 capital letter</p>
-                    <p className="text-xs"> 1 punctuation mark</p>
-                  </div>
-                </div>
+
                 {/* <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Confirm password
@@ -251,7 +261,7 @@ const LoginPage: React.FC = () => {
                     </span>
                   )}{" "}
                 </button>
-                <p className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
+                <div className="text-sm font-normal text-gray-500 dark:text-gray-400 ">
                   Already have an account?
                   <p
                     onClick={() => router.push("/login")}
@@ -259,7 +269,7 @@ const LoginPage: React.FC = () => {
                   >
                     Login here
                   </p>
-                </p>
+                </div>
               </form>
             </div>
           </div>

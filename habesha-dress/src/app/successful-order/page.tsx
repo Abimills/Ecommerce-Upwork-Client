@@ -11,11 +11,16 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { loginSuccess } from "../lib/authSlice/authSlice";
 import { emptyCart } from "../lib/cartSlice/cartSlice";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 const SuccessfulPayment = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   // const user = useAppSelector((state: any) => state.auth.user);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
-
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const dispatch = useDispatch();
   const router = useRouter();
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
@@ -105,7 +110,7 @@ const SuccessfulPayment = () => {
   }, []);
 
   return (
-    <main className="w-full h-screen bg-white flex items-center justify-start flex-col">
+    <main className="w-full text-black h-screen bg-white flex items-center justify-start flex-col">
       <div className="w-full">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -114,6 +119,9 @@ const SuccessfulPayment = () => {
         )}
       </div>
       <ToastContainer />
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <div className="w-full flex items-center flex-col py-32 px-6 md:px-48 mb-16">
         <h1 className="text-4xl sm:text-5xl font-bold mb-4 font-poppins">
           Thank you for your order!

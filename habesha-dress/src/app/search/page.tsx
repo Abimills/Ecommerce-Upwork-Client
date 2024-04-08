@@ -22,6 +22,9 @@ import Navbar from "@/app/components/Navbar/Navbar";
 import Notification from "../components/Notification/Notification";
 import FilterData from "../components/Filter/Filter";
 import Footer from "../components/Footer/Footer";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 const showIcons = {
   search: false,
   user: true,
@@ -41,18 +44,21 @@ const Search: React.FC = () => {
   const [genderData, setGenderData] = useState<any>({});
   const router = useRouter();
   const showSearch = useSelector((state: any) => state.cart.showSearch);
-  const gateWay = useSelector((state: any) => state.cart.gateWay);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
 
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const handleFilterByGender = (gender: string) => {
     const newData = data.filter((cloth: any) =>
       cloth.forWhichGender.includes(gender)
     );
     setFilteredData(newData);
   };
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
 
+  let q = new URLSearchParams(window.location?.search).get("query");
   useEffect(() => {
-    const q = new URLSearchParams(window.location?.search).get("query");
-
+    q = new URLSearchParams(window.location?.search).get("query");
     const searchData = async () => {
       try {
         if (q && q !== "") {
@@ -86,7 +92,7 @@ const Search: React.FC = () => {
     };
 
     searchData();
-  }, []);
+  }, [window?.location?.search]);
   // console.log(categoryData);
   const dispatch = useDispatch();
   const handleOpenFilter = (e: any) => {
@@ -94,12 +100,15 @@ const Search: React.FC = () => {
   };
 
   return (
-    <main className="w-full font-Dosis  h-max bg-white flex flex-col">
+    <main className="w-full text-black font-Dosis  h-max bg-white flex flex-col">
       {showSearch ? (
         <SearchBar showIcons={showIcons} />
       ) : (
         <Navbar showIcons={showIcons} />
       )}
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <Notification />
       {openFilter && (
         <FilterData

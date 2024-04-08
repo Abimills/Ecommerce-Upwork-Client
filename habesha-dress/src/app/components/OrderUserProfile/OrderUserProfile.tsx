@@ -19,14 +19,36 @@ import Products from "../Products/Products";
 import ProductCard from "../ProductCard/ProductCard";
 import InspirationCard from "../DiscountCard/InspirationCard";
 import Footer from "../Footer/Footer";
-import OrderCard from "../Order-Temporary/Order";
+import OrderCard from "../OrderCard/OrderCard";
 
 const OrderUserProfile: React.FC = () => {
   const [orders, setOrders] = useState([]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const fetchOrder = async () => {
+      const user = localStorage.getItem("user") as any;
+      if (user !== null) {
+        const parsedUser = JSON.parse(user);
+        const ids = parsedUser?.orders;
+        if (ids?.length > 0) {
+          const res = await Promise.all(
+            ids?.map((id: any) => axios.get(`/api/order/?orderNumber=${id}`))
+          );
+          if (res[0]?.data.success) {
+            const allOrders: any = res.map((product) => product.data.order);
+            setOrders(allOrders);
+            console.log(res);
+          }
+        }
+      }
+    };
+    fetchOrder();
+  }, []);
+  console.log(orders);
   return (
     <div className="w-full flex  flex-col  ">
-      {orders?.length > 0 ? (
+      {orders?.length < 1 ? (
         <div className=" w-full flex  mb-16 items-center justify-center flex-col p-10 ">
           <img
             src="../cart-empty.gif"
@@ -45,33 +67,54 @@ const OrderUserProfile: React.FC = () => {
         </div>
       ) : (
         <div className="w-full h-max ">
-          <div className="w-full h-max p-16">
-            <h1 className="font-semibold text-4xl mb-4 ">Order history</h1>
-            <p className=" text-lg text-gray-400  mb-8">
-              Check the status of recent orders, manage returns, and discover
-              similar products.
-            </p>
-            <div className="w-full h-max flex rounded-t-lg  p-8 border border-gray-300 items-center justify-between">
-              <span className="">
-                <p className="">Order number</p>
-                <p className="text-gray-400">AB98324378</p>
-              </span>
-              <span className="">
-                <p className="">Date placed</p>
-                <p className="text-gray-400">july 6, 2024</p>
-              </span>
-              <span className="">
-                <p className="">Total amount</p>
-                <p className="">$160.00</p>
-              </span>
-            </div>
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-          </div>
+          <h1 className="font-semibold font-poppins text-4xl mt-8 mb-4 px-4 py-4 sm:px-16 ">
+            Order history
+          </h1>
+          <p className=" text-lg text-gray-600   px-4 py-4 sm:px-16">
+            Check the status of recent orders, manage returns, and discover
+            similar products.
+          </p>
+          {orders.map((order: any, index: number) => {
+            return (
+              <div
+                key={index + order?._id}
+                className="w-full h-max pb-16 px-4  sm:px-16 my-8"
+              >
+                <div className="w-full h-max flex rounded-t-lg  p-8 border border-green-300 items-center justify-between">
+                  <span className="hidden sm:inline">
+                    <p className="">Order number</p>
+                    <p className="text-gray-400">
+                      {" "}
+                      {order?.orderNumber?.slice(0, 20)}......
+                    </p>
+                  </span>
+                  <span className="hidden sm:inline">
+                    <p className="">Date placed</p>
+                    <p className="text-gray-400">{order?.createdAt}</p>
+                  </span>
+                  <span className="">
+                    <p className="">Shipping amount</p>
+                    <p className=" text-xl font-bold text-green-500">
+                      ${(order?.shippingAmount / 100)?.toFixed(2)}
+                    </p>
+                  </span>
+                  <span className="">
+                    <p className="">Total amount</p>
+                    <p className=" text-xl font-bold text-green-500">
+                      ${(order?.totalOrderAmount / 100)?.toFixed(2)}
+                    </p>
+                  </span>
+                </div>
+                <div className="">
+                  {order?.orderedProducts?.map((item: any) => {
+                    return <OrderCard item={item} key={item.id} />;
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
-      <Footer />
     </div>
   );
 };

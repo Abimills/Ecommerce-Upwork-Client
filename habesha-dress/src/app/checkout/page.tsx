@@ -308,7 +308,7 @@ const Cart: React.FC = () => {
   }, [deliveryData.streetAddress, deliveryData.postalCode, deliveryData.city]);
   return (
     <main
-      className="w-full flex flex-col items-center justify-center
+      className="w-full text-black flex flex-col items-center justify-center
       font-poppins  min-h-screen  bg-white"
     >
       <ToastContainer />

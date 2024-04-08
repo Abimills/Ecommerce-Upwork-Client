@@ -24,7 +24,14 @@ import SearchBar from "./components/Navbar/SearchBar";
 import ToggleSubscribe from "./components/NewsletterSlider/ToggleSubscribe";
 import { setAllProducts, sortDataReducer } from "./lib/cartSlice/dataSlice";
 import Notification from "./components/Notification/Notification";
-import { setFavorites, setItems } from "./lib/cartSlice/cartSlice";
+import {
+  setFavorites,
+  setItems,
+  toggleShowNewsletter,
+  toggleShowSearch,
+  toggleShowSidebar,
+  toggleShowSignIn,
+} from "./lib/cartSlice/cartSlice";
 import { loginSuccess } from "./lib/authSlice/authSlice";
 // import { setInitialData } from "./lib/cartSlice/dataSlice";
 
@@ -35,8 +42,9 @@ export default function Home() {
 
   const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
-  const showSearch = useSelector((state: any) => state.cart.showSearch);
   const showSidebar = useSelector((state: any) => state.cart.showSidebar);
+
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
   const showIcons = {
     search: true,
@@ -94,7 +102,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex font-Dosis  relative min-h-screen flex-col bg-alice-blue  items-center ">
+    <main className="flex font-Dosis  text-black relative min-h-screen flex-col bg-alice-blue  items-center ">
       <div className="w-full    ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />

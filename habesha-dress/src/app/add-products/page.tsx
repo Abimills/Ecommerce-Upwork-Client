@@ -12,6 +12,9 @@ import { CiTrash } from "react-icons/ci";
 
 import { ToastContainer, toast } from "react-toastify";
 import Preview from "../components/Preview/Preview";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 interface ProductData {
   title: string;
   description: string;
@@ -43,8 +46,10 @@ const showIcons = {
 const AddProducts: React.FC = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-    const gateWay = useSelector((state: any) => state.cart.gateWay);
-
+  const gateWay = useSelector((state: any) => state.cart.gateWay);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const [data, setData] = useState<ProductData>({
     title: "",
     couples: "false",
@@ -152,7 +157,7 @@ const AddProducts: React.FC = () => {
     });
   }, [data?.price, data?.discount]);
   return (
-    <div className="bg-red-50  w-full relative ">
+    <div className="bg-red-50 text-black  w-full relative ">
       <div className="bg-white ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -160,6 +165,9 @@ const AddProducts: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <ToastContainer />
       {loading && (
         <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">

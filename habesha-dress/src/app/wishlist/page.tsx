@@ -17,6 +17,7 @@ import WishlistCard from "../components/WishlistCard/WishlistCard";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { ToastContainer, toast } from "react-toastify";
+import Login from "../components/LoginSlider/Login";
 
 const Favorites: React.FC = () => {
   const [products, setProducts] = useState([]);
@@ -28,9 +29,10 @@ const Favorites: React.FC = () => {
   const showFilter = useSelector((state: any) => state.cart.showFilter);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
 
   const showIcons = {
-    search: true,
+    search: false,
     user: true,
     wishlist: true,
     cart: true,
@@ -82,7 +84,7 @@ const Favorites: React.FC = () => {
     fetchData();
   }, [favorites]);
   return (
-    <main className="w-full min-h-screen  font-Dosis flex flex-col bg-white ">
+    <main className="w-full min-h-screen text-black  font-Dosis flex flex-col bg-white ">
       <ToastContainer
         newestOnTop={true}
         autoClose={1000}
@@ -116,6 +118,7 @@ const Favorites: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      {showSignIn && <Login />}
       {openFilter && (
         <FilterData
           data={products}

@@ -37,6 +37,9 @@ import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
 import ProductCard from "@/app/components/ProductCard/ProductCard";
 import BodySize from "@/app/components/AddBodySize/BodySize";
+import SidebarNavigation from "@/app/components/SidebarNavigation/SidebarNavigation";
+import Login from "@/app/components/LoginSlider/Login";
+import ToggleSubscribe from "@/app/components/NewsletterSlider/ToggleSubscribe";
 
 // interface DataType {
 //   title: string;
@@ -61,6 +64,10 @@ const SingleProduct: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [similarClothes, setSimilarClothes] = useState<any>([]);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
+
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
 
   const user = useSelector((state: any) => state.auth.user);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
@@ -169,7 +176,7 @@ const SingleProduct: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <div className="bg-white relative w-full h-full font-Dosis font-semibold">
+    <div className="bg-white relative w-full text-black h-full font-Dosis font-semibold">
       <div className=" mb-8 border border-gray-200 border-2">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -187,7 +194,9 @@ const SingleProduct: React.FC = () => {
           />
         </div>
       )}
-
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <ToastContainer
         newestOnTop={true}
         autoClose={1000}

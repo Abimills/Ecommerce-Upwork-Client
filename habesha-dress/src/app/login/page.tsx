@@ -6,6 +6,12 @@ import ReactLoading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../lib/authSlice/authSlice";
 import { ToastContainer, toast } from "react-toastify";
+import SearchBar from "../components/Navbar/SearchBar";
+import Navbar from "../components/Navbar/Navbar";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
+import Footer from "../components/Footer/Footer";
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<any>("");
@@ -13,6 +19,10 @@ const LoginPage: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const gateWay = useSelector((state: any) => state.cart.gateWay);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
+  const showSearch = useSelector((state: any) => state.cart.showSearch);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -48,11 +58,31 @@ const LoginPage: React.FC = () => {
       });
     }
   };
+  const showIcons = {
+    search: true,
+    user: true,
+    wishlist: false,
+    cart: true,
+    navigation: true,
+  };
   return (
-    <section className="w-full h-screen flex bg-alice-blue    flex-col  items-center justify-center">
+    <section className="w-full  max-h-max bg-alice-blue   ">
+      <div className="w-full   border border-gray-100 border-2 ">
+        {showSearch ? (
+          <SearchBar showIcons={showIcons} />
+        ) : (
+          <Navbar showIcons={showIcons} />
+        )}
+      </div>
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <ToastContainer className={"font-Dosis"} />
-      <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-        <form className="space-y-6" onSubmit={handleSubmit}>
+      <div className="w-full mt-8 text-black  h-max flex items-center justify-center p-4   rounded-lg  sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <form
+          className="w-full md:shadow-sm md:p-8  mt-8 sm:w-1/2 h-max space-y-6"
+          onSubmit={handleSubmit}
+        >
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">
             Sign in to our platform
           </h5>
@@ -120,6 +150,7 @@ const LoginPage: React.FC = () => {
           </div>
         </form>
       </div>
+      <Footer />
     </section>
   );
 };

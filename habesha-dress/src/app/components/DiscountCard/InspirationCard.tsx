@@ -145,12 +145,12 @@ const InspirationCard: React.FC<Props> = ({ product }) => {
           })}
         </div> */}
         <div className="flex items-center gap-4">
-          <button
+          {/* <button
             onClick={() => handleAddToCart(product)}
             className="text-white font-Dosis bg-gray-700 p-3  hover:bg-gray-600 hover:text-gray-100   font-medium rounded-full text-sm  text-center "
           >
             <IoBagAddSharp className="text-lg" />
-          </button>
+          </button> */}
           {!isFavored ? (
             <div className=" m-1 rounded-full cursor-pointer hover:bg-white hover:border hover:border-gray-200  w-8 h-8  display-flex items-center justify-center bg-white">
               <IoIosHeartEmpty

@@ -22,11 +22,17 @@ import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useAppSelector } from "../lib/hooks";
 import { useParams } from "next/navigation";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 const OrderUserProfile: React.FC = () => {
   // const ids = JSON.parse(localStorage.getItem("itemsBought") as string);
 
   const [orders, setOrders] = useState([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
   const showIcons = {
     search: false,
@@ -54,9 +60,8 @@ const OrderUserProfile: React.FC = () => {
 
     fetchOrder();
   }, []);
-  console.log(orders?.length);
   return (
-    <div className="w-full flex relative font-Dosis bg-alice-blue  flex-col  ">
+    <div className="w-full text-black flex relative font-Dosis bg-alice-blue  flex-col  ">
       <div className="w-full bg-white  sticky top-0">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -64,6 +69,9 @@ const OrderUserProfile: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       {orders?.length < 1 ? (
         <div className=" w-full flex  mb-16 items-center justify-center flex-col p-10 ">
           <img

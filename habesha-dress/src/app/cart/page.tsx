@@ -15,11 +15,13 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import BodySize from "../components/AddBodySize/BodySize";
 import { toggleShowBodySize } from "../lib/cartSlice/cartSlice";
+import Login from "../components/LoginSlider/Login";
 
 const Cart: React.FC = () => {
   const cartItems: any = useAppSelector((state: any) => state.cart.items) || [];
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
 
   // const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
@@ -85,7 +87,7 @@ const Cart: React.FC = () => {
   // };
 
   return (
-    <main className="w-full font-Dosis  min-h-screen p-2 bg-white">
+    <main className="w-full text-black font-Dosis  min-h-screen p-2 bg-white">
       <ToastContainer
         newestOnTop={true}
         position={"bottom-right"}
@@ -118,7 +120,7 @@ const Cart: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
-
+      {showSignIn && <Login />}
       <div className="w-full flex-col   lg:flex-row flex mb-24 font-Dosis  justify-between min-h-screen p-5 gap-8 bg-white">
         {/* left side cart */}
         {cartItems?.length > 0 ? (

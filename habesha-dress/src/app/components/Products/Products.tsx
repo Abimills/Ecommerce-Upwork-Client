@@ -35,7 +35,6 @@ const Products: React.FC = () => {
   const [totalCloths, setTotalCloths] = useState(0);
   const dispatch = useDispatch();
   const gateWay = useSelector((state: any) => state.cart.gateWay);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,6 +58,7 @@ const Products: React.FC = () => {
     };
     fetchData();
   }, []);
+
 
   useEffect(() => {
     // Update slidesPerView based on screen size

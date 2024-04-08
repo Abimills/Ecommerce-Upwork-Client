@@ -18,6 +18,9 @@ import Footer from "../components/Footer/Footer";
 import Notification from "../components/Notification/Notification";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 // interface Props {
 //   category: string[];
 // }
@@ -37,8 +40,11 @@ const AllProducts: React.FC = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const gateWay = useSelector((state: any) => state.cart.gateWay);
-
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+
   const router = useRouter();
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -94,7 +100,7 @@ const AllProducts: React.FC = () => {
     return;
   };
   return (
-    <main className="w-full  font-Dosis h-max bg-white flex flex-col  ">
+    <main className="w-full text-black  font-Dosis h-max bg-white flex flex-col  ">
       <div className="w-full   border border-gray-100 mb-8 border-2 ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -103,6 +109,9 @@ const AllProducts: React.FC = () => {
         )}
       </div>
       <ToastContainer />
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       {loading && (
         <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
           <ReactLoading

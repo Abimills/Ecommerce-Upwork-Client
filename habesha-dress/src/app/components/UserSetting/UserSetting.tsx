@@ -46,7 +46,7 @@ const UserSetting: React.FC = () => {
       <ChangePasswordComponent open={openPassword} setOpen={setOpenPassword} />
       <div className=" w-full flex   flex-col p-6">
         <h1 className="my-8 text-2xl font-bold "> Your data</h1>
-        <div className="w-full  flex justify-between items-start my-4 border-b border-gray-300">
+        <div className="w-full  flex justify-between items-center md:items-start my-4 border-b border-gray-300">
           <div className="flex  items-start gap-6">
             <CiUser className="text-3xl" />
             <div className="">
@@ -71,7 +71,7 @@ const UserSetting: React.FC = () => {
         </div>
         <div className="w-full ">
           <h1 className="my-8 text-2xl font-bold ">Your email address</h1>
-          <div className="w-full  flex justify-between mb-8 items-start my-4 border-b border-gray-300">
+          <div className="w-full  flex justify-between mb-8 items-center md:items-start my-4 border-b border-gray-300">
             <div className=" flex items-center mb-8 gap-8">
               <MdMailOutline className="text-gray-500 text-4xl" />
               <p className="">{user?.email}</p>
@@ -88,7 +88,7 @@ const UserSetting: React.FC = () => {
         </div>
         <div className="w-full">
           <h1 className="my-8 text-2xl font-bold ">Your password</h1>
-          <div className="w-full  flex justify-between mb-8 items-start my-4 border-b border-gray-300">
+          <div className="w-full  flex justify-between mb-8 items-center md:items-start my-4 border-b border-gray-300">
             <div className=" flex items-center mb-4 gap-8">
               <CiUnlock className="text-gray-500 text-4xl" />
               <p className="font-bold text-4xl tracking-wide mb-4">.......</p>
@@ -104,7 +104,6 @@ const UserSetting: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

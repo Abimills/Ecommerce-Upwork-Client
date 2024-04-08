@@ -11,6 +11,9 @@ import { useParams } from "next/navigation";
 import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
 import Preview from "@/app/components/Preview/Preview";
+import SidebarNavigation from "@/app/components/SidebarNavigation/SidebarNavigation";
+import Login from "@/app/components/LoginSlider/Login";
+import ToggleSubscribe from "@/app/components/NewsletterSlider/ToggleSubscribe";
 interface ProductData {
   title: string;
   description: string;
@@ -71,6 +74,9 @@ const AddProducts: React.FC = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const handleImageChange = async (e: any) => {
     const file = e.target.files[0];
 
@@ -180,7 +186,7 @@ const AddProducts: React.FC = () => {
     });
   }, [data?.price, data?.discount]);
   return (
-    <div className="bg-red-50  w-full relative ">
+    <div className="bg-red-50 text-black  w-full relative ">
       <div className="bg-white ">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -188,6 +194,9 @@ const AddProducts: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <ToastContainer />
       {loading && (
         <div className="fixed bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">

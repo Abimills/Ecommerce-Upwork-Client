@@ -26,18 +26,23 @@ export async function GET(req: any, res: any) {
       orderNumber: orderNumber,
     });
 
-    if (!order) {
-      return NextResponse.json({ message: "order not found", status: 404 });
+    if (order) {
+      return NextResponse.json(
+        {
+          success: true,
+          message: "fetched single order",
+          order,
+        },
+        { status: 200 }
+      );
     }
-
-    return NextResponse.json(
-      {
-        success: true,
-        message: "fetched single order",
-        order,
-      },
-      { status: 200 }
-    );
+    if (!order) {
+      return NextResponse.json({
+        success: false,
+        message: "order not found",
+        status: 404,
+      });
+    }
   }
 
   const totalOrders = await ClothsOrder.countDocuments();

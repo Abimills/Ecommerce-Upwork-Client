@@ -21,9 +21,15 @@ import { useSelector } from "react-redux";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
 import { useAppSelector } from "../lib/hooks";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 const OrderUserProfile: React.FC = () => {
   const [orders, setOrders] = useState<any>([]);
   const showSearch = useSelector((state: any) => state.cart.showSearch);
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   const showIcons = {
     search: false,
     user: true,
@@ -33,7 +39,7 @@ const OrderUserProfile: React.FC = () => {
   };
   useEffect(() => {
     // window.scrollTo(0, 0);
-    
+
     const itemsBought = localStorage.getItem("itemsBought") as any;
     if (itemsBought !== null) {
       const ids = JSON.parse(itemsBought);
@@ -52,7 +58,7 @@ const OrderUserProfile: React.FC = () => {
   }, []);
   console.log(orders);
   return (
-    <div className="w-full flex relative font-Dosis bg-alice-blue  flex-col  ">
+    <div className="w-full text-black flex relative font-Dosis bg-alice-blue  flex-col  ">
       <div className="w-full bg-white  sticky top-0">
         {showSearch ? (
           <SearchBar showIcons={showIcons} />
@@ -60,6 +66,9 @@ const OrderUserProfile: React.FC = () => {
           <Navbar showIcons={showIcons} />
         )}
       </div>
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       {!orders ? (
         <div className=" w-full flex  mb-16 items-center justify-center flex-col p-10 ">
           <img

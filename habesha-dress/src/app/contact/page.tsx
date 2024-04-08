@@ -3,6 +3,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import SearchBar from "../components/Navbar/SearchBar";
 import Navbar from "../components/Navbar/Navbar";
+import SidebarNavigation from "../components/SidebarNavigation/SidebarNavigation";
+import Login from "../components/LoginSlider/Login";
+import ToggleSubscribe from "../components/NewsletterSlider/ToggleSubscribe";
 
 const Contact: React.FC = () => {
   const showSearch = useSelector((state: any) => state.cart.showSearch);
@@ -13,14 +16,19 @@ const Contact: React.FC = () => {
     cart: true,
     navigation: true,
   };
-
+  const showNewsletter = useSelector((state: any) => state.cart.showNewsletter);
+  const showSignIn = useSelector((state: any) => state.cart.showSignIn);
+  const showSidebar = useSelector((state: any) => state.cart.showSidebar);
   return (
-    <div className=" w-full min-h-screen  bg-white ">
+    <div className=" w-full text-black min-h-screen  bg-white ">
       {showSearch ? (
         <SearchBar showIcons={showIcons} />
       ) : (
         <Navbar showIcons={showIcons} />
       )}
+      {showSidebar && <SidebarNavigation />}
+      {showSignIn && <Login />}
+      {showNewsletter && <ToggleSubscribe />}
       <section className=" w-full h-full mt-24 p-3 ">
         <div className="flex flex-wrap">
           <div className="mb-10 w-full shrink-0 grow-0 basis-auto md:mb-0 md:w-6/12 md:px-3 lg:px-6">
