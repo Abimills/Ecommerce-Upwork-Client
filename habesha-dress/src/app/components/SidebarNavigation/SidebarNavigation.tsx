@@ -75,6 +75,7 @@ const SidebarNavigation: React.FC = () => {
   };
   const handleGroupNavigation = (group: string) => {
     router.push(`/search?query=${group}`);
+    dispatch(toggleShowSidebar());
   };
   const handleHomeNavigation = () => {
     router.push(`/`);
