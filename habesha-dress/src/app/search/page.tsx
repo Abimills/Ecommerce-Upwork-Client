@@ -56,9 +56,8 @@ const Search: React.FC = () => {
   };
   const showSignIn = useSelector((state: any) => state.cart.showSignIn);
 
-  let q = new URLSearchParams(window.location?.search).get("query");
   useEffect(() => {
-    q = new URLSearchParams(window.location?.search).get("query");
+    const q = new URLSearchParams(window.location?.search).get("query");
     const searchData = async () => {
       try {
         if (q && q !== "") {
