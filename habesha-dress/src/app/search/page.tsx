@@ -91,7 +91,7 @@ const Search: React.FC = () => {
     };
 
     searchData();
-  }, [window?.location?.search]);
+  }, []);
   // console.log(categoryData);
   const dispatch = useDispatch();
   const handleOpenFilter = (e: any) => {
