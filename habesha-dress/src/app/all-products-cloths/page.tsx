@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/lib/hooks";
 import { RootState } from "@reduxjs/toolkit/query";
 import { useDispatch, useSelector } from "react-redux";
+import { TbDeviceDesktopSearch } from "react-icons/tb";
 import ClothProduct from "@/app/api/models/newsletter";
 import { RiMenuSearchLine } from "react-icons/ri";
 import { toggleShowFilter } from "@/app/lib/cartSlice/cartSlice";
@@ -147,13 +148,17 @@ const AllProducts: React.FC = () => {
               return <ProductCard key={item._id} product={item} />;
             })
           ) : (
-            <div className="fixed z-20 bg-gray-100  opacity-75 flex items-center justify-center top-0 w-full h-screen">
-              <ReactLoading
-                type={"spinningBubbles"}
-                color={"#2d7e23"}
-                height={64}
-                width={64}
-              />
+            <div className=" relative w-full  h-full min-h-[300px]  my-8 flex items-center justify-center">
+              <div className=" w-full flex items-center justify-center flex-col gap-5">
+                <h1 className="text-5xl ">Click show more &rarr;</h1>
+                <TbDeviceDesktopSearch className="text-4xl" />
+                <button
+                  onClick={handleMultiplyPagination}
+                  className="bg-black text-white rounded-sm p-1 px-6 border border-gray-400 "
+                >
+                  click here
+                </button>
+              </div>
             </div>
           )}
 

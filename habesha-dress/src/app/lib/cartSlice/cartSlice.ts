@@ -31,7 +31,6 @@ export interface CartState {
 // Define the initial state using that type
 const initialState: CartState = {
   items: [],
-
   gateWay: "https://ecommerce-upwork-client-j6gp.vercel.app",
   favorites: [],
   showSignIn: false,

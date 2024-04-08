@@ -34,16 +34,16 @@ const OccasionsFilter = [
   { id: 4, value: "Timket", checked: false },
   { id: 5, value: "Birthday", checked: false },
 ];
-const sizeFilter = [
-  { id: 1, value: "S", label: "S", checked: false },
-  { id: 2, value: "M", label: "M", checked: false },
-  { id: 3, value: "L", label: "L", checked: false },
-  { id: 4, value: "XL", label: "XL", checked: false },
-  { id: 5, value: "2XL", label: "2XL", checked: false },
-  // { id: 6, value: "3XL", label: "4XL", checked: false },
-  // { id: 7, value: "4XL", label: "4XL", checked: false },
-  // { id: 8, value: "5XL", label: "5XL", checked: false },
-];
+// const sizeFilter = [
+//   { id: 1, value: "S", label: "S", checked: false },
+//   { id: 2, value: "M", label: "M", checked: false },
+//   { id: 3, value: "L", label: "L", checked: false },
+//   { id: 4, value: "XL", label: "XL", checked: false },
+//   { id: 5, value: "2XL", label: "2XL", checked: false },
+//   // { id: 6, value: "3XL", label: "4XL", checked: false },
+//   // { id: 7, value: "4XL", label: "4XL", checked: false },
+//   // { id: 8, value: "5XL", label: "5XL", checked: false },
+// ];
 interface Props {
   data: any;
   open: boolean;
@@ -392,9 +392,9 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
             </div>
             {/* // )} */}
           </div>
-          <div className="hidden sm:inline relative w-max  ">
-            <h1 className="font-semibold text-lg">Filter Size</h1>
-            {/* <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4 px-4 py-4 rounded-sm flex items-center justify-center">
+          {/* <div className="hidden sm:inline relative w-max  ">
+            <h1 className="font-semibold text-lg">Filter Size</h1> */}
+          {/* <div className=" w-max h-2 border border-indigo-300 bg-indigo-100 gap-4 px-4 py-4 rounded-sm flex items-center justify-center">
               <h1 className="font-medium text-sm">Size</h1>
               {openSize ? (
                 <MdKeyboardArrowUp
@@ -408,8 +408,8 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
                 />
               )}
             </div> */}
-            {/* {openSize && ( */}
-            <div className="  bg-white border-b border-b-gray-300   w-64 h-max  px-4 ">
+          {/* {openSize && ( */}
+          {/* <div className="  bg-white border-b border-b-gray-300   w-64 h-max  px-4 ">
               {sizeFilter.map((size: any) => {
                 return (
                   <div
@@ -429,10 +429,10 @@ const Filtering: React.FC<Props> = ({ data, setData, open, setOpen }) => {
                   </div>
                 );
               })}
-            </div>
-            {/* // )} */}
-            <div className="w-full h-full absolute"></div>
-          </div>
+            </div> */}
+          {/* // )} */}
+          {/* <div className="w-full h-full absolute"></div>
+          </div> */}
 
           {/* <div
             onClick={() => setOpen(!open)}
