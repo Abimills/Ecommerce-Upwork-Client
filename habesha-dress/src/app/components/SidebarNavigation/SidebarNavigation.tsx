@@ -81,7 +81,7 @@ const SidebarNavigation: React.FC = () => {
     dispatch(toggleShowSidebar());
   };
   return (
-    <div className="w-full h-full relative ">
+    <div className="w-full text-black h-full relative ">
       <div className="fixed top-0 left-0 z-40 w-full md:w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
         <h5
           onClick={handleHomeNavigation}
