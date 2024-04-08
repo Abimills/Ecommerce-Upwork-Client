@@ -82,7 +82,7 @@ const SidebarNavigation: React.FC = () => {
   };
   return (
     <div className="w-full text-black h-full relative ">
-      <div className="fixed top-0 left-0 z-40 w-full md:w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
+      <div className="fixed top-0 left-0 text-black  z-40 w-full md:w-1/3 h-screen p-4 overflow-y-auto transition-transform  bg-white ">
         <h5
           onClick={handleHomeNavigation}
           className="text-xl mb-8 cursor-pointer flex items-center gap-4 text-gray-800  underline underline-offset-2 hover:underline-offset-4 dark:text-gray-400"
@@ -134,9 +134,9 @@ const SidebarNavigation: React.FC = () => {
             <li>
               <button
                 onClick={handleAccount}
-                className=" w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 group"
+                className=" w-full flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 group"
               >
-                <CiUser className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <CiUser className="w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 " />
                 <span className="ms-3">My Account</span>
               </button>
             </li>
@@ -144,7 +144,7 @@ const SidebarNavigation: React.FC = () => {
               <button
                 onClick={handleAccountOrder}
                 type="button"
-                className="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 "
+                className="w-full flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100  "
               >
                 <MdOutlineWorkHistory className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 " />
 
@@ -178,7 +178,7 @@ const SidebarNavigation: React.FC = () => {
               <button
                 onClick={handleNewsletter}
                 type="button"
-                className=" w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className=" w-full flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100  group"
               >
                 <IoMailUnreadOutline className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
@@ -202,7 +202,7 @@ const SidebarNavigation: React.FC = () => {
               <button
                 onClick={() => router.push("/contact")}
                 type="button"
-                className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className="flex w-full items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
               >
                 <MdOutlineCall className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
@@ -215,7 +215,7 @@ const SidebarNavigation: React.FC = () => {
               <button
                 onClick={handleLogout}
                 type="button"
-                className="flex w-full items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className="flex w-full items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <PiSignIn className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
 
