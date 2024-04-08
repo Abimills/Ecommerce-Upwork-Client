@@ -60,6 +60,7 @@ const SingleProduct: React.FC = () => {
   const [slidesPerView, setSlidesPerView] = useState(3);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [activeImage, setActiveImage] = useState("");
   const param = useParams<{ id: string }>();
   const [data, setData] = useState<any>([]);
   const [similarClothes, setSimilarClothes] = useState<any>([]);
@@ -104,6 +105,7 @@ const SingleProduct: React.FC = () => {
         const res = await axios.get(`${gateWay}/api/product/?id=${param.id}`);
 
         setData(res.data.cloth);
+        setActiveImage(res?.data?.cloth?.img);
         setSimilarClothes(res.data.similarClothes);
         setLoading(false);
       } catch (error) {
@@ -116,6 +118,7 @@ const SingleProduct: React.FC = () => {
     };
     fetchData();
   }, []);
+
   const handleAddToCart = (product: any) => {
     let measurements: any = localStorage.getItem("measurements");
     const allMeasurements = JSON.parse(measurements);
@@ -205,13 +208,39 @@ const SingleProduct: React.FC = () => {
       />
       {showBodySize && <BodySize id={param?.id} />}
       <div className="bg-white w-full h-max mb-16  py-4">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row -mx-4">
-            <div className="md:flex-1 px-4">
-              <div className="h-[560px] rounded-lg  mb-4">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row ">
+            <div className="md:flex-1 mb-8 flex-col-reverse sm:flex-row flex gap-6 px-4 ">
+              <div className="w-full sm:w-max flex sm:flex-col w-24 gap-8">
+                {data?.boughtWithIds?.length > 0 &&
+                  data?.boughtWithIds?.map((img: any, index: number) => (
+                    <div
+                      onClick={() => setActiveImage(img)}
+                      className="w-24 border-2 border-gray-200 rounded-lg cursor-pointer "
+                      key={index}
+                    >
+                      <img
+                        src={img}
+                        alt=""
+                        className="w-24 h-24 object-contain opacity-50 hover:opacity-100 "
+                      />
+                    </div>
+                  ))}
+                <div
+                  onClick={() => setActiveImage(data?.img)}
+                  className="w-24 border-2 border-gray-200 rounded-lg cursor-pointer "
+                >
+                  <img
+                    src={data?.img}
+                    alt=""
+                    className="w-24 h-24 object-contain opacity-50 hover:opacity-100 "
+                  />
+                </div>
+              </div>
+              <div className="h-[480px] w-full rounded-lg  mb-4">
                 <img
                   className="w-full hover:bg-yellow-300 h-full object-contain bg-indigo-100 border border-gray-100 rounded-lg overflow-hidden transition-opacity duration-800 "
-                  src={data?.img}
+                  src={activeImage}
                   alt="Product Image"
                 />
               </div>

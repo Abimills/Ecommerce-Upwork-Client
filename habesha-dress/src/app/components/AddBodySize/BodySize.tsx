@@ -219,7 +219,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                       </div>
                       {/* login section */}
                       <ToastContainer />
-                      <section className="w-full h-full flex    flex-col  items-center justify-center">
+                      <section className="w-full h-full flex text-black    flex-col  items-center justify-center">
                         <div className="w-full flex items-center justify-between gap-3">
                           <div
                             onClick={() => setToggleGender("women")}
