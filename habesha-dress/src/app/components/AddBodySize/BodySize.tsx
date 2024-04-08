@@ -271,7 +271,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                               onSubmit={handleSubmit}
                             >
                               <div className="flex items-center gap-2">
-                                <label className="block capitalize mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label className="block capitalize mb-2 text-sm font-medium text-gray-900 ">
                                   whose size :
                                 </label>
                                 <input
@@ -293,7 +293,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                                       className="flex w-full gap-4 items-center  my-3"
                                     >
                                       <div className="w-full flex items-start justify-center flex-col">
-                                        <label className="  text-sm font-medium text-gray-900 dark:text-white">
+                                        <label className="  text-sm font-medium text-gray-900 ">
                                           {item.title}
                                         </label>
                                         <img
@@ -313,7 +313,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                                           placeholder="0"
                                           required
                                         />
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
                                           cm
                                         </label>
                                       </div>
@@ -349,7 +349,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                               onSubmit={handleMenSubmit}
                             >
                               <div className="flex items-center gap-2">
-                                <label className="block capitalize mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label className="block capitalize mb-2 text-sm font-medium text-gray-900 ">
                                   whose size :
                                 </label>
                                 <input
@@ -371,7 +371,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                                       className="flex w-full gap-4 items-center  my-3"
                                     >
                                       <div className="w-full flex items-start justify-center flex-col">
-                                        <label className="  text-sm font-medium text-gray-900 dark:text-white">
+                                        <label className="  text-sm font-medium text-gray-900 ">
                                           {item.title}
                                         </label>
                                         <img
@@ -391,7 +391,7 @@ const BodySize: React.FC<Props> = ({ id }) => {
                                           placeholder="0"
                                           required
                                         />
-                                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
                                           cm
                                         </label>
                                       </div>
